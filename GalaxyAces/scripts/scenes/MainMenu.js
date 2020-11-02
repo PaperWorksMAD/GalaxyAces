@@ -10,13 +10,10 @@ export class MainMenu extends Phaser.Scene {
 		console.log(data);
 		console.log("lo tengo")
 	}
-	preload() {
-		this.load.image('fondo', 'resources/images/fondo.jpg');
-	}
 	create() {
-		this.fondo = this.add.tileSprite(400, 300, 800, 600, 'fondo');
+		this.fondo = this.add.tileSprite(400, 300, 800, 600, 'fondomenu');
 	}
 	update() {
-		this.fondo.tilePositionY += 1;
+		this.fondo.tilePositionX += 0.5;
 	}
 }
