@@ -1,6 +1,8 @@
 export const sceneManager = {
 	SCENES: {
 		PRELOAD: "PRELOAD",
-		MAINMENU: "MAINMENU"
+		MAINMENU: "MAINMENU",
+		GAME: "GAME",
+		CONFIG: "CONFIG"
 	}
 }

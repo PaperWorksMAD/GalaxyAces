@@ -11,8 +11,20 @@ export class PreLoad extends Phaser.Scene{
 	preload(){
 		this.load.image("fondomenu","./resources/images/fondomenu.png");
 		this.load.image("playbt","./resources/images/play.png");
+		this.load.image("configbt","./resources/images/configbt.png");
+		this.load.image("x","./resources/images/x.png");
+		this.load.image("+","./resources/images/+.png");
+		this.load.image("-","./resources/images/-.png");
 		this.load.image('fondo', 'resources/images/fondo.jpg');
-		this.load.image('titulo', 'resources/images/titulo.jpg');
+		this.load.image('titulo', 'resources/images/titulo.png');
+		this.load.image('nave1', 'resources/images/Ship2.png');
+		this.load.image('nave2', 'resources/images/Ship6.png');
+		this.load.image('configuracion', 'resources/images/config.png');
+		this.load.image('volumen', 'resources/images/volumen.png');
+
+
+		this.load.audio('bitmenu', 'resources/sounds/BitRush.mp3');
+
 
 		var loadingBar = this.add.graphics({
 			fillStyle:{
@@ -20,7 +32,7 @@ export class PreLoad extends Phaser.Scene{
 			}
 		}) 
 
-		for (var i= 0; i<200; i ++){
+		for (var i= 0; i<100; i ++){
 			this.load.image("fondomenu","./resources/images/fondomenu.png");		
 		}
 
