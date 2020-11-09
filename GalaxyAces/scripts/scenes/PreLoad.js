@@ -22,6 +22,8 @@ export class PreLoad extends Phaser.Scene{
 		this.load.image('configuracion', 'resources/images/config.png');
 		this.load.image('volumen', 'resources/images/volumen.png');
 
+		this.load.bitmapFont('bit', 'resources/fonts/bitmap.png', 'resources/fonts/bitmap.xml');
+
 
 		this.load.audio('bitmenu', 'resources/sounds/BitRush.mp3');
 

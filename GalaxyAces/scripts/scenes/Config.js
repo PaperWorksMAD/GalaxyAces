@@ -20,12 +20,14 @@ export class Config extends Phaser.Scene {
 		xbt.on("pointerup",()=>{
 			this.scene.start(sceneManager.SCENES.MAINMENU);
         })
-
+        console.log(this.volume);
         let mup= this.add.image(this.game.renderer.width/2+30, this.game.renderer.height*0.55, "+").setDepth(2);
         mup.setInteractive();
 		mup.on("pointerup",()=>{
+            console.log("presionado");
             if(this.volume < 1){
             this.volume += 0.1;
+            console.log(this.volume);
             }
         })
 
@@ -33,7 +35,7 @@ export class Config extends Phaser.Scene {
         mdown.setInteractive();
 		mdown.on("pointerup",()=>{
             if(this.volume > 0){
-            this.volume = this.volume/2 ;
+            this.volume = this.volume/2;
             console.log(this.volume);
             }
         })
