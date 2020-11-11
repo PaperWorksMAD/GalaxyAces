@@ -27,6 +27,8 @@ export class PreLoad extends Phaser.Scene{
 
 		this.load.audio('bitmenu', 'resources/sounds/BitRush.mp3');
 
+		this.load.spritesheet('Exhaust6', 'resources/images/spritesheetExhaust6.png',17,17);
+
 
 		var loadingBar = this.add.graphics({
 			fillStyle:{
