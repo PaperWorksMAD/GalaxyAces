@@ -25,6 +25,10 @@ export class PreLoad extends Phaser.Scene {
 			frameWidth: 17,
 			frameHeight: 17
 		});
+		this.load.spritesheet('exhaust6', 'resources/images/spritesheetExhaust6.png', {
+			frameWidth: 34,
+			frameHeight: 34
+		});
 
 		this.load.bitmapFont('bit', 'resources/fonts/bitmap.png', 'resources/fonts/bitmap.xml');
 
