@@ -33,18 +33,24 @@ export class Game extends Phaser.Scene {
     init() {
     }
     create() {
+
+        this.animBullet = this.anims.create({key:'AnimationBullet', frames: this.anims.generateFrameNumbers('bala6'),frameRate: 12, yoyo: true, repeat: -1});
+
         //clase bala
         var Bullet = new Phaser.Class({
 
-            Extends: Phaser.GameObjects.Image,
+            Extends: Phaser.GameObjects.Sprite,
     
             initialize:
     
             function Bullet (scene)
             {
-                Phaser.GameObjects.Image.call(this, scene, 0, 0, 'x');
+                Phaser.GameObjects.Sprite.call(this, scene, 0, 0, 'bala6');
     
                 this.speed = Phaser.Math.GetSpeed(400, 1);
+                this.setRotation(80);
+                
+                this.anims.play('AnimationBullet');
             },
     
             fire: function (x, y)

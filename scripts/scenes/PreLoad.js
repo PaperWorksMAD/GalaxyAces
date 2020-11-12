@@ -21,9 +21,9 @@ export class PreLoad extends Phaser.Scene {
 		this.load.image('nave2', 'resources/images/Ship6.png');
 		this.load.image('configuracion', 'resources/images/config.png');
 		this.load.image('volumen', 'resources/images/volumen.png');
-		this.load.spritesheet('bala', 'resources/images/spritesheetExhaust6.png', {
-			frameWidth: 17,
-			frameHeight: 17
+		this.load.spritesheet('bala6', 'resources/images/spritesheetShot6.png', {
+			frameWidth: 130,
+			frameHeight: 130
 		});
 		this.load.spritesheet('exhaust6', 'resources/images/spritesheetExhaust6.png', {
 			frameWidth: 34,
