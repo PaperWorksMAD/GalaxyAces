@@ -46,6 +46,16 @@ export class Game extends Phaser.Scene {
         this.jugador2.setScale(0.5);
         this.jugador2.setCollideWorldBounds(true);
 
+        this.exhaust1 = this.add.sprite(this.jugador1.x, this.jugador1.y+40,'exhaust6').setDepth(1).setRotation(-80).setScale(1.2);
+        this.exhaust1.setVisible(false);
+        this.anim1 = this.anims.create({key:'Animation', frames: this.anims.generateFrameNumbers('exhaust6'),frameRate: 6, yoyo: false,repeat: -1});
+        this.exhaust1.anims.play('Animation');
+
+        this.exhaust2 = this.add.sprite(this.jugador2.x, this.jugador2.y+40,'exhaust6').setDepth(1).setRotation(-80).setScale(1.2);
+        this.exhaust2.setVisible(false);
+        this.anim2 = this.anims.create({key:'Animation2', frames: this.anims.generateFrameNumbers('exhaust6'),frameRate: 6, yoyo: false,repeat: -1});
+        this.exhaust2.anims.play('Animation2');
+
         this.tiempo = this.time.addEvent({ delay: 1000, callback: this.onEvent, callbackScope: this, loop: true });
         this.tiempopartida = this.time.delayedCall(this.initialTime*1000, this.onEvent2, [], this);
     }
@@ -53,33 +63,51 @@ export class Game extends Phaser.Scene {
 
         this.jugador1.setVelocity(0);
         this.jugador2.setVelocity(0);
+        this.exhaust1.setVisible(false);
+        this.exhaust2.setVisible(false);
 
         if (this.cursor.left.isDown) {
-            this.jugador1.setVelocityX(-200);
+            this.jugador1.setX(this.jugador1.x - 2);
+            this.exhaust1.setX(this.jugador1.x);
+            this.exhaust1.setVisible(true);
         }
         else if (this.cursor.right.isDown) {
-            this.jugador1.setVelocityX(200);
+            this.jugador1.setX(this.jugador1.x + 2);
+            this.exhaust1.setX(this.jugador1.x);
+            this.exhaust1.setVisible(true);
         }
 
         if (this.cursor.up.isDown) {
-            this.jugador1.setVelocityY(-200);
+            this.jugador1.setY(this.jugador1.y - 2);
+            this.exhaust1.setY(this.jugador1.y+40);
+            this.exhaust1.setVisible(true);
         }
         else if (this.cursor.down.isDown) {
-            this.jugador1.setVelocityY(200);
+            this.jugador1.setY(this.jugador1.y + 2);
+            this.exhaust1.setY(this.jugador1.y+40);
+            this.exhaust1.setVisible(true);
         }
 
         if (this.keys.A.isDown) {
-            this.jugador2.setVelocityX(-200);
+            this.jugador2.setX(this.jugador2.x - 2);
+            this.exhaust2.setX(this.jugador2.x);
+            this.exhaust2.setVisible(true);
         }
         else if (this.keys.D.isDown) {
-            this.jugador2.setVelocityX(200);
+            this.jugador2.setX(this.jugador2.x + 2);
+            this.exhaust2.setX(this.jugador2.x);
+            this.exhaust2.setVisible(true);
         }
 
         if (this.keys.W.isDown) {
-            this.jugador2.setVelocityY(-200);
+            this.jugador2.setY(this.jugador2.y - 2);
+            this.exhaust2.setY(this.jugador2.y+40);
+            this.exhaust2.setVisible(true);
         }
         else if (this.keys.S.isDown) {
-            this.jugador2.setVelocityY(200);
+            this.jugador2.setY(this.jugador2.y + 2);
+            this.exhaust2.setY(this.jugador2.y+40);
+            this.exhaust2.setVisible(true);
         }
         this.fondo.tilePositionY -= 1;
     }
