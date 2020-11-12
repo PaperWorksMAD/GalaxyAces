@@ -92,22 +92,24 @@ export class Game extends Phaser.Scene {
 
         this.text = this.add.bitmapText(this.game.renderer.width/2-32, 32,"bit", this.formatTime(this.initialTime),24).setDepth(2);
         this.fondo = this.add.tileSprite(400, 300, 800, 600, 'fondo').setDepth(0);
+        this.fondo2 = this.add.tileSprite(600, 300, 800, 600, 'fondo2').setDepth(0);
+        this.fondo3 = this.add.tileSprite(200, 300, 800, 600, 'fondo3').setDepth(0);
         this.jugador1 = this.physics.add.image(this.game.renderer.width / 2 + 150, this.game.renderer.height - 100, "nave2");
-        this.jugador1.setScale(0.5);
+        this.jugador1.setScale(0.5).setDepth(3);
         this.jugador1.setCollideWorldBounds(true);
         this.cursor = this.input.keyboard.createCursorKeys();
         this.keys = this.input.keyboard.addKeys('A,W,S,D');
         this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.jugador2 = this.physics.add.image(this.game.renderer.width / 2 - 150, this.game.renderer.height - 100, "nave2");
-        this.jugador2.setScale(0.5);
+        this.jugador2.setScale(0.5).setDepth(3);
         this.jugador2.setCollideWorldBounds(true);
 
-        this.exhaust1 = this.add.sprite(this.jugador1.x, this.jugador1.y+40,'exhaust6').setDepth(1).setRotation(-80).setScale(1.2);
+        this.exhaust1 = this.add.sprite(this.jugador1.x, this.jugador1.y+40,'exhaust6').setDepth(2).setRotation(-80).setScale(1.2);
         this.exhaust1.setVisible(false);
         this.anim1 = this.anims.create({key:'Animation', frames: this.anims.generateFrameNumbers('exhaust6'),frameRate: 6, yoyo: false,repeat: -1});
         this.exhaust1.anims.play('Animation');
 
-        this.exhaust2 = this.add.sprite(this.jugador2.x, this.jugador2.y+40,'exhaust6').setDepth(1).setRotation(-80).setScale(1.2);
+        this.exhaust2 = this.add.sprite(this.jugador2.x, this.jugador2.y+40,'exhaust6').setDepth(2).setRotation(-80).setScale(1.2);
         this.exhaust2.setVisible(false);
         this.anim2 = this.anims.create({key:'Animation2', frames: this.anims.generateFrameNumbers('exhaust6'),frameRate: 6, yoyo: false,repeat: -1});
         this.exhaust2.anims.play('Animation2');
@@ -167,6 +169,8 @@ export class Game extends Phaser.Scene {
             this.exhaust2.setVisible(true);
         }
         this.fondo.tilePositionY -= 1;
+        this.fondo2.tilePositionY -= 0.5;
+        this.fondo3.tilePositionY -= 0.2;
 
         if (this.spaceBar.isDown && time > lastFired){
             console.log("disparo");
