@@ -32,7 +32,8 @@
 
 * https://trello.com/b/xLL5BzgT/jer-j
 
-# FASE 1 
+# FASE 1
+* Github Pages: https://paperworksmad.github.io/GalaxyAces/
 
 # GDD
 
