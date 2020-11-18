@@ -23,6 +23,9 @@ export class MainMenu extends Phaser.Scene {
 		hover.setVisible(false);
 		configbt.setScale(0.5);
 
+		//Boton redes sociales
+		let rrssbt = this.add.image(this.game.renderer.width / 2, this.game.renderer.height / 2 + 200, "rrssbt").setDepth(2).setScale(0.2);
+
 		if (bgmusic === false) {
 			this.musicamenu = this.sound.add("bitmenu", {
 				volume: 0.5
@@ -36,6 +39,8 @@ export class MainMenu extends Phaser.Scene {
 
 		playbt.setInteractive();
 		configbt.setInteractive();
+
+		rrssbt.setInteractive();
 
 		playbt.on("pointerover", () => {
 			hover.setVisible(true);
@@ -65,6 +70,21 @@ export class MainMenu extends Phaser.Scene {
 		configbt.on("pointerup", () => {
 			//this.sound.get("bitmenu").stop();
 			this.scene.start(sceneManager.SCENES.CONFIG, this.musicamenu);
+		})
+
+		rrssbt.on("pointerover", () => {
+			hover.setVisible(true);
+			hover.x = rrssbt.x - 180;
+			hover.y = rrssbt.y;
+		})
+
+		rrssbt.on("pointerout", () => {
+			hover.setVisible(false);
+		})
+
+		rrssbt.on("pointerup", () => {
+			//this.sound.get("bitmenu").stop();
+			this.scene.start(sceneManager.SCENES.GAME);
 		})
 
 	}
