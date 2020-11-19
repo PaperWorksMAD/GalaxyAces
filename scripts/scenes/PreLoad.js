@@ -42,6 +42,12 @@ export class PreLoad extends Phaser.Scene {
 
 		this.load.image("rrssbt", "./resources/images/rrss.png");
 
+		//Redes sociales
+		this.load.image('instagramText', 'resources/images/instagramText.png');
+		this.load.image('twitterText', 'resources/images/twitterText.png');
+		this.load.image('instagram', 'resources/images/instagram.png');
+		this.load.image('twitter', 'resources/images/twitter.png');
+
 		this.load.bitmapFont('bit', 'resources/fonts/bitmap.png', 'resources/fonts/bitmap.xml');
 
 
