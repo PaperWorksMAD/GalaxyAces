@@ -32,6 +32,16 @@ export class PreLoad extends Phaser.Scene {
 			frameHeight: 34
 		});
 
+		//Enemigos
+		this.load.image('enemigo1', 'resources/images/enemigo1.png');
+		this.load.image('enemigo2', 'resources/images/enemigo2.png');
+		this.load.image('enemigo3', 'resources/images/enemigo3.png');
+		this.load.image('enemigo4', 'resources/images/enemigo4.png');
+		this.load.image('enemigo5', 'resources/images/enemigo5.png');
+		this.load.image('enemigo6', 'resources/images/enemigo6.png');
+
+		this.load.image("rrssbt", "./resources/images/rrss.png");
+
 		this.load.bitmapFont('bit', 'resources/fonts/bitmap.png', 'resources/fonts/bitmap.xml');
 
 

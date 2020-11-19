@@ -23,6 +23,10 @@ export class MainMenu extends Phaser.Scene {
 		hover.setVisible(false);
 		configbt.setScale(0.5);
 
+		//Boton redes sociales y controles
+		let rrssbt = this.add.image(this.game.renderer.width / 2 - 150, this.game.renderer.height / 2 + 250, "rrssbt").setDepth(2).setScale(0.1);
+		let controlsbt = this.add.image(this.game.renderer.width / 2 + 150, this.game.renderer.height / 2 + 250, "rrssbt").setDepth(2).setScale(0.1);
+
 		if (bgmusic === false) {
 			this.musicamenu = this.sound.add("bitmenu", {
 				volume: 0.5
@@ -36,6 +40,9 @@ export class MainMenu extends Phaser.Scene {
 
 		playbt.setInteractive();
 		configbt.setInteractive();
+
+		rrssbt.setInteractive();
+		controlsbt.setInteractive();
 
 		playbt.on("pointerover", () => {
 			hover.setVisible(true);
@@ -65,6 +72,36 @@ export class MainMenu extends Phaser.Scene {
 		configbt.on("pointerup", () => {
 			//this.sound.get("bitmenu").stop();
 			this.scene.start(sceneManager.SCENES.CONFIG, this.musicamenu);
+		})
+
+		rrssbt.on("pointerover", () => {
+			hover.setVisible(true);
+			hover.x = rrssbt.x - 180;
+			hover.y = rrssbt.y;
+		})
+
+		rrssbt.on("pointerout", () => {
+			hover.setVisible(false);
+		})
+
+		rrssbt.on("pointerup", () => {
+			//this.sound.get("bitmenu").stop();
+			this.scene.start(sceneManager.SCENES.RRSS);
+		})
+
+		controlsbt.on("pointerover", () => {
+			hover.setVisible(true);
+			hover.x = controlsbt.x - 180;
+			hover.y = controlsbt.y;
+		})
+
+		controlsbt.on("pointerout", () => {
+			hover.setVisible(false);
+		})
+
+		controlsbt.on("pointerup", () => {
+			//this.sound.get("bitmenu").stop();
+			this.scene.start(sceneManager.SCENES.CONTROLS);
 		})
 
 	}
