@@ -3,6 +3,8 @@ export const sceneManager = {
 		PRELOAD: "PRELOAD",
 		MAINMENU: "MAINMENU",
 		GAME: "GAME",
-		CONFIG: "CONFIG"
+		CONFIG: "CONFIG",
+		RRSS: "RRSS",
+		CONTROLS: "CONTROLS"
 	}
 }
