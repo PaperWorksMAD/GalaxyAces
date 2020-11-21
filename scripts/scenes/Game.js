@@ -118,6 +118,11 @@ export class Game extends Phaser.Scene {
         this.anim2 = this.anims.create({ key: 'Animation2', frames: this.anims.generateFrameNumbers('exhaust6'), frameRate: 6, yoyo: false, repeat: -1 });
         this.exhaust2.anims.play('Animation2');
 
+        //Enemigo
+        this.enemy = this.add.sprite(50, 50, 'enemy').setDepth(2).setScale(2);
+        this.enemyAnim = this.anims.create({ key: 'EnemyAnim', frames: this.anims.generateFrameNumbers('enemy'), frameRate: 2, yoyo: false, repeat: -1 });
+        this.enemy.anims.play('EnemyAnim');
+
 
         this.tiempo = this.time.addEvent({ delay: 1000, callback: this.onEvent, callbackScope: this, loop: true });
         this.tiempopartida = this.time.delayedCall(this.initialTime * 1000, this.onEvent2, [], this);
