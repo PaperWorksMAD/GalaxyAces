@@ -35,9 +35,9 @@ export class Game extends Phaser.Scene {
     }
     create() {
 
-        this.animBullet = this.anims.create({ key: 'AnimationBullet', frames: this.anims.generateFrameNumbers('bala6'), frameRate: 12, yoyo: true, repeat: -1 });
+        this.anims.create({ key: 'AnimationBullet', frames: this.anims.generateFrameNumbers('bala6'), frameRate: 12, yoyo: true, repeat: -1 });
 
-            //clase bala
+        //clase bala
         var Bullet = new Phaser.Class({
 
             Extends: Phaser.Physics.Arcade.Sprite,
@@ -86,7 +86,39 @@ export class Game extends Phaser.Scene {
             runChildUpdate: true
         });
 
+
         
+        //Clase explosion
+        this.anims.create({ key: 'AnimationExplosion', frames: this.anims.generateFrameNumbers('explosion'), frameRate: 22, yoyo: false, repeat: 0 , hideOnComplete: true });
+
+        var Explosion = new Phaser.Class({
+
+            Extends: Phaser.Physics.Arcade.Sprite,
+
+            initialize:
+                function Explosion(scene){
+                    Phaser.Physics.Arcade.Sprite.call(this, scene, 0, 0, 'explosion');
+                    this.setScale(0.5).setDepth(3);
+                },
+
+            aparecer: function (x, y){
+                this.setPosition(x, y);
+                this.setActive(true);
+                this.setVisible(true);
+                this.anims.play('AnimationExplosion');
+            },
+            update: function (time, delta) {
+
+            }
+
+        });
+
+        this.explosions = this.physics.add.group({
+            classType: Explosion,
+            maxSize: 50,
+            runChildUpdate: false
+        });
+
 
         speed = Phaser.Math.GetSpeed(300, 1);
 
@@ -139,6 +171,8 @@ export class Game extends Phaser.Scene {
         //Entre balas y jugadores
         this.physics.add.collider(this.jugador1, [bullets, bullets2], this.collissionHandler, null, this);
         this.physics.add.collider(this.jugador2, [bullets, bullets2], this.collissionHandler, null, this);
+
+        this.explod;
 
 
         this.tiempo = this.time.addEvent({ delay: 1000, callback: this.onEvent, callbackScope: this, loop: true });
@@ -230,7 +264,15 @@ export class Game extends Phaser.Scene {
     collissionHandler(obj1, obj2){
         console.log("colision");
         obj1.setVelocity(0);
-        obj2.setActive(false).setVisible(false);
+        obj2.setActive(false).setVisible(false).setPosition(-50,-50);
+
+        //Bajar vida de obj1
+
+        //Animacion de daño
+        this.explod = this.explosions.get();
+
+        if (this.explod)
+            this.explod.aparecer(obj1.x, obj1.y);
     }
 
 
