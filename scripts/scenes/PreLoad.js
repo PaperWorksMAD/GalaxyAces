@@ -37,6 +37,11 @@ export class PreLoad extends Phaser.Scene {
 			frameWidth: 20,
 			frameHeight: 17
 		});
+		//Explosion
+		this.load.spritesheet('explosion', 'resources/images/explosion.png', {
+			frameWidth: 258,
+			frameHeight: 258
+		});
 
 		this.load.image("rrssbt", "./resources/images/rrss.png");
 
