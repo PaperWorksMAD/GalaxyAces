@@ -37,34 +37,36 @@ export class Game extends Phaser.Scene {
 
         this.animBullet = this.anims.create({ key: 'AnimationBullet', frames: this.anims.generateFrameNumbers('bala6'), frameRate: 12, yoyo: true, repeat: -1 });
 
-        //clase bala
+            //clase bala
         var Bullet = new Phaser.Class({
 
-            Extends: Phaser.GameObjects.Sprite,
+            Extends: Phaser.Physics.Arcade.Sprite,
 
             initialize:
 
                 function Bullet(scene) {
-                    Phaser.GameObjects.Sprite.call(this, scene, 0, 0, 'bala6');
+                    Phaser.Physics.Arcade.Sprite.call(this, scene, 0, 0, 'bala6');
 
-                    this.speed = Phaser.Math.GetSpeed(400, 1);
+                    //this.speed = Phaser.Math.GetSpeed(400, 1);
                     this.setRotation(80);
+                    
 
                     this.anims.play('AnimationBullet');
                 },
 
             fire: function (x, y) {
                 this.setPosition(x, y - 50);
+                this.setVelocity(0,-400);
+                this.setSize(30,30,true);
 
                 this.setActive(true);
                 this.setVisible(true);
-                //this.setCollideWorldBounds(true);
             },
 
             update: function (time, delta) {
-                this.y -= this.speed * delta;
+                //this.y -= this.speed * delta;
 
-                if (this.y < -50) {
+                if (this.y < -50 || this.x < -50) {
                     this.setActive(false);
                     this.setVisible(false);
                 }
@@ -72,17 +74,19 @@ export class Game extends Phaser.Scene {
 
         });
 
-        bullets = this.add.group({
+        bullets = this.physics.add.group({
             classType: Bullet,
             maxSize: 5,
             runChildUpdate: true
         });
 
-        bullets2 = this.add.group({
+        bullets2 = this.physics.add.group({
             classType: Bullet,
             maxSize: 5,
             runChildUpdate: true
         });
+
+        
 
         speed = Phaser.Math.GetSpeed(300, 1);
 
@@ -100,14 +104,14 @@ export class Game extends Phaser.Scene {
         this.fondo3 = this.add.tileSprite(200, 300, 800, 600, 'fondo3').setDepth(0);
         this.jugador1 = this.physics.add.image(this.game.renderer.width / 2 + 150, this.game.renderer.height - 100, "nave2");
         this.jugador1.setScale(0.5).setDepth(3);
-        this.jugador1.setCollideWorldBounds(true).setBounce(0.5,1);
+        this.jugador1.setCollideWorldBounds(true).setBounce(0.1,0.1);
         this.cursor = this.input.keyboard.createCursorKeys();
         this.keys = this.input.keyboard.addKeys('A,W,S,D');
         this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.P = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
         this.jugador2 = this.physics.add.image(this.game.renderer.width / 2 - 150, this.game.renderer.height - 100, "nave2");
         this.jugador2.setScale(0.5).setDepth(3);
-        this.jugador2.setCollideWorldBounds(true).setBounce(0.5,1);
+        this.jugador2.setCollideWorldBounds(true).setBounce(0.1,0.1);
 
         this.exhaust1 = this.add.sprite(this.jugador1.x, this.jugador1.y + 40, 'exhaust6').setDepth(2).setRotation(-80).setScale(1.2);
         this.exhaust1.setVisible(false);
@@ -123,9 +127,18 @@ export class Game extends Phaser.Scene {
         this.enemy = this.physics.add.sprite(50, 50, 'enemy').setDepth(2).setScale(2).setCollideWorldBounds(true);
         this.enemyAnim = this.anims.create({ key: 'EnemyAnim', frames: this.anims.generateFrameNumbers('enemy'), frameRate: 2, yoyo: false, repeat: -1 });
         this.enemy.anims.play('EnemyAnim');
+        this.enemy.setBounce(1,1);
 
         //Deteccion de colisiones
+        //Entre jugadores
         this.physics.add.collider(this.jugador1, this.jugador2);
+        //Entre enemigo y jugadores
+        this.physics.add.collider(this.enemy, [this.jugador1, this.jugador2]);
+        //Entre balas y enemigos
+        this.physics.add.collider(this.enemy, [bullets, bullets2], this.collissionHandler, null, this);
+        //Entre balas y jugadores
+        this.physics.add.collider(this.jugador1, [bullets, bullets2], this.collissionHandler, null, this);
+        this.physics.add.collider(this.jugador2, [bullets, bullets2], this.collissionHandler, null, this);
 
 
         this.tiempo = this.time.addEvent({ delay: 1000, callback: this.onEvent, callbackScope: this, loop: true });
@@ -216,6 +229,8 @@ export class Game extends Phaser.Scene {
 
     collissionHandler(obj1, obj2){
         console.log("colision");
+        obj1.setVelocity(0);
+        obj2.setActive(false).setVisible(false);
     }
 
 
