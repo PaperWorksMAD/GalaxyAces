@@ -58,6 +58,7 @@ export class Game extends Phaser.Scene {
 
                 this.setActive(true);
                 this.setVisible(true);
+                //this.setCollideWorldBounds(true);
             },
 
             update: function (time, delta) {
@@ -99,14 +100,14 @@ export class Game extends Phaser.Scene {
         this.fondo3 = this.add.tileSprite(200, 300, 800, 600, 'fondo3').setDepth(0);
         this.jugador1 = this.physics.add.image(this.game.renderer.width / 2 + 150, this.game.renderer.height - 100, "nave2");
         this.jugador1.setScale(0.5).setDepth(3);
-        this.jugador1.setCollideWorldBounds(true);
+        this.jugador1.setCollideWorldBounds(true).setBounce(0.5,1);
         this.cursor = this.input.keyboard.createCursorKeys();
         this.keys = this.input.keyboard.addKeys('A,W,S,D');
         this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.P = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
         this.jugador2 = this.physics.add.image(this.game.renderer.width / 2 - 150, this.game.renderer.height - 100, "nave2");
         this.jugador2.setScale(0.5).setDepth(3);
-        this.jugador2.setCollideWorldBounds(true);
+        this.jugador2.setCollideWorldBounds(true).setBounce(0.5,1);
 
         this.exhaust1 = this.add.sprite(this.jugador1.x, this.jugador1.y + 40, 'exhaust6').setDepth(2).setRotation(-80).setScale(1.2);
         this.exhaust1.setVisible(false);
@@ -119,9 +120,12 @@ export class Game extends Phaser.Scene {
         this.exhaust2.anims.play('Animation2');
 
         //Enemigo
-        this.enemy = this.add.sprite(50, 50, 'enemy').setDepth(2).setScale(2);
+        this.enemy = this.physics.add.sprite(50, 50, 'enemy').setDepth(2).setScale(2).setCollideWorldBounds(true);
         this.enemyAnim = this.anims.create({ key: 'EnemyAnim', frames: this.anims.generateFrameNumbers('enemy'), frameRate: 2, yoyo: false, repeat: -1 });
         this.enemy.anims.play('EnemyAnim');
+
+        //Deteccion de colisiones
+        this.physics.add.collider(this.jugador1, this.jugador2);
 
 
         this.tiempo = this.time.addEvent({ delay: 1000, callback: this.onEvent, callbackScope: this, loop: true });
@@ -134,46 +138,51 @@ export class Game extends Phaser.Scene {
         this.exhaust1.setVisible(false);
         this.exhaust2.setVisible(false);
 
+        //Colisiones
+
+
+
         if (this.cursor.left.isDown) {
-            this.jugador1.setX(this.jugador1.x - 2);
+            //this.jugador1.setX(this.jugador1.x - 2);
+            this.jugador1.setVelocity(-100,0);
             this.exhaust1.setX(this.jugador1.x);
             this.exhaust1.setVisible(true);
         }
         else if (this.cursor.right.isDown) {
-            this.jugador1.setX(this.jugador1.x + 2);
+            this.jugador1.setVelocity(100,0);
             this.exhaust1.setX(this.jugador1.x);
             this.exhaust1.setVisible(true);
         }
 
         if (this.cursor.up.isDown) {
-            this.jugador1.setY(this.jugador1.y - 2);
+            this.jugador1.setVelocity(0,-100);
             this.exhaust1.setY(this.jugador1.y + 40);
             this.exhaust1.setVisible(true);
         }
         else if (this.cursor.down.isDown) {
-            this.jugador1.setY(this.jugador1.y + 2);
+            this.jugador1.setVelocity(0,100);
             this.exhaust1.setY(this.jugador1.y + 40);
             this.exhaust1.setVisible(true);
         }
 
         if (this.keys.A.isDown) {
-            this.jugador2.setX(this.jugador2.x - 2);
+            this.jugador2.setVelocity(-100,0);
             this.exhaust2.setX(this.jugador2.x);
             this.exhaust2.setVisible(true);
         }
         else if (this.keys.D.isDown) {
-            this.jugador2.setX(this.jugador2.x + 2);
+            this.jugador2.setVelocity(100,0);
             this.exhaust2.setX(this.jugador2.x);
             this.exhaust2.setVisible(true);
         }
 
         if (this.keys.W.isDown) {
-            this.jugador2.setY(this.jugador2.y - 2);
+            this.jugador2.setVelocity(0,-100);
             this.exhaust2.setY(this.jugador2.y + 40);
             this.exhaust2.setVisible(true);
         }
         else if (this.keys.S.isDown) {
-            this.jugador2.setY(this.jugador2.y + 2);
+            this.jugador2.setVelocity(0,100);
             this.exhaust2.setY(this.jugador2.y + 40);
             this.exhaust2.setVisible(true);
         }
@@ -203,6 +212,10 @@ export class Game extends Phaser.Scene {
             }
         }
 
+    }
+
+    collissionHandler(obj1, obj2){
+        console.log("colision");
     }
 
 
