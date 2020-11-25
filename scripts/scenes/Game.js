@@ -31,7 +31,9 @@ export class Game extends Phaser.Scene {
         return `${minutes}:${partInSeconds}`;
     }
 
-    init() {
+    init(data) {
+        this.shipIndex1 = data.shipIndex1;
+        this.shipIndex2 = data.shipIndex2;
     }
     create() {
 
@@ -210,8 +212,8 @@ export class Game extends Phaser.Scene {
         this.fondo3 = this.add.tileSprite(200, 300, 800, 600, 'fondo3').setDepth(0);
 
         //Jugadores
-        this.jugador1 = new Jugador(this, this.game.renderer.width / 2 + 150, this.game.renderer.height - 100, "nave2");
-        this.jugador2 = new Jugador(this, this.game.renderer.width / 2 - 150, this.game.renderer.height - 100, "nave2");
+        this.jugador1 = new Jugador(this, this.game.renderer.width / 2 + 150, this.game.renderer.height - 100, "nave"+this.shipIndex1);
+        this.jugador2 = new Jugador(this, this.game.renderer.width / 2 - 150, this.game.renderer.height - 100, "nave"+this.shipIndex2);
         
         this.cursor = this.input.keyboard.createCursorKeys();
         this.keys = this.input.keyboard.addKeys('A,W,S,D');
@@ -231,10 +233,6 @@ export class Game extends Phaser.Scene {
 
         //Enemigo
         this.enemy = new Enemigo(this, 50, 50, 'enemy');
-        //this.enemy = this.physics.add.sprite(50, 50, 'enemy').setDepth(2).setScale(2).setCollideWorldBounds(true);
-        //this.enemyAnim = this.anims.create({ key: 'EnemyAnim', frames: this.anims.generateFrameNumbers('enemy'), frameRate: 2, yoyo: false, repeat: -1 });
-        //this.enemy.anims.play('EnemyAnim');
-        //this.enemy.setBounce(1,1);
 
         //Deteccion de colisiones
         //Entre jugadores

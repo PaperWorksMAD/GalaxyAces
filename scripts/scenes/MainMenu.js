@@ -56,7 +56,7 @@ export class MainMenu extends Phaser.Scene {
 
 		playbt.on("pointerup", () => {
 			//this.sound.get("bitmenu").stop();
-			this.scene.start(sceneManager.SCENES.GAME);
+			this.scene.start(sceneManager.SCENES.CHARACTERSELECT);
 		})
 
 		configbt.on("pointerover", () => {
