@@ -37,6 +37,7 @@ export class Game extends Phaser.Scene {
 
         //Animaciones
         this.anims.create({ key: 'Exhaust6', frames: this.anims.generateFrameNumbers('exhaust6'), frameRate: 6, yoyo: false, repeat: -1 });
+        this.anims.create({ key: 'EnemyAnim', frames: this.anims.generateFrameNumbers('enemy'), frameRate: 2, yoyo: false, repeat: -1 });
 
         this.anims.create({ key: 'AnimationBullet', frames: this.anims.generateFrameNumbers('bala6'), frameRate: 12, yoyo: true, repeat: -1 });
 
@@ -170,6 +171,28 @@ export class Game extends Phaser.Scene {
             }
         }
 
+        class Enemigo extends Entity {
+            constructor(scene, x, y, key, type){
+                super(scene, x, y, key, "Enemigo");
+
+                this.setScale(2).setDepth(2).setCollideWorldBounds(true).setBounce(1,1);
+                this.anims.play('EnemyAnim');
+
+                this.vida = 2;
+
+            }
+
+            recibirDaño(){
+                this.vida -= 1;
+
+                if (this.vida <= 0){
+                    this.setActive(false);
+                    this.setVisible(false);
+                    console.log("muerto");
+                }
+            }
+        }
+
 
         speed = Phaser.Math.GetSpeed(300, 1);
 
@@ -207,10 +230,11 @@ export class Game extends Phaser.Scene {
         this.exhaust2.anims.play('Animation2');
 
         //Enemigo
-        this.enemy = this.physics.add.sprite(50, 50, 'enemy').setDepth(2).setScale(2).setCollideWorldBounds(true);
-        this.enemyAnim = this.anims.create({ key: 'EnemyAnim', frames: this.anims.generateFrameNumbers('enemy'), frameRate: 2, yoyo: false, repeat: -1 });
-        this.enemy.anims.play('EnemyAnim');
-        this.enemy.setBounce(1,1);
+        this.enemy = new Enemigo(this, 50, 50, 'enemy');
+        //this.enemy = this.physics.add.sprite(50, 50, 'enemy').setDepth(2).setScale(2).setCollideWorldBounds(true);
+        //this.enemyAnim = this.anims.create({ key: 'EnemyAnim', frames: this.anims.generateFrameNumbers('enemy'), frameRate: 2, yoyo: false, repeat: -1 });
+        //this.enemy.anims.play('EnemyAnim');
+        //this.enemy.setBounce(1,1);
 
         //Deteccion de colisiones
         //Entre jugadores
@@ -218,7 +242,7 @@ export class Game extends Phaser.Scene {
         //Entre enemigo y jugadores
         this.physics.add.collider(this.enemy, [this.jugador1, this.jugador2]);
         //Entre balas y enemigos
-        this.physics.add.collider(this.enemy, [bullets, bullets2], this.collissionHandler, null, this);
+        this.physics.add.collider(this.enemy, [bullets, bullets2], this.collissionHandlerEnemy, null, this);
         //Entre balas y jugadores
         this.physics.add.collider(this.jugador1, [bullets, bullets2], this.collissionHandler, null, this);
         this.physics.add.collider(this.jugador2, [bullets, bullets2], this.collissionHandler, null, this);
@@ -239,42 +263,39 @@ export class Game extends Phaser.Scene {
 
 
         if (this.cursor.left.isDown) {
-            this.exhaust1.setX(this.jugador1.x).setVisible(true);
             this.jugador1.moveLeft();
+            this.exhaust1.setX(this.jugador1.x).setVisible(true);
         }
         else if (this.cursor.right.isDown) {
-            this.exhaust1.setX(this.jugador1.x).setVisible(true);
             this.jugador1.moveRight();
+            this.exhaust1.setX(this.jugador1.x).setVisible(true);
         }
 
         if (this.cursor.up.isDown) {
-            this.exhaust1.setY(this.jugador1.y + 40).setVisible(true);
             this.jugador1.moveUp();
+            this.exhaust1.setY(this.jugador1.y + 40).setVisible(true);
         }
         else if (this.cursor.down.isDown) {
-            this.exhaust1.setY(this.jugador1.y + 40).setVisible(true);
             this.jugador1.moveDown();
+            this.exhaust1.setY(this.jugador1.y + 40).setVisible(true);
         }
 
         if (this.keys.A.isDown) {
-            this.exhaust2.setX(this.jugador2.x).setVisible(true);
             this.jugador2.moveLeft();
+            this.exhaust2.setX(this.jugador2.x).setVisible(true);
         }
         else if (this.keys.D.isDown) {
-            //this.exhaust2.setX(this.jugador2.x);
-            //this.exhaust2.setVisible(true);
             this.jugador2.moveRight();
+            this.exhaust2.setX(this.jugador2.x).setVisible(true);
         }
 
         if (this.keys.W.isDown) {
-            //this.exhaust2.setY(this.jugador2.y + 40);
-            //this.exhaust2.setVisible(true);
             this.jugador2.moveUp();
+            this.exhaust2.setY(this.jugador2.y + 40).setVisible(true);
         }
         else if (this.keys.S.isDown) {
-            //this.exhaust2.setY(this.jugador2.y + 40);
-            //this.exhaust2.setVisible(true);
             this.jugador2.moveDown();
+            this.exhaust2.setY(this.jugador2.y + 40).setVisible(true);
         }
         this.fondo.tilePositionY -= 1;
         this.fondo2.tilePositionY -= 0.5;
@@ -309,13 +330,26 @@ export class Game extends Phaser.Scene {
         obj1.setVelocity(0);
         obj2.setActive(false).setVisible(false).setPosition(-50,-50);
 
-        //Bajar vida de obj1
+        //Animacion de daño
+        this.explod = this.explosions.get();
+
+        if (this.explod)
+            this.explod.aparecer(obj1.x, obj1.y);
+    }
+
+    collissionHandlerEnemy(obj1, obj2){
+        console.log("colision con enemigo");
+        obj1.setVelocity(0);
+        obj2.setActive(false).setVisible(false).setPosition(-50,-50);
 
         //Animacion de daño
         this.explod = this.explosions.get();
 
         if (this.explod)
             this.explod.aparecer(obj1.x, obj1.y);
+
+        //Recibir daño
+        obj1.recibirDaño();
     }
 
 
