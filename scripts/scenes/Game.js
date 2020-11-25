@@ -35,6 +35,9 @@ export class Game extends Phaser.Scene {
     }
     create() {
 
+        //Animaciones
+        this.anims.create({ key: 'Exhaust6', frames: this.anims.generateFrameNumbers('exhaust6'), frameRate: 6, yoyo: false, repeat: -1 });
+
         this.anims.create({ key: 'AnimationBullet', frames: this.anims.generateFrameNumbers('bala6'), frameRate: 12, yoyo: true, repeat: -1 });
 
         //clase bala
@@ -120,6 +123,54 @@ export class Game extends Phaser.Scene {
         });
 
 
+        class Entity extends Phaser.Physics.Arcade.Sprite {
+            constructor(scene, x, y, key, type){
+                super(scene,x,y,key);
+                this.scene = scene;
+                this.scene.add.existing(this);
+                this.scene.physics.world.enableBody(this, 0);
+                this.setData("type", type);
+                this.setData("isDead", false);
+            }
+        }
+
+        class Jugador extends Entity {
+
+            constructor(scene, x, y, key, type){
+                super(scene, x, y, key, "Jugador");
+
+                this.setScale(0.5).setDepth(3).setCollideWorldBounds(true).setBounce(0.1,0.1);
+
+                //this.exhaust = Phaser.add.sprite(x, y + 40, 'exhaust6').setDepth(2).setRotation(-80).setScale(1.2).setVisible(false);
+                //this.exhaust.anims.play('Exhaust6');
+            }
+
+            moveUp(){
+                this.setVelocity(0,-100);
+                //this.exhaust.setY(this.sprite.y + 40);
+                //this.exhaust.setVisible(true);
+            }
+
+            moveDown(){
+                this.setVelocity(0, 100);
+                //this.exhaust.setY(this.sprite.y + 40);
+                //this.exhaust.setVisible(true);
+            }
+
+            moveLeft(){
+                this.setVelocity(-100,0);
+                //this.exhaust.setY(this.sprite.y + 40);
+                //this.exhaust.setVisible(true);
+            }
+
+            moveRight(){
+                this.setVelocity(100,0);
+                //this.exhaust.setY(this.sprite.y + 40);
+                //this.exhaust.setVisible(true);
+            }
+        }
+
+
         speed = Phaser.Math.GetSpeed(300, 1);
 
         this.initialTime = 20;
@@ -134,16 +185,16 @@ export class Game extends Phaser.Scene {
         this.fondo = this.add.tileSprite(400, 300, 800, 600, 'fondo').setDepth(0);
         this.fondo2 = this.add.tileSprite(600, 300, 800, 600, 'fondo2').setDepth(0);
         this.fondo3 = this.add.tileSprite(200, 300, 800, 600, 'fondo3').setDepth(0);
-        this.jugador1 = this.physics.add.image(this.game.renderer.width / 2 + 150, this.game.renderer.height - 100, "nave2");
-        this.jugador1.setScale(0.5).setDepth(3);
-        this.jugador1.setCollideWorldBounds(true).setBounce(0.1,0.1);
+
+        //Jugadores
+        this.jugador1 = new Jugador(this, this.game.renderer.width / 2 + 150, this.game.renderer.height - 100, "nave2");
+        this.jugador2 = new Jugador(this, this.game.renderer.width / 2 - 150, this.game.renderer.height - 100, "nave2");
+        
         this.cursor = this.input.keyboard.createCursorKeys();
         this.keys = this.input.keyboard.addKeys('A,W,S,D');
         this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.P = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
-        this.jugador2 = this.physics.add.image(this.game.renderer.width / 2 - 150, this.game.renderer.height - 100, "nave2");
-        this.jugador2.setScale(0.5).setDepth(3);
-        this.jugador2.setCollideWorldBounds(true).setBounce(0.1,0.1);
+
 
         this.exhaust1 = this.add.sprite(this.jugador1.x, this.jugador1.y + 40, 'exhaust6').setDepth(2).setRotation(-80).setScale(1.2);
         this.exhaust1.setVisible(false);
@@ -185,53 +236,45 @@ export class Game extends Phaser.Scene {
         this.exhaust1.setVisible(false);
         this.exhaust2.setVisible(false);
 
-        //Colisiones
-
 
 
         if (this.cursor.left.isDown) {
-            //this.jugador1.setX(this.jugador1.x - 2);
-            this.jugador1.setVelocity(-100,0);
-            this.exhaust1.setX(this.jugador1.x);
-            this.exhaust1.setVisible(true);
+            this.exhaust1.setX(this.jugador1.x).setVisible(true);
+            this.jugador1.moveLeft();
         }
         else if (this.cursor.right.isDown) {
-            this.jugador1.setVelocity(100,0);
-            this.exhaust1.setX(this.jugador1.x);
-            this.exhaust1.setVisible(true);
+            this.exhaust1.setX(this.jugador1.x).setVisible(true);
+            this.jugador1.moveRight();
         }
 
         if (this.cursor.up.isDown) {
-            this.jugador1.setVelocity(0,-100);
-            this.exhaust1.setY(this.jugador1.y + 40);
-            this.exhaust1.setVisible(true);
+            this.exhaust1.setY(this.jugador1.y + 40).setVisible(true);
+            this.jugador1.moveUp();
         }
         else if (this.cursor.down.isDown) {
-            this.jugador1.setVelocity(0,100);
-            this.exhaust1.setY(this.jugador1.y + 40);
-            this.exhaust1.setVisible(true);
+            this.exhaust1.setY(this.jugador1.y + 40).setVisible(true);
+            this.jugador1.moveDown();
         }
 
         if (this.keys.A.isDown) {
-            this.jugador2.setVelocity(-100,0);
-            this.exhaust2.setX(this.jugador2.x);
-            this.exhaust2.setVisible(true);
+            this.exhaust2.setX(this.jugador2.x).setVisible(true);
+            this.jugador2.moveLeft();
         }
         else if (this.keys.D.isDown) {
-            this.jugador2.setVelocity(100,0);
-            this.exhaust2.setX(this.jugador2.x);
-            this.exhaust2.setVisible(true);
+            //this.exhaust2.setX(this.jugador2.x);
+            //this.exhaust2.setVisible(true);
+            this.jugador2.moveRight();
         }
 
         if (this.keys.W.isDown) {
-            this.jugador2.setVelocity(0,-100);
-            this.exhaust2.setY(this.jugador2.y + 40);
-            this.exhaust2.setVisible(true);
+            //this.exhaust2.setY(this.jugador2.y + 40);
+            //this.exhaust2.setVisible(true);
+            this.jugador2.moveUp();
         }
         else if (this.keys.S.isDown) {
-            this.jugador2.setVelocity(0,100);
-            this.exhaust2.setY(this.jugador2.y + 40);
-            this.exhaust2.setVisible(true);
+            //this.exhaust2.setY(this.jugador2.y + 40);
+            //this.exhaust2.setVisible(true);
+            this.jugador2.moveDown();
         }
         this.fondo.tilePositionY -= 1;
         this.fondo2.tilePositionY -= 0.5;
