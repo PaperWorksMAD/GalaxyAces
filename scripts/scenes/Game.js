@@ -80,6 +80,61 @@ export class Game extends Phaser.Scene {
             runChildUpdate: true
         });
 
+<<<<<<< Updated upstream
+=======
+        bullets2 = this.physics.add.group({
+            classType: Bullet,
+            maxSize: 5,
+            runChildUpdate: true
+        });
+
+
+        
+        //Clase explosion
+        this.anims.create({ key: 'AnimationExplosion', frames: this.anims.generateFrameNumbers('explosion'), frameRate: 22, yoyo: false, repeat: 0 , hideOnComplete: true });
+
+        var Explosion = new Phaser.Class({
+
+            Extends: Phaser.Physics.Arcade.Sprite,
+
+            initialize:
+                function Explosion(scene){
+                    Phaser.Physics.Arcade.Sprite.call(this, scene, 0, 0, 'explosion');
+                    this.setScale(0.5).setDepth(3);
+                },
+
+            aparecer: function (x, y){
+                this.setPosition(x, y);
+                this.setActive(true);
+                this.setVisible(true);
+                this.anims.play('AnimationExplosion');
+            },
+            update: function (time, delta) {
+
+            }
+
+        });
+
+        this.explosions = this.physics.add.group({
+            classType: Explosion,
+            maxSize: 50,
+            runChildUpdate: false
+        });
+
+
+        class Entity extends Phaser.Physics.Arcade.Sprite {
+            constructor(scene, x, y, key, type){
+                super(scene,x,y,key);
+                this.scene = scene;
+                this.scene.add.existing(this);
+                this.scene.physics.world.enableBody(this, 0);
+                this.setData("type", type);
+                this.setData("isDead", false);
+            }
+        }
+
+
+>>>>>>> Stashed changes
         speed = Phaser.Math.GetSpeed(300, 1);
 
         this.initialTime = 20;
