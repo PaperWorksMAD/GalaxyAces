@@ -6,7 +6,7 @@ export const sceneManager = {
 		CONFIG: "CONFIG",
 		RRSS: "RRSS",
 		CONTROLS: "CONTROLS",
-		SCORE:"SCORE"
+		SCORE:"SCORE",
 		CHARACTERSELECT: "CHARACTERSELECT"
 	}
 }

@@ -13,7 +13,7 @@ let game = new Phaser.Game({
 	width: 800,
 	height: 600,
 	scene:[
-		PreLoad, MainMenu, Game, Config, Rrss, Controls,CharacterSelect, Score
+		PreLoad, MainMenu, Game, Config, Rrss, Controls, CharacterSelect, Score
 	],
 	render:{
 		pixelArt: true
