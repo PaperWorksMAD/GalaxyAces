@@ -12,7 +12,6 @@ export class CharacterSelect extends Phaser.Scene {
 	}
 	
 	create() {
-		console.log(bgmusic);
 		this.fondo = this.add.tileSprite(400, 300, 800, 600, 'fondomenu').setDepth(0);
         this.add.image(this.game.renderer.width / 2, this.game.renderer.height * 0.20, "titulo").setDepth(1);
 
