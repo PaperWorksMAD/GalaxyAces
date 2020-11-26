@@ -1,6 +1,5 @@
 import { sceneManager } from "../sceneManager.js";
 
-var bgmusic = false;
 
 export class CharacterSelect extends Phaser.Scene {
 	constructor() {
@@ -25,16 +24,11 @@ export class CharacterSelect extends Phaser.Scene {
         let nave3 = this.add.image(this.game.renderer.width/2 - 150, 350, 'nave3').setDepth(1).setInteractive();
         let nave4 = this.add.image(this.game.renderer.width/2 + 150, 350, 'nave4').setDepth(1).setInteractive();
 
-		if (bgmusic === false) {
-			this.musicamenu = this.sound.add("bitmenu", {
-				volume: 0.5
-			})
-			this.musicamenu.play({
-				loop: true
-			});
-			bgmusic = true;
-			console.log(bgmusic);
-		}
+        let xbt = this.add.image(this.game.renderer.width - 50, this.game.renderer.height - 550, "x").setDepth(2);
+        xbt.setInteractive();
+        xbt.on("pointerup", () => {
+            this.scene.start(sceneManager.SCENES.MAINMENU);
+        })
 
         this.input.keyboard.on('keydown-SPACE', this.handleContinue, this);
 

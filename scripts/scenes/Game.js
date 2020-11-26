@@ -36,6 +36,7 @@ export class Game extends Phaser.Scene {
         this.shipIndex1 = data.shipIndex1;
         this.shipIndex2 = data.shipIndex2;
     }
+
     create() {
 
         //Animaciones
@@ -146,6 +147,7 @@ export class Game extends Phaser.Scene {
                 this.setScale(0.5).setDepth(3).setCollideWorldBounds(true).setBounce(0.1,0.1);
 
                 //this.exhaust = Phaser.add.sprite(x, y + 40, 'exhaust6').setDepth(2).setRotation(-80).setScale(1.2).setVisible(false);
+                console.log(this);
                 //this.exhaust.anims.play('Exhaust6');
             }
 
@@ -194,6 +196,10 @@ export class Game extends Phaser.Scene {
                     console.log("muerto");
                 }
             }
+
+            mover(x,y){
+                this.setVelocity(x,y);
+            }
         }
 
 
@@ -212,6 +218,7 @@ export class Game extends Phaser.Scene {
         this.fondo = this.add.tileSprite(400, 300, 800, 600, 'fondo').setDepth(0);
         this.fondo2 = this.add.tileSprite(600, 300, 800, 600, 'fondo2').setDepth(0);
         this.fondo3 = this.add.tileSprite(200, 300, 800, 600, 'fondo3').setDepth(0);
+        console.log(this);
 
         //Jugadores
         this.jugador1 = new Jugador(this, this.game.renderer.width / 2 + 150, this.game.renderer.height - 100, "nave"+this.shipIndex1);
