@@ -22,6 +22,8 @@ export class PreLoad extends Phaser.Scene {
 		this.load.image('titulo', 'resources/images/titulo.png');
 		this.load.image('nave1', 'resources/images/Ship2.png');
 		this.load.image('nave2', 'resources/images/Ship6.png');
+		this.load.image('nave3', 'resources/images/Ship3.png');
+		this.load.image('nave4', 'resources/images/Ship1.png');
 		this.load.image('configuracion', 'resources/images/config.png');
 		this.load.image('volumen', 'resources/images/volumen.png');
 		this.load.spritesheet('bala6', 'resources/images/spritesheetShot6.png', {

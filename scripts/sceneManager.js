@@ -7,5 +7,6 @@ export const sceneManager = {
 		RRSS: "RRSS",
 		CONTROLS: "CONTROLS",
 		SCORE:"SCORE"
+		CHARACTERSELECT: "CHARACTERSELECT"
 	}
 }
