@@ -176,7 +176,7 @@ export class Game extends Phaser.Scene {
 
         this.explod;
 
-
+        //Timer de partida y cuenta atras
         this.tiempo = this.time.addEvent({ delay: 1000, callback: this.onEvent, callbackScope: this, loop: true });
         this.tiempopartida = this.time.delayedCall(this.initialTime * 1000, this.onEvent2, [], this);
     }
