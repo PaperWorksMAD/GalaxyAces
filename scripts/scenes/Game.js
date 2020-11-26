@@ -18,6 +18,7 @@ export class Game extends Phaser.Scene {
     }
     onEvent2() {
         console.log("final");
+        this.scene.start(sceneManager.SCENES.SCORE);
     }
 
     formatTime(seconds) {
@@ -198,7 +199,8 @@ export class Game extends Phaser.Scene {
 
         speed = Phaser.Math.GetSpeed(300, 1);
 
-        this.initialTime = 20;
+        //Tiempo de partida en segundos
+        this.initialTime = 10;
 
         let xbt = this.add.image(this.game.renderer.width - 50, this.game.renderer.height - 550, "x").setDepth(2);
         xbt.setInteractive();
@@ -247,7 +249,7 @@ export class Game extends Phaser.Scene {
 
         this.explod;
 
-
+        //Timer de partida y cuenta atras
         this.tiempo = this.time.addEvent({ delay: 1000, callback: this.onEvent, callbackScope: this, loop: true });
         this.tiempopartida = this.time.delayedCall(this.initialTime * 1000, this.onEvent2, [], this);
     }
