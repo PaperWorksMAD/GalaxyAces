@@ -18,7 +18,7 @@ export class Game extends Phaser.Scene {
     }
     onEvent2() {
         console.log("final");
-        this.scene.start(sceneManager.SCENES.SCORE);
+        this.scene.start(sceneManager.SCENES.SCORE,{score: this.jugador1.puntuacion, score2: this.jugador2.puntuacion, enemigos1: this.jugador1.bajas, enemigos2: this.jugador2.bajas});
     }
 
     formatTime(seconds) {
@@ -69,6 +69,8 @@ export class Game extends Phaser.Scene {
                 this.setVelocity(0,-400);
                 this.setSize(30,30,true);
 
+                this.anims.play('AnimationBullet');
+
                 this.setActive(true);
                 this.setVisible(true);
 
@@ -78,7 +80,7 @@ export class Game extends Phaser.Scene {
             update: function (time, delta) {
                 //this.y -= this.speed * delta;
 
-                if (this.y < -50 || this.x < -50) {
+                if (this.y < -500 || this.x < -500) {
                     this.setActive(false);
                     this.setVisible(false);
                 }
@@ -120,8 +122,8 @@ export class Game extends Phaser.Scene {
                 //this.exhaust = Phaser.add.sprite(x, y + 40, 'exhaust6').setDepth(2).setRotation(-80).setScale(1.2).setVisible(false);
                 console.log(this);
                 //this.exhaust.anims.play('Exhaust6');
-
                 this.puntuacion = 0;
+                this.bajas = 0;
             }
 
             moveUp(){
@@ -327,7 +329,7 @@ export class Game extends Phaser.Scene {
         this.time.addEvent({
             delay: 400,
             callback: function(){
-                obj2.setActive(false).setVisible(false).setPosition(-50,-50);
+                obj2.setActive(false).setVisible(false).setPosition(-500,-500);
             }
         });
 
@@ -338,13 +340,13 @@ export class Game extends Phaser.Scene {
         if (obj1.vida <= 0){
             if (obj2.jugador == 1){
                 this.jugador1.puntuacion += 10;
+                this.jugador1.bajas += 1;
                 console.log(this.jugador1.puntuacion);
             }else{
                 this.jugador2.puntuacion += 10;
+                this.jugador2.bajas += 1;
                 console.log(this.jugador2.puntuacion);
             }
         }
     }
-
-
 }
