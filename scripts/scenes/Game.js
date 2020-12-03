@@ -18,7 +18,7 @@ export class Game extends Phaser.Scene {
     }
     onEvent2() {
         console.log("final");
-        this.scene.start(sceneManager.SCENES.SCORE);
+        this.scene.start(sceneManager.SCENES.SCORE,{score: this.jugador1.puntuacion, score2: this.jugador2.puntuacion});
     }
 
     formatTime(seconds) {
@@ -149,6 +149,9 @@ export class Game extends Phaser.Scene {
                 //this.exhaust = Phaser.add.sprite(x, y + 40, 'exhaust6').setDepth(2).setRotation(-80).setScale(1.2).setVisible(false);
                 console.log(this);
                 //this.exhaust.anims.play('Exhaust6');
+                
+                this.puntuacion = 0;
+
             }
 
             moveUp(){

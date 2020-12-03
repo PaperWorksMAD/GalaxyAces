@@ -5,7 +5,10 @@ export class Score extends Phaser.Scene {
             key: sceneManager.SCENES.SCORE
         })
     }
-    init() {
+    init(data) {
+        console.log("init", data);
+        this.puntuacion1 = data.score;
+        this.puntuacion2 = data.score2;
     }
     create() {
         this.puntuaciones = this.add.image(this.game.renderer.width/2, this.game.renderer.height*0.20, "puntuaciones").setDepth(2);
