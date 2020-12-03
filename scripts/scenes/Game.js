@@ -313,9 +313,6 @@ export class Game extends Phaser.Scene {
         obj1.setVelocity(0);
         obj2.setActive(false).setVisible(false).setPosition(-50,-50);
 
-        //Animacion de daño
-        this.explod = this.explosions.get();
-
         if (this.explod)
             this.explod.aparecer(obj1.x, obj1.y);
     }
