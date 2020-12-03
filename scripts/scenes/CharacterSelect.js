@@ -12,6 +12,8 @@ export class CharacterSelect extends Phaser.Scene {
     }
 
     create() {
+
+        this.texto = this.add.image(this.game.renderer.width/2 , this.game.renderer.height * 0.90, "seleccion").setDepth(2).setScale(0.5);
         this.fondo = this.add.tileSprite(400, 300, 800, 600, 'fondomenu').setDepth(0);
         this.add.image(this.game.renderer.width / 2, this.game.renderer.height * 0.20, "titulo").setDepth(1);
 
@@ -108,6 +110,7 @@ export class CharacterSelect extends Phaser.Scene {
     update() {
         this.fondo.tilePositionX += 0.5;
         if (this.jugador >= 3) {
+            this.texto.setVisible(0);
             this.add.image(this.game.renderer.width/2 , this.game.renderer.height * 0.90, "presionaespacio").setDepth(2).setScale(0.5);
         }
     }

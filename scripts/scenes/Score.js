@@ -33,8 +33,8 @@ export class Score extends Phaser.Scene {
         this.add.bitmapText(this.game.renderer.width / 2 - 200, 350, "bit", "Jugador 1: " + this.puntuacion1, 24).setDepth(2);
         this.add.bitmapText(this.game.renderer.width / 2 + 50, 350, "bit", "           " + this.eliminados1, 24).setDepth(2);
 
-        this.add.bitmapText(this.game.renderer.width / 2 - 200, 380, "bit", "Jugaddr 2: " + this.puntuacion2, 24).setDepth(2);
-        this.add.bitmapText(this.game.renderer.width / 2 + 50, 380, "bit", "           " + this.eliminados2, 24).setDepth(2);
+        this.add.bitmapText(this.game.renderer.width / 2 - 200, 390, "bit", "Jugaddr 2: " + this.puntuacion2, 24).setDepth(2);
+        this.add.bitmapText(this.game.renderer.width / 2 + 50, 390, "bit", "           " + this.eliminados2, 24).setDepth(2);
 
         let xbt = this.add.image(this.game.renderer.width - 50, this.game.renderer.height - 550, "x").setDepth(2);
         xbt.setInteractive();
