@@ -44,6 +44,7 @@ export class Game extends Phaser.Scene {
         this.anims.create({ key: 'EnemyAnim', frames: this.anims.generateFrameNumbers('enemy'), frameRate: 2, yoyo: false, repeat: -1 });
 
         this.anims.create({ key: 'AnimationBullet', frames: this.anims.generateFrameNumbers('bala6'), frameRate: 12, yoyo: true, repeat: -1 });
+        this.anims.create({ key: 'AnimationExplosion', frames: this.anims.generateFrameNumbers('explosion'), frameRate: 22, yoyo: false, repeat: 0 , hideOnComplete: true });
 
         //clase bala
         var Bullet = new Phaser.Class({
@@ -57,18 +58,21 @@ export class Game extends Phaser.Scene {
 
                     //this.speed = Phaser.Math.GetSpeed(400, 1);
                     this.setRotation(80);
+                    this.jugador;
                     
 
                     this.anims.play('AnimationBullet');
                 },
 
-            fire: function (x, y) {
+            fire: function (x, y, i) {
                 this.setPosition(x, y - 50);
                 this.setVelocity(0,-400);
                 this.setSize(30,30,true);
 
                 this.setActive(true);
                 this.setVisible(true);
+
+                this.jugador = i;
             },
 
             update: function (time, delta) {
@@ -95,39 +99,6 @@ export class Game extends Phaser.Scene {
         });
 
 
-        
-        //Clase explosion
-        this.anims.create({ key: 'AnimationExplosion', frames: this.anims.generateFrameNumbers('explosion'), frameRate: 22, yoyo: false, repeat: 0 , hideOnComplete: true });
-
-        var Explosion = new Phaser.Class({
-
-            Extends: Phaser.Physics.Arcade.Sprite,
-
-            initialize:
-                function Explosion(scene){
-                    Phaser.Physics.Arcade.Sprite.call(this, scene, 0, 0, 'explosion');
-                    this.setScale(0.5).setDepth(3);
-                },
-
-            aparecer: function (x, y){
-                this.setPosition(x, y);
-                this.setActive(true);
-                this.setVisible(true);
-                this.anims.play('AnimationExplosion');
-            },
-            update: function (time, delta) {
-
-            }
-
-        });
-
-        this.explosions = this.physics.add.group({
-            classType: Explosion,
-            maxSize: 50,
-            runChildUpdate: false
-        });
-
-
         class Entity extends Phaser.Physics.Arcade.Sprite {
             constructor(scene, x, y, key, type){
                 super(scene,x,y,key);
@@ -149,9 +120,7 @@ export class Game extends Phaser.Scene {
                 //this.exhaust = Phaser.add.sprite(x, y + 40, 'exhaust6').setDepth(2).setRotation(-80).setScale(1.2).setVisible(false);
                 console.log(this);
                 //this.exhaust.anims.play('Exhaust6');
-                
                 this.puntuacion = 0;
-
             }
 
             moveUp(){
@@ -183,19 +152,20 @@ export class Game extends Phaser.Scene {
             constructor(scene, x, y, key, type){
                 super(scene, x, y, key, "Enemigo");
 
-                this.setScale(2).setDepth(2).setCollideWorldBounds(true).setBounce(1,1);
+                this.setScale(2).setDepth(2).setCollideWorldBounds(false).setBounce(1,1);
                 this.anims.play('EnemyAnim');
 
                 this.vida = 2;
 
             }
 
-            recibirDaño(){
+            recibirDaño(i){
                 this.vida -= 1;
 
                 if (this.vida <= 0){
                     this.setActive(false);
                     this.setVisible(false);
+                    this.setPosition(-100,-100);
                     console.log("muerto");
                 }
             }
@@ -316,7 +286,7 @@ export class Game extends Phaser.Scene {
             var bullet = bullets.get();
 
             if (bullet) {
-                bullet.fire(this.jugador2.x, this.jugador2.y);
+                bullet.fire(this.jugador2.x, this.jugador2.y, 2);
 
                 lastFired = time + 100;
             }
@@ -327,7 +297,7 @@ export class Game extends Phaser.Scene {
             var bullet = bullets2.get();
 
             if (bullet) {
-                bullet.fire(this.jugador1.x, this.jugador1.y);
+                bullet.fire(this.jugador1.x, this.jugador1.y, 1);
 
                 lastFired = time + 100;
             }
@@ -350,16 +320,29 @@ export class Game extends Phaser.Scene {
     collissionHandlerEnemy(obj1, obj2){
         console.log("colision con enemigo");
         obj1.setVelocity(0);
-        obj2.setActive(false).setVisible(false).setPosition(-50,-50);
+        obj2.play('AnimationExplosion');
+        obj2.setScale(0.8).setVelocity(0);
 
-        //Animacion de daño
-        this.explod = this.explosions.get();
+        this.time.addEvent({
+            delay: 400,
+            callback: function(){
+                obj2.setActive(false).setVisible(false).setPosition(-50,-50);
+            }
+        });
 
-        if (this.explod)
-            this.explod.aparecer(obj1.x, obj1.y);
 
         //Recibir daño
-        obj1.recibirDaño();
+        obj1.recibirDaño(obj2.jugador);
+
+        if (obj1.vida <= 0){
+            if (obj2.jugador == 1){
+                this.jugador1.puntuacion += 10;
+                console.log(this.jugador1.puntuacion);
+            }else{
+                this.jugador2.puntuacion += 10;
+                console.log(this.jugador2.puntuacion);
+            }
+        }
     }
 
 
