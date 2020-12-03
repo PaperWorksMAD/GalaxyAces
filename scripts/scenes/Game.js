@@ -191,6 +191,7 @@ export class Game extends Phaser.Scene {
         })
 
         this.text = this.add.bitmapText(this.game.renderer.width / 2 - 32, 32, "bit", this.formatTime(this.initialTime), 24).setDepth(2);
+
         this.fondo = this.add.tileSprite(400, 300, 800, 600, 'fondo').setDepth(0);
         this.fondo2 = this.add.tileSprite(600, 300, 800, 600, 'fondo2').setDepth(0);
         this.fondo3 = this.add.tileSprite(200, 300, 800, 600, 'fondo3').setDepth(0);
@@ -199,6 +200,9 @@ export class Game extends Phaser.Scene {
         //Jugadores
         this.jugador1 = new Jugador(this, this.game.renderer.width / 2 + 150, this.game.renderer.height - 100, "nave"+this.shipIndex1);
         this.jugador2 = new Jugador(this, this.game.renderer.width / 2 - 150, this.game.renderer.height - 100, "nave"+this.shipIndex2);
+
+        this.j1puntos = this.add.bitmapText(this.game.renderer.width *0.85, 568, "bit","J1: " + this.jugador1.puntuacion, 24).setDepth(2);
+        this.j2puntos = this.add.bitmapText(this.game.renderer.width*0.05,568, "bit","J2: " + this.jugador2.puntuacion , 24).setDepth(2);
         
         this.cursor = this.input.keyboard.createCursorKeys();
         this.keys = this.input.keyboard.addKeys('A,W,S,D');
@@ -237,6 +241,9 @@ export class Game extends Phaser.Scene {
         this.tiempopartida = this.time.delayedCall(this.initialTime * 1000, this.onEvent2, [], this);
     }
     update(time, delta) {
+    
+        this.j1puntos.setText("J1: " + this.jugador1.puntuacion);
+        this.j2puntos.setText("J2: " + this.jugador2.puntuacion);
 
         this.jugador1.setVelocity(0);
         this.jugador2.setVelocity(0);

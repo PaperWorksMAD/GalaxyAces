@@ -10,7 +10,7 @@ export class Controls extends Phaser.Scene {
     create() {
         
         
-        this.fondo = this.add.tileSprite(400, 300, 800, 600, 'fondo').setDepth(0);    
+        this.fondo = this.add.tileSprite(400, 300, 800, 600, 'tutorial').setDepth(0);    
 
         let xbt= this.add.image(this.game.renderer.width-50, this.game.renderer.height-550, "x").setDepth(2);
         xbt.setInteractive();
@@ -19,7 +19,5 @@ export class Controls extends Phaser.Scene {
         })
     }
     update() {
-        this.fondo.tilePositionX -= 1;
-        this.fondo.tilePositionY -= 1;
     }
 }

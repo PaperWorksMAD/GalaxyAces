@@ -9,7 +9,9 @@ export class PreLoad extends Phaser.Scene {
 
 	}
 	preload() {
+		this.load.image("seleccion", "./resources/images/seleccion.png");
 		this.load.image("contacto", "./resources/images/contacto.png");
+		this.load.image("tutorial", "./resources/images/tutorial.png");
 		this.load.image("controles", "./resources/images/controles.png");
 		this.load.image("puntuaciones", "./resources/images/puntuaciones.png");
 		this.load.image("presionaespacio", "./resources/images/presionaespacio.png");
