@@ -16,7 +16,7 @@ export class MainMenu extends Phaser.Scene {
 		console.log(bgmusic);
 		this.fondo = this.add.tileSprite(400, 300, 800, 600, 'fondomenu').setDepth(0);
 		this.add.image(this.game.renderer.width / 2, this.game.renderer.height * 0.20, "titulo").setDepth(1);
-		let playbt = this.add.image(this.game.renderer.width / 2, this.game.renderer.height / 2, "playbt").setDepth(2);
+		let playbt = this.add.image(this.game.renderer.width / 2, this.game.renderer.height / 2 - 10, "playbt").setDepth(2);
 		let configbt = this.add.image(this.game.renderer.width / 2, this.game.renderer.height / 2 + 100, "configbt").setDepth(2);
 		let hover = this.add.image(100, 100, "nave1");
 		hover.setScale(0.75);
@@ -24,8 +24,8 @@ export class MainMenu extends Phaser.Scene {
 		configbt.setScale(0.5);
 
 		//Boton redes sociales y controles
-		let rrssbt = this.add.image(this.game.renderer.width / 2 - 150, this.game.renderer.height / 2 + 250, "rrssbt").setDepth(2).setScale(0.1);
-		let controlsbt = this.add.image(this.game.renderer.width / 2 + 150, this.game.renderer.height / 2 + 250, "rrssbt").setDepth(2).setScale(0.1);
+		let rrssbt = this.add.image(this.game.renderer.width / 2 - 150, this.game.renderer.height * 0.85, "contacto").setDepth(2).setScale(0.4);
+		let controlsbt = this.add.image(this.game.renderer.width / 2 + 150, this.game.renderer.height * 0.85, "controles").setDepth(2).setScale(0.4);
 
 		if (bgmusic === false) {
 			this.musicamenu = this.sound.add("bitmenu", {
@@ -76,7 +76,7 @@ export class MainMenu extends Phaser.Scene {
 
 		rrssbt.on("pointerover", () => {
 			hover.setVisible(true);
-			hover.x = rrssbt.x - 180;
+			hover.x = rrssbt.x - 140;
 			hover.y = rrssbt.y;
 		})
 
@@ -91,7 +91,7 @@ export class MainMenu extends Phaser.Scene {
 
 		controlsbt.on("pointerover", () => {
 			hover.setVisible(true);
-			hover.x = controlsbt.x - 180;
+			hover.x = controlsbt.x - 140;
 			hover.y = controlsbt.y;
 		})
 
