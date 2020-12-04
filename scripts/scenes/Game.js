@@ -18,7 +18,7 @@ export class Game extends Phaser.Scene {
     }
     onEvent2() {
         console.log("final");
-        this.scene.start(sceneManager.SCENES.SCORE,{score: this.jugador1.puntuacion, score2: this.jugador2.puntuacion, enemigos1: this.jugador1.bajas, enemigos2: this.jugador2.bajas});
+        this.scene.start(sceneManager.SCENES.SCORE, { score: this.jugador1.puntuacion, score2: this.jugador2.puntuacion, enemigos1: this.jugador1.bajas, enemigos2: this.jugador2.bajas });
     }
 
     formatTime(seconds) {
@@ -44,7 +44,7 @@ export class Game extends Phaser.Scene {
         this.anims.create({ key: 'EnemyAnim', frames: this.anims.generateFrameNumbers('enemy'), frameRate: 2, yoyo: false, repeat: -1 });
 
         this.anims.create({ key: 'AnimationBullet', frames: this.anims.generateFrameNumbers('bala6'), frameRate: 12, yoyo: true, repeat: -1 });
-        this.anims.create({ key: 'AnimationExplosion', frames: this.anims.generateFrameNumbers('explosion'), frameRate: 22, yoyo: false, repeat: 0 , hideOnComplete: true });
+        this.anims.create({ key: 'AnimationExplosion', frames: this.anims.generateFrameNumbers('explosion'), frameRate: 22, yoyo: false, repeat: 0, hideOnComplete: true });
 
         //clase bala
         var Bullet = new Phaser.Class({
@@ -59,15 +59,15 @@ export class Game extends Phaser.Scene {
                     //this.speed = Phaser.Math.GetSpeed(400, 1);
                     this.setRotation(80);
                     this.jugador;
-                    
+
 
                     this.anims.play('AnimationBullet');
                 },
 
             fire: function (x, y, i) {
                 this.setPosition(x, y - 50);
-                this.setVelocity(0,-400);
-                this.setSize(30,30,true);
+                this.setVelocity(0, -400);
+                this.setSize(30, 30, true);
 
                 this.anims.play('AnimationBullet');
 
@@ -102,8 +102,8 @@ export class Game extends Phaser.Scene {
 
 
         class Entity extends Phaser.Physics.Arcade.Sprite {
-            constructor(scene, x, y, key, type){
-                super(scene,x,y,key);
+            constructor(scene, x, y, key, type) {
+                super(scene, x, y, key);
                 this.scene = scene;
                 this.scene.add.existing(this);
                 this.scene.physics.world.enableBody(this, 0);
@@ -114,10 +114,10 @@ export class Game extends Phaser.Scene {
 
         class Jugador extends Entity {
 
-            constructor(scene, x, y, key, type){
+            constructor(scene, x, y, key, type) {
                 super(scene, x, y, key, "Jugador");
 
-                this.setScale(0.5).setDepth(3).setCollideWorldBounds(true).setBounce(0.1,0.1);
+                this.setScale(0.5).setDepth(3).setCollideWorldBounds(true).setBounce(0.1, 0.1);
 
                 //this.exhaust = Phaser.add.sprite(x, y + 40, 'exhaust6').setDepth(2).setRotation(-80).setScale(1.2).setVisible(false);
                 console.log(this);
@@ -126,55 +126,55 @@ export class Game extends Phaser.Scene {
                 this.bajas = 0;
             }
 
-            moveUp(){
-                this.setVelocity(0,-100);
+            moveUp() {
+                this.setVelocity(0, -100);
                 //this.exhaust.setY(this.sprite.y + 40);
                 //this.exhaust.setVisible(true);
             }
 
-            moveDown(){
+            moveDown() {
                 this.setVelocity(0, 100);
                 //this.exhaust.setY(this.sprite.y + 40);
                 //this.exhaust.setVisible(true);
             }
 
-            moveLeft(){
-                this.setVelocity(-100,0);
+            moveLeft() {
+                this.setVelocity(-100, 0);
                 //this.exhaust.setY(this.sprite.y + 40);
                 //this.exhaust.setVisible(true);
             }
 
-            moveRight(){
-                this.setVelocity(100,0);
+            moveRight() {
+                this.setVelocity(100, 0);
                 //this.exhaust.setY(this.sprite.y + 40);
                 //this.exhaust.setVisible(true);
             }
         }
 
         class Enemigo extends Entity {
-            constructor(scene, x, y, key, type){
+            constructor(scene, x, y, key, type) {
                 super(scene, x, y, key, "Enemigo");
 
-                this.setScale(2).setDepth(2).setCollideWorldBounds(false).setBounce(1,1);
+                this.setScale(2).setDepth(2).setCollideWorldBounds(false).setBounce(1, 1);
                 this.anims.play('EnemyAnim');
 
                 this.vida = 2;
 
             }
 
-            recibirDaño(i){
+            recibirDaño(i) {
                 this.vida -= 1;
 
-                if (this.vida <= 0){
+                if (this.vida <= 0) {
                     this.setActive(false);
                     this.setVisible(false);
-                    this.setPosition(-100,-100);
+                    this.setPosition(-100, -100);
                     console.log("muerto");
                 }
             }
 
-            mover(x,y){
-                this.setVelocity(x,y);
+            mover(x, y) {
+                this.setVelocity(x, y);
             }
         }
 
@@ -182,7 +182,7 @@ export class Game extends Phaser.Scene {
         speed = Phaser.Math.GetSpeed(300, 1);
 
         //Tiempo de partida en segundos
-        this.initialTime = 10;
+        this.initialTime = 60;
 
         let xbt = this.add.image(this.game.renderer.width - 50, this.game.renderer.height - 550, "x").setDepth(2);
         xbt.setInteractive();
@@ -190,7 +190,7 @@ export class Game extends Phaser.Scene {
             this.scene.start(sceneManager.SCENES.MAINMENU);
         })
 
-        this.text = this.add.bitmapText(this.game.renderer.width / 2 - 32, 32, "bit", this.formatTime(this.initialTime), 24).setDepth(2);
+        this.text = this.add.bitmapText(this.game.renderer.width / 2 - 32, 32, "bit", this.formatTime(this.initialTime), 24).setDepth(10);
 
         this.fondo = this.add.tileSprite(400, 300, 800, 600, 'fondo').setDepth(0);
         this.fondo2 = this.add.tileSprite(600, 300, 800, 600, 'fondo2').setDepth(0);
@@ -198,12 +198,12 @@ export class Game extends Phaser.Scene {
         console.log(this);
 
         //Jugadores
-        this.jugador1 = new Jugador(this, this.game.renderer.width / 2 + 150, this.game.renderer.height - 100, "nave"+this.shipIndex1);
-        this.jugador2 = new Jugador(this, this.game.renderer.width / 2 - 150, this.game.renderer.height - 100, "nave"+this.shipIndex2);
+        this.jugador1 = new Jugador(this, this.game.renderer.width / 2 + 150, this.game.renderer.height - 100, "nave" + this.shipIndex1).setDepth(5);
+        this.jugador2 = new Jugador(this, this.game.renderer.width / 2 - 150, this.game.renderer.height - 100, "nave" + this.shipIndex2).setDepth(5);
 
-        this.j1puntos = this.add.bitmapText(this.game.renderer.width *0.85, 568, "bit","J1: " + this.jugador1.puntuacion, 24).setDepth(2);
-        this.j2puntos = this.add.bitmapText(this.game.renderer.width*0.05,568, "bit","J2: " + this.jugador2.puntuacion , 24).setDepth(2);
-        
+        this.j1puntos = this.add.bitmapText(this.game.renderer.width * 0.85, 568, "bit", "J1: " + this.jugador1.puntuacion, 24).setDepth(10);
+        this.j2puntos = this.add.bitmapText(this.game.renderer.width * 0.05, 568, "bit", "J2: " + this.jugador2.puntuacion, 24).setDepth(10);
+
         this.cursor = this.input.keyboard.createCursorKeys();
         this.keys = this.input.keyboard.addKeys('A,W,S,D');
         this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -221,15 +221,33 @@ export class Game extends Phaser.Scene {
         this.exhaust2.anims.play('Animation2');
 
         //Enemigo
-        this.enemy = new Enemigo(this, 50, 50, 'enemy');
+        //this.enemy = new Enemigo(this, 50, 50, 'enemy');
+
+        this.enemies = this.physics.add.group({
+            classType: Enemigo,
+            maxSize: 100,
+            runChildUpdate: true
+        });
+        this.enemies.setDepth(5);
+
+        this.time.addEvent({
+            delay: 800,
+            callback: function () {
+                this.enemy = new Enemigo(this, Phaser.Math.Between(0, this.game.config.width), 0, 'enemy');
+                this.enemies.add(this.enemy);
+            },
+            callbackScope: this,
+            loop: true
+        });
+        console.log(this.enemies);
 
         //Deteccion de colisiones
         //Entre jugadores
         this.physics.add.collider(this.jugador1, this.jugador2);
         //Entre enemigo y jugadores
-        this.physics.add.collider(this.enemy, [this.jugador1, this.jugador2]);
+        this.physics.add.collider(this.enemies, [this.jugador1, this.jugador2], this.collissionHandler, null, this);
         //Entre balas y enemigos
-        this.physics.add.collider(this.enemy, [bullets, bullets2], this.collissionHandlerEnemy, null, this);
+        this.physics.add.collider(this.enemies, [bullets, bullets2], this.collissionHandlerEnemy, null, this);
         //Entre balas y jugadores
         this.physics.add.collider(this.jugador1, [bullets, bullets2], this.collissionHandler, null, this);
         this.physics.add.collider(this.jugador2, [bullets, bullets2], this.collissionHandler, null, this);
@@ -241,7 +259,8 @@ export class Game extends Phaser.Scene {
         this.tiempopartida = this.time.delayedCall(this.initialTime * 1000, this.onEvent2, [], this);
     }
     update(time, delta) {
-    
+        this.enemies.setVelocity(0,150);
+
         this.j1puntos.setText("J1: " + this.jugador1.puntuacion);
         this.j2puntos.setText("J2: " + this.jugador2.puntuacion);
 
@@ -312,19 +331,18 @@ export class Game extends Phaser.Scene {
                 lastFired = time + 100;
             }
         }
-
     }
 
-    collissionHandler(obj1, obj2){
+    collissionHandler(obj1, obj2) {
         console.log("colision");
         obj1.setVelocity(0);
-        obj2.setActive(false).setVisible(false).setPosition(-50,-50);
+        obj2.setActive(false).setVisible(false).setPosition(-50, -50);
 
         if (this.explod)
             this.explod.aparecer(obj1.x, obj1.y);
     }
 
-    collissionHandlerEnemy(obj1, obj2){
+    collissionHandlerEnemy(obj1, obj2) {
         console.log("colision con enemigo");
         obj1.setVelocity(0);
         obj2.play('AnimationExplosion');
@@ -332,8 +350,8 @@ export class Game extends Phaser.Scene {
 
         this.time.addEvent({
             delay: 400,
-            callback: function(){
-                obj2.setActive(false).setVisible(false).setPosition(-500,-500);
+            callback: function () {
+                obj2.setActive(false).setVisible(false).setPosition(-500, -500);
             }
         });
 
@@ -341,12 +359,12 @@ export class Game extends Phaser.Scene {
         //Recibir daño
         obj1.recibirDaño(obj2.jugador);
 
-        if (obj1.vida <= 0){
-            if (obj2.jugador == 1){
+        if (obj1.vida <= 0) {
+            if (obj2.jugador == 1) {
                 this.jugador1.puntuacion += 10;
                 this.jugador1.bajas += 1;
                 console.log(this.jugador1.puntuacion);
-            }else{
+            } else {
                 this.jugador2.puntuacion += 10;
                 this.jugador2.bajas += 1;
                 console.log(this.jugador2.puntuacion);
