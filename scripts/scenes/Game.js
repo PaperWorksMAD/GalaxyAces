@@ -155,7 +155,7 @@ export class Game extends Phaser.Scene {
             constructor(scene, x, y, key, type) {
                 super(scene, x, y, key, "Enemigo");
 
-                this.setScale(2).setDepth(2).setCollideWorldBounds(false).setBounce(1, 1);
+                this.setScale(2).setDepth(2).setCollideWorldBounds(false).setBounce(1, 1).setRotation(3,14159);
                 this.anims.play('EnemyAnim');
 
                 this.vida = 2;
