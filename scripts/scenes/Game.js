@@ -2,6 +2,7 @@ import { sceneManager } from "../sceneManager.js";
 
 var bullets;
 var bullets2;
+var explosions;
 var speed;
 var lastFired = 0;
 
@@ -46,61 +47,7 @@ export class Game extends Phaser.Scene {
         this.anims.create({ key: 'AnimationBullet', frames: this.anims.generateFrameNumbers('bala6'), frameRate: 12, yoyo: true, repeat: -1 });
         this.anims.create({ key: 'AnimationExplosion', frames: this.anims.generateFrameNumbers('explosion'), frameRate: 22, yoyo: false, repeat: 0, hideOnComplete: true });
 
-        //clase bala
-        var Bullet = new Phaser.Class({
-
-            Extends: Phaser.Physics.Arcade.Sprite,
-
-            initialize:
-
-                function Bullet(scene) {
-                    Phaser.Physics.Arcade.Sprite.call(this, scene, 0, 0, 'bala6');
-
-                    //this.speed = Phaser.Math.GetSpeed(400, 1);
-                    this.setRotation(80);
-                    this.jugador;
-
-
-                    this.anims.play('AnimationBullet');
-                },
-
-            fire: function (x, y, i) {
-                this.setPosition(x, y - 50);
-                this.setVelocity(0, -400);
-                this.setSize(30, 30, true);
-
-                this.anims.play('AnimationBullet');
-
-                this.setActive(true);
-                this.setVisible(true);
-
-                this.jugador = i;
-            },
-
-            update: function (time, delta) {
-                //this.y -= this.speed * delta;
-
-                if (this.y < -500 || this.x < -500) {
-                    this.setActive(false);
-                    this.setVisible(false);
-                }
-            }
-
-        });
-
-        bullets = this.physics.add.group({
-            classType: Bullet,
-            maxSize: 5,
-            runChildUpdate: true
-        });
-
-        bullets2 = this.physics.add.group({
-            classType: Bullet,
-            maxSize: 5,
-            runChildUpdate: true
-        });
-
-
+        //Clase general
         class Entity extends Phaser.Physics.Arcade.Sprite {
             constructor(scene, x, y, key, type) {
                 super(scene, x, y, key);
@@ -111,6 +58,71 @@ export class Game extends Phaser.Scene {
                 this.setData("isDead", false);
             }
         }
+
+
+        class Bala extends Entity {
+
+            constructor(scene, x, y, key, type) {
+                super(scene, x, y, key, "Bala");
+                this.setRotation(80);
+                this.anims.play('AnimationBullet');
+                this.jugador;
+
+            }
+
+            fire(x,y,i){
+                this.setSize(30, 30, true);
+                this.setPosition(x, y - 50);
+                this.setVelocity(0, -400);
+                
+                this.setActive(true);
+                this.setVisible(true);
+
+                this.jugador = i;
+            }
+
+            update(time, delta){
+                if (this.y < -500 || this.x < -500) {
+                    this.setActive(false);
+                    this.setVisible(false);
+                }
+            }
+
+
+        }
+
+        bullets = this.physics.add.group({
+            classType: Bala,
+            maxSize: 5,
+            runChildUpdate: true,
+            key: 'bala6'
+        });
+
+        bullets2 = this.physics.add.group({
+            classType: Bala,
+            maxSize: 5,
+            runChildUpdate: true,
+            key: 'bala6'
+        });
+
+
+        class Explosion extends Entity{
+            constructor(scene, x, y, key, type) {
+                super(scene, x, y, key, "Explosion");
+            }
+            aparecer(x,y){
+                this.setPosition(x,y).setVisible(true).setActive(true);
+                this.anims.play('AnimationExplosion');
+            }
+        }
+
+        explosions = this.add.group({
+            classType: Explosion,
+            maxSize: 10,
+            runChildUpdate: true,
+            key:'explosion'
+        });
+        
 
         class Jugador extends Entity {
 
@@ -162,7 +174,7 @@ export class Game extends Phaser.Scene {
 
             }
 
-            recibirDaño(i) {
+            recibirDaño() {
                 this.vida -= 1;
 
                 if (this.vida <= 0) {
@@ -336,28 +348,31 @@ export class Game extends Phaser.Scene {
     collissionHandler(obj1, obj2) {
         console.log("colision");
         obj1.setVelocity(0);
-        obj2.setActive(false).setVisible(false).setPosition(-50, -50);
+        obj2.setActive(false).setVisible(false).setPosition(-500, -500);
 
-        if (this.explod)
-            this.explod.aparecer(obj1.x, obj1.y);
     }
 
     collissionHandlerEnemy(obj1, obj2) {
         console.log("colision con enemigo");
         obj1.setVelocity(0);
-        obj2.play('AnimationExplosion');
-        obj2.setScale(0.8).setVelocity(0);
+        //obj2.play('AnimationExplosion');
+        //obj2.setScale(0.8).setVelocity(0);
 
-        this.time.addEvent({
-            delay: 400,
-            callback: function () {
-                obj2.setActive(false).setVisible(false).setPosition(-500, -500);
-            }
-        });
+        var expl = explosions.get();
+        if (expl){
+            expl.aparecer(obj1.x,obj1.y);
+
+            this.time.addEvent({
+                delay: 500,
+                callback: function () {
+                    expl.setActive(false).setVisible(false);
+                },
+            });
+        }
 
 
         //Recibir daño
-        obj1.recibirDaño(obj2.jugador);
+        obj1.recibirDaño();
 
         if (obj1.vida <= 0) {
             if (obj2.jugador == 1) {
@@ -370,5 +385,7 @@ export class Game extends Phaser.Scene {
                 console.log(this.jugador2.puntuacion);
             }
         }
+
+        obj2.setPosition(-500, -500);
     }
 }
