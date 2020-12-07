@@ -170,8 +170,49 @@
 * Pantalla de créditos y contacto.
 * Se irán añadiendo más.
 
+# FASE 1
 
-    
+* En la fase 2 hemos implementado una parte del juego que permite jugar dos persona en local con el mismo teclado, cada uno controlando su nave previamente seleccionada, en una partida de 1 minuto. Nada mas empezar el juego nos lleva al menu principal donte tenemos cuatro opciones, jugar, configuracion, contacto y controles. Para futuras fasese se añadira una nueva opcion para jugar online.
+
+![image](https://user-images.githubusercontent.com/43203256/101391147-36426b00-38c4-11eb-9883-b036c1f9e913.png)
+
+* Al hacer click en configuracion se muestra una pestaña que permite configurar si quieres musica o no y el volumen de la misma, desde este menu se puede volver a la pantalla del menu principal, dandole a la cruz de la esquina superior derecha
+
+![image](https://user-images.githubusercontent.com/43203256/101391352-7bff3380-38c4-11eb-8406-05f440f9e826.png)
+
+* Si desde el menu principal clickas en contacto, te lleva a un menu donde se muestan las redes sociales del equipo y cada una te lleva a la paguina oficial de la red social
+
+![image](https://user-images.githubusercontent.com/43203256/101392033-7e15c200-38c5-11eb-905a-54dfd48b9e4a.png)
+
+* El boton de controles, muestra un menu con una imagen donde se explican los aspectos mas importantes, necesarios para poder jugar
+
+![image](https://user-images.githubusercontent.com/43203256/101392141-a998ac80-38c5-11eb-9f9c-4e89028f9e70.png)
+
+* Si seleccionas play, se iniciara un menu, en este se le permite a los jugadores seleccionar la nave con la que van a jugar.
+
+![image](https://user-images.githubusercontent.com/43203256/101392554-304d8980-38c6-11eb-9080-ff7e2db00e9f.png)
+
+* Una vez seleccionadas ambas naves, jugador1 y jugador2, se presiona el espacio, y se iniciara la partida. El escenario del juego es de estilo pixel art y en el HUB se puede ver varia informacion relevante, la puntuacion de los jugadores, sus vidas, asi como el timepo restante de partida (1 minuto por defecto).
+
+![image](https://user-images.githubusercontent.com/43203256/101392784-74408e80-38c6-11eb-8c9c-b3be82cc16a5.png)
+
+* La partida acaba bien al terminar el timepo o si alguno de los dos jugadores se queda sin vida. En el caso de acabar por tiempo, el ganador sera el jugador que mas punto tenga en ese momento, si la partida acaba por que algun jugador se queda sin vidas el ganador sera el jugador que aun tenia vidas. Toda esta informacion se muestra en un menu de resultados, desde el cual se puede volver al menu de inicio.
+
+![image](https://user-images.githubusercontent.com/43203256/101393164-f03ad680-38c6-11eb-9c26-5ba7fa1f7ee2.png)
+
+* La musica que aparece en esta version del juego es: Bit Rush: Arcade 2015 | Login Screen - League of Legends (https://www.youtube.com/watch?v=BO3XLE_eRPk)
+
+* Los sprites de naves son de 
+
+* Diagrama de navegacion del juego:
+
+![image](https://user-images.githubusercontent.com/43203256/101393821-f4b3bf00-38c7-11eb-9f98-c59e6940ab0f.png)
+
+
+
+
+
+
 
 
 
