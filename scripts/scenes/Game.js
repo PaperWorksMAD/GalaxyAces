@@ -136,6 +136,7 @@ export class Game extends Phaser.Scene {
                 //this.exhaust.anims.play('Exhaust6');
                 this.puntuacion = 0;
                 this.bajas = 0;
+                this.vidas = 3;
             }
 
             moveUp() {
@@ -180,7 +181,7 @@ export class Game extends Phaser.Scene {
                 if (this.vida <= 0) {
                     this.setActive(false);
                     this.setVisible(false);
-                    this.setPosition(-100, -100);
+                    this.setPosition(-1000, -1000);
                     console.log("muerto");
                 }
             }
@@ -195,8 +196,9 @@ export class Game extends Phaser.Scene {
 
         //Tiempo de partida en segundos
         this.initialTime = 60;
+        this.muerto= 0;
 
-        let xbt = this.add.image(this.game.renderer.width - 50, this.game.renderer.height - 550, "x").setDepth(2);
+        let xbt = this.add.image(this.game.renderer.width - 50, this.game.renderer.height - 550, "x").setDepth(20);
         xbt.setInteractive();
         xbt.on("pointerup", () => {
             this.scene.start(sceneManager.SCENES.MAINMENU);
@@ -222,6 +224,20 @@ export class Game extends Phaser.Scene {
         this.P = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
 
 
+        this.j1v1 = this.add.image(this.game.renderer.width *0.82, 580, "corazon").setDepth(20);
+        this.j1v2 = this.add.image(this.game.renderer.width *0.78, 580, "corazon").setDepth(20);
+        this.j1v3 = this.add.image(this.game.renderer.width *0.74, 580, "corazon").setDepth(20);
+        this.j1v1.setScale(0.1);
+        this.j1v2.setScale(0.1);
+        this.j1v3.setScale(0.1);
+
+        this.j2v1 = this.add.image(this.game.renderer.width *0.23, 580, "corazon").setDepth(20);
+        this.j2v2 = this.add.image(this.game.renderer.width *0.27, 580, "corazon").setDepth(20);
+        this.j2v3 = this.add.image(this.game.renderer.width *0.31, 580, "corazon").setDepth(20);
+        this.j2v1.setScale(0.1);
+        this.j2v2.setScale(0.1);
+        this.j2v3.setScale(0.1);
+
         this.exhaust1 = this.add.sprite(this.jugador1.x, this.jugador1.y + 40, 'exhaust6').setDepth(2).setRotation(-80).setScale(1.2);
         this.exhaust1.setVisible(false);
         this.anim1 = this.anims.create({ key: 'Animation', frames: this.anims.generateFrameNumbers('exhaust6'), frameRate: 6, yoyo: false, repeat: -1 });
@@ -243,9 +259,9 @@ export class Game extends Phaser.Scene {
         this.enemies.setDepth(5);
 
         this.time.addEvent({
-            delay: 800,
+            delay: 700,
             callback: function () {
-                this.enemy = new Enemigo(this, Phaser.Math.Between(0, this.game.config.width), 0, 'enemy');
+                this.enemy = new Enemigo(this, Phaser.Math.Between(15, this.game.config.width-15), 0, 'enemy');
                 this.enemies.add(this.enemy);
             },
             callbackScope: this,
@@ -257,7 +273,7 @@ export class Game extends Phaser.Scene {
         //Entre jugadores
         this.physics.add.collider(this.jugador1, this.jugador2);
         //Entre enemigo y jugadores
-        this.physics.add.collider(this.enemies, [this.jugador1, this.jugador2], this.collissionHandler, null, this);
+        this.physics.add.collider(this.enemies, [this.jugador1, this.jugador2], this.collissionHandlerJugador, null, this);
         //Entre balas y enemigos
         this.physics.add.collider(this.enemies, [bullets, bullets2], this.collissionHandlerEnemy, null, this);
         //Entre balas y jugadores
@@ -271,6 +287,20 @@ export class Game extends Phaser.Scene {
         this.tiempopartida = this.time.delayedCall(this.initialTime * 1000, this.onEvent2, [], this);
     }
     update(time, delta) {
+        if (this.jugador2.vidas ==2){
+            this.j2v3.setVisible(false).setActive(false);
+        }
+        if (this.jugador1.vidas ==2){
+            this.j1v3.setVisible(false).setActive(false);
+        }
+
+        if (this.jugador2.vidas ==1){
+            this.j2v2.setVisible(false).setActive(false);
+        }
+        if (this.jugador1.vidas ==1){
+            this.j1v2.setVisible(false).setActive(false);
+        }
+
         this.enemies.setVelocity(0,150);
 
         this.j1puntos.setText("J1: " + this.jugador1.puntuacion);
@@ -343,12 +373,29 @@ export class Game extends Phaser.Scene {
                 lastFired = time + 100;
             }
         }
+
+        if(this.jugador1.vidas <=0 || this.jugador2.vidas<=0){
+            if(this.jugador1.vidas<=0){
+                this.muerto = 1;
+            }else{
+                this.muerto = 2;
+            }
+            this.scene.start(sceneManager.SCENES.SCORE, { score: this.jugador1.puntuacion, score2: this.jugador2.puntuacion, enemigos1: this.jugador1.bajas, enemigos2: this.jugador2.bajas, muerto: this.muerto});
+        }
     }
 
     collissionHandler(obj1, obj2) {
         console.log("colision");
         obj1.setVelocity(0);
-        obj2.setActive(false).setVisible(false).setPosition(-500, -500);
+        obj2.setActive(false).setVisible(false).setPosition(-5000, -5000);
+
+    }
+
+    collissionHandlerJugador(obj1, obj2) {
+        console.log("colision");
+        obj1.setVelocity(0);
+        obj1.vidas-=1;
+        obj2.setActive(false).setVisible(false).setPosition(-5000, -5000);
 
     }
 
