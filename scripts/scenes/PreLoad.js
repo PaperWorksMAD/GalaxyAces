@@ -39,7 +39,15 @@ export class PreLoad extends Phaser.Scene {
 			frameWidth: 130,
 			frameHeight: 130
 		});
-		this.load.spritesheet('exhaust6', 'resources/images/spritesheetExhaust6.png', {
+		this.load.spritesheet('exhaust2', 'resources/images/spritesheetExhaust2.png', {
+			frameWidth: 34,
+			frameHeight: 34
+		});
+		this.load.spritesheet('exhaust3', 'resources/images/spritesheetExhaust3.png', {
+			frameWidth: 34,
+			frameHeight: 34
+		});
+		this.load.spritesheet('exhaust4', 'resources/images/spritesheetExhaust1.png', {
 			frameWidth: 34,
 			frameHeight: 34
 		});

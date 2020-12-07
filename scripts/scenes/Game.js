@@ -41,7 +41,9 @@ export class Game extends Phaser.Scene {
     create() {
 
         //Animaciones
-        this.anims.create({ key: 'Exhaust6', frames: this.anims.generateFrameNumbers('exhaust6'), frameRate: 6, yoyo: false, repeat: -1 });
+        this.anims.create({ key: 'Exhaust2', frames: this.anims.generateFrameNumbers('exhaust2'), frameRate: 6, yoyo: false, repeat: -1 });
+        this.anims.create({ key: 'Exhaust3', frames: this.anims.generateFrameNumbers('exhaust3'), frameRate: 6, yoyo: false, repeat: -1 });
+        this.anims.create({ key: 'Exhaust4', frames: this.anims.generateFrameNumbers('exhaust4'), frameRate: 6, yoyo: false, repeat: -1 });
         this.anims.create({ key: 'EnemyAnim', frames: this.anims.generateFrameNumbers('enemy'), frameRate: 2, yoyo: false, repeat: -1 });
 
         this.anims.create({ key: 'AnimationBullet', frames: this.anims.generateFrameNumbers('bala6'), frameRate: 12, yoyo: true, repeat: -1 });
@@ -95,18 +97,15 @@ export class Game extends Phaser.Scene {
             classType: Bala,
             maxSize: 5,
             runChildUpdate: true,
-            key: 'bala6'
         });
 
         bullets2 = this.physics.add.group({
             classType: Bala,
             maxSize: 5,
             runChildUpdate: true,
-            key: 'bala6'
         });
 
-
-        class Explosion extends Entity{
+        class Explosion extends Phaser.GameObjects.Sprite {
             constructor(scene, x, y, key, type) {
                 super(scene, x, y, key, "Explosion");
             }
@@ -119,21 +118,20 @@ export class Game extends Phaser.Scene {
         explosions = this.add.group({
             classType: Explosion,
             maxSize: 10,
-            runChildUpdate: true,
+            runChildUpdate: false,
             key:'explosion'
         });
         
 
         class Jugador extends Entity {
 
-            constructor(scene, x, y, key, type) {
+            constructor(scene, x, y, key, type, game) {
                 super(scene, x, y, key, "Jugador");
 
                 this.setScale(0.5).setDepth(3).setCollideWorldBounds(true).setBounce(0.1, 0.1);
 
-                //this.exhaust = Phaser.add.sprite(x, y + 40, 'exhaust6').setDepth(2).setRotation(-80).setScale(1.2).setVisible(false);
                 console.log(this);
-                //this.exhaust.anims.play('Exhaust6');
+
                 this.puntuacion = 0;
                 this.bajas = 0;
                 this.vidas = 3;
@@ -141,26 +139,18 @@ export class Game extends Phaser.Scene {
 
             moveUp() {
                 this.setVelocity(0, -100);
-                //this.exhaust.setY(this.sprite.y + 40);
-                //this.exhaust.setVisible(true);
             }
 
             moveDown() {
                 this.setVelocity(0, 100);
-                //this.exhaust.setY(this.sprite.y + 40);
-                //this.exhaust.setVisible(true);
             }
 
             moveLeft() {
                 this.setVelocity(-100, 0);
-                //this.exhaust.setY(this.sprite.y + 40);
-                //this.exhaust.setVisible(true);
             }
 
             moveRight() {
                 this.setVelocity(100, 0);
-                //this.exhaust.setY(this.sprite.y + 40);
-                //this.exhaust.setVisible(true);
             }
         }
 
@@ -238,15 +228,28 @@ export class Game extends Phaser.Scene {
         this.j2v2.setScale(0.1);
         this.j2v3.setScale(0.1);
 
-        this.exhaust1 = this.add.sprite(this.jugador1.x, this.jugador1.y + 40, 'exhaust6').setDepth(2).setRotation(-80).setScale(1.2);
-        this.exhaust1.setVisible(false);
-        this.anim1 = this.anims.create({ key: 'Animation', frames: this.anims.generateFrameNumbers('exhaust6'), frameRate: 6, yoyo: false, repeat: -1 });
-        this.exhaust1.anims.play('Animation');
+        this.exAux1;
+        this.esAux2;
+        if (this.shipIndex1 == 2)
+            this.esAux1 = 40;
+        if (this.shipIndex1 == 3)
+            this.esAux1 = 35;
+        if (this.shipIndex1 == 4)
+            this.esAux1 = 30;
+        if (this.shipIndex2 == 2)
+            this.esAux2 = 40;
+        if (this.shipIndex2 == 3)
+            this.esAux2 = 35;
+        if (this.shipIndex2 == 4)
+            this.esAux2 = 30;
 
-        this.exhaust2 = this.add.sprite(this.jugador2.x, this.jugador2.y + 40, 'exhaust6').setDepth(2).setRotation(-80).setScale(1.2);
+        this.exhaust1 = this.add.sprite(this.jugador1.x, this.jugador1.y + this.esAux1, 'exhaust' + this.shipIndex1).setDepth(2).setRotation(-80).setScale(1.2);
+        this.exhaust1.setVisible(false);
+        this.exhaust1.anims.play('Exhaust' + this.shipIndex1);
+
+        this.exhaust2 = this.add.sprite(this.jugador2.x, this.jugador2.y + this.esAux2, 'exhaust' + this.shipIndex2).setDepth(2).setRotation(-80).setScale(1.2);
         this.exhaust2.setVisible(false);
-        this.anim2 = this.anims.create({ key: 'Animation2', frames: this.anims.generateFrameNumbers('exhaust6'), frameRate: 6, yoyo: false, repeat: -1 });
-        this.exhaust2.anims.play('Animation2');
+        this.exhaust2.anims.play('Exhaust' + this.shipIndex2);
 
         //Enemigo
         //this.enemy = new Enemigo(this, 50, 50, 'enemy');
@@ -279,8 +282,6 @@ export class Game extends Phaser.Scene {
         //Entre balas y jugadores
         this.physics.add.collider(this.jugador1, [bullets, bullets2], this.collissionHandler, null, this);
         this.physics.add.collider(this.jugador2, [bullets, bullets2], this.collissionHandler, null, this);
-
-        this.explod;
 
         //Timer de partida y cuenta atras
         this.tiempo = this.time.addEvent({ delay: 1000, callback: this.onEvent, callbackScope: this, loop: true });
@@ -324,11 +325,11 @@ export class Game extends Phaser.Scene {
 
         if (this.cursor.up.isDown) {
             this.jugador1.moveUp();
-            this.exhaust1.setY(this.jugador1.y + 40).setVisible(true);
+            this.exhaust1.setY(this.jugador1.y + this.esAux1).setVisible(true);
         }
         else if (this.cursor.down.isDown) {
             this.jugador1.moveDown();
-            this.exhaust1.setY(this.jugador1.y + 40).setVisible(true);
+            this.exhaust1.setY(this.jugador1.y + this.esAux1).setVisible(true);
         }
 
         if (this.keys.A.isDown) {
@@ -342,11 +343,11 @@ export class Game extends Phaser.Scene {
 
         if (this.keys.W.isDown) {
             this.jugador2.moveUp();
-            this.exhaust2.setY(this.jugador2.y + 40).setVisible(true);
+            this.exhaust2.setY(this.jugador2.y + this.esAux2).setVisible(true);
         }
         else if (this.keys.S.isDown) {
             this.jugador2.moveDown();
-            this.exhaust2.setY(this.jugador2.y + 40).setVisible(true);
+            this.exhaust2.setY(this.jugador2.y + this.esAux2).setVisible(true);
         }
         this.fondo.tilePositionY -= 1;
         this.fondo2.tilePositionY -= 0.5;
