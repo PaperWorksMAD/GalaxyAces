@@ -11,6 +11,7 @@ export class Score extends Phaser.Scene {
         this.puntuacion2 = data.score2;
         this.eliminados1 = data.enemigos1;
         this.eliminados2 = data.enemigos2;
+        this.muertos = data.muerto;
     }
     create() {
         this.puntuaciones = this.add.image(this.game.renderer.width / 2, this.game.renderer.height * 0.20, "puntuaciones").setDepth(2);
@@ -19,16 +20,22 @@ export class Score extends Phaser.Scene {
         this.fondo2 = this.add.tileSprite(600, 300, 800, 600, 'fondo2').setDepth(0);
         this.fondo3 = this.add.tileSprite(200, 300, 800, 600, 'fondo3').setDepth(0);
 
-        if (this.puntuacion1 > this.puntuacion2) {
-            this.add.bitmapText(this.game.renderer.width / 2 - 200, 220, "bit", "Jugador 1 Gana!", 36).setDepth(2);
-        } else if (this.puntuacion1 < this.puntuacion2) {
+        if (this.muertos == 1) {
             this.add.bitmapText(this.game.renderer.width / 2 - 200, 220, "bit", "Jugador 2 Gana!", 36).setDepth(2);
+        } else if (this.muertos == 2) {
+            this.add.bitmapText(this.game.renderer.width / 2 - 200, 220, "bit", "Jugador 1 Gana!", 36).setDepth(2);
         } else {
-            this.add.bitmapText(this.game.renderer.width / 2 - 200, 220, "bit", "Empate", 36).setDepth(2);
+            if (this.puntuacion1 > this.puntuacion2) {
+                this.add.bitmapText(this.game.renderer.width / 2 - 200, 220, "bit", "Jugador 1 Gana!", 36).setDepth(2);
+            } else if (this.puntuacion1 < this.puntuacion2) {
+                this.add.bitmapText(this.game.renderer.width / 2 - 200, 220, "bit", "Jugador 2 Gana!", 36).setDepth(2);
+            } else {
+                this.add.bitmapText(this.game.renderer.width / 2 - 200, 220, "bit", "Empate", 36).setDepth(2);
+            }
         }
 
-        this.add.bitmapText(this.game.renderer.width / 2 +80, 300, "bit", "eliminados", 18).setDepth(2);
-        this.add.bitmapText(this.game.renderer.width / 2 -60, 300, "bit", "puntos", 18).setDepth(2);
+        this.add.bitmapText(this.game.renderer.width / 2 + 80, 300, "bit", "eliminados", 18).setDepth(2);
+        this.add.bitmapText(this.game.renderer.width / 2 - 60, 300, "bit", "puntos", 18).setDepth(2);
 
         this.add.bitmapText(this.game.renderer.width / 2 - 200, 350, "bit", "Jugador 1: " + this.puntuacion1, 24).setDepth(2);
         this.add.bitmapText(this.game.renderer.width / 2 + 50, 350, "bit", "           " + this.eliminados1, 24).setDepth(2);
