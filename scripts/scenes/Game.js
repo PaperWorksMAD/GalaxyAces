@@ -45,6 +45,7 @@ export class Game extends Phaser.Scene {
         this.anims.create({ key: 'Exhaust3', frames: this.anims.generateFrameNumbers('exhaust3'), frameRate: 6, yoyo: false, repeat: -1 });
         this.anims.create({ key: 'Exhaust4', frames: this.anims.generateFrameNumbers('exhaust4'), frameRate: 6, yoyo: false, repeat: -1 });
         this.anims.create({ key: 'EnemyAnim', frames: this.anims.generateFrameNumbers('enemy'), frameRate: 2, yoyo: false, repeat: -1 });
+        this.anims.create({ key: 'EnemyAnim3', frames: this.anims.generateFrameNumbers('enemy3'), frameRate: 2, yoyo: false, repeat: -1 });
 
         this.anims.create({ key: 'AnimationBullet', frames: this.anims.generateFrameNumbers('bala6'), frameRate: 12, yoyo: true, repeat: -1 });
         this.anims.create({ key: 'AnimationExplosion', frames: this.anims.generateFrameNumbers('explosion'), frameRate: 22, yoyo: false, repeat: 0, hideOnComplete: true });
@@ -183,6 +184,7 @@ export class Game extends Phaser.Scene {
                 this.anims.play('EnemyAnim');
 
                 this.vida = 2;
+                this.tipo = 1;
             }
         }
 
@@ -190,13 +192,26 @@ export class Game extends Phaser.Scene {
             constructor(scene, x, y, key, type) {
                 super(scene, x, y, key, "Enemigo2");
 
-                this.setScale(0.2).setDepth(1).setCollideWorldBounds(false).setBounce(1, 1).setRotation(3,14159);
+                this.setScale(0.5).setDepth(1).setCollideWorldBounds(false).setBounce(1, 1).setRotation(3,14159);
 
-                this.vida = 3;
+                this.vida = 4;
+                this.tipo = 2;
             }
 
             update(time, delta){
                 this.rotation += 0.05;
+            }
+        }
+
+        class Enemigo3 extends Enemigo{
+            constructor(scene, x, y, key, type) {
+                super(scene, x, y, key, "Enemigo3");
+
+                this.setScale(1.5).setDepth(1).setCollideWorldBounds(false).setBounce(1, 1);
+                this.anims.play('EnemyAnim3');
+
+                this.vida = 1;
+                this.tipo = 3;
             }
         }
 
@@ -282,8 +297,11 @@ export class Game extends Phaser.Scene {
             delay: 700,
             callback: function () {
                 var aux = Phaser.Math.Between(0,100);
-                if (aux < 80){
+                if (aux < 50){
                     this.enemy = new Enemigo1(this, Phaser.Math.Between(15, this.game.config.width-15), 0, 'enemy');
+                    this.enemies.add(this.enemy);
+                }else if (aux >=50 && aux < 80){
+                    this.enemy = new Enemigo3(this, Phaser.Math.Between(15, this.game.config.width-15), 0, 'enemy3');
                     this.enemies.add(this.enemy);
                 }else{
                     this.enemy = new Enemigo2(this, Phaser.Math.Between(15, this.game.config.width-15), 0, 'enemy2');
@@ -448,11 +466,23 @@ export class Game extends Phaser.Scene {
 
         if (obj1.vida <= 0) {
             if (obj2.jugador == 1) {
-                this.jugador1.puntuacion += 10;
+                if (obj1.tipo == 1){
+                    this.jugador1.puntuacion += 10;
+                }else if (obj1.tipo == 2){
+                    this.jugador1.puntuacion += 30;
+                }else if (obj1.tipo == 3){
+                    this.jugador1.puntuacion += 5;
+                }
                 this.jugador1.bajas += 1;
                 console.log(this.jugador1.puntuacion);
             } else {
-                this.jugador2.puntuacion += 10;
+                if (obj1.tipo == 1){
+                    this.jugador2.puntuacion += 10;
+                }else if (obj1.tipo == 2){
+                    this.jugador2.puntuacion += 30;
+                }else if (obj1.tipo == 30){
+                    this.jugador2.puntuacion += 5;
+                }
                 this.jugador2.bajas += 1;
                 console.log(this.jugador2.puntuacion);
             }

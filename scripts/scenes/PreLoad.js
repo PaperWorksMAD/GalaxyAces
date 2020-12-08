@@ -58,6 +58,10 @@ export class PreLoad extends Phaser.Scene {
 			frameHeight: 17
 		});
 		this.load.image('enemy2', 'resources/images/meteorito.png');
+		this.load.spritesheet('enemy3', 'resources/images/enemy3.png', {
+			frameWidth: 19.5,
+			frameHeight: 21
+		});
 		//Explosion
 		this.load.spritesheet('explosion', 'resources/images/explosion.png', {
 			frameWidth: 258,
