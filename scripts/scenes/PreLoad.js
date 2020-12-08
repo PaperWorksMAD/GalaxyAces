@@ -78,6 +78,12 @@ export class PreLoad extends Phaser.Scene {
 
 		this.load.bitmapFont('bit', 'resources/fonts/bitmap.png', 'resources/fonts/bitmap.xml');
 
+		//Efectos de sonido
+		this.load.audio('enemigo1', 'resources/sounds/enemigo1.mp3');
+		this.load.audio('enemigo2', 'resources/sounds/enemigo2.mp3');
+		this.load.audio('enemigo3', 'resources/sounds/enemigo3.mp3');
+		this.load.audio('jugador', 'resources/sounds/jugador.mp3');
+		this.load.audio('normal', 'resources/sounds/normal.mp3');
 
 		this.load.audio('bitmenu', 'resources/sounds/BitRush.mp3');
 

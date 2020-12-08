@@ -50,6 +50,15 @@ export class Game extends Phaser.Scene {
         this.anims.create({ key: 'AnimationBullet', frames: this.anims.generateFrameNumbers('bala6'), frameRate: 12, yoyo: true, repeat: -1 });
         this.anims.create({ key: 'AnimationExplosion', frames: this.anims.generateFrameNumbers('explosion'), frameRate: 22, yoyo: false, repeat: 0, hideOnComplete: true });
 
+        //Efectos de sonido
+        this.soundEnemy1 = this.sound.add('enemigo1');
+        this.soundEnemy2 = this.sound.add('enemigo2');
+        this.soundEnemy3 = this.sound.add('enemigo3');
+        this.soundPlayers = this.sound.add('jugador');
+        this.soundNormal = this.sound.add('normal');
+
+        //this.sound.setDecodedCallback([this.soundEnemy1, this.soundEnemy2, this.soundEnemy3, this.soundPlayers], start, this);
+
         //Clase general
         class Entity extends Phaser.Physics.Arcade.Sprite {
             constructor(scene, x, y, key, type) {
@@ -300,7 +309,7 @@ export class Game extends Phaser.Scene {
                 if (aux < 50){
                     this.enemy = new Enemigo1(this, Phaser.Math.Between(15, this.game.config.width-15), 0, 'enemy');
                     this.enemies.add(this.enemy);
-                }else if (aux >=50 && aux < 80){
+                }else if (aux >=50 && aux < 75){
                     this.enemy = new Enemigo3(this, Phaser.Math.Between(15, this.game.config.width-15), 0, 'enemy3');
                     this.enemies.add(this.enemy);
                 }else{
@@ -429,6 +438,7 @@ export class Game extends Phaser.Scene {
 
     collissionHandler(obj1, obj2) {
         console.log("colision");
+        this.soundNormal.play();
         obj1.setVelocity(0);
         obj2.setActive(false).setVisible(false).setPosition(-5000, -5000);
 
@@ -436,6 +446,8 @@ export class Game extends Phaser.Scene {
 
     collissionHandlerJugador(obj1, obj2) {
         console.log("colision");
+        this.soundNormal.play();
+        this.soundPlayers.play();
         obj1.setVelocity(0);
         obj1.vidas-=1;
         obj2.setActive(false).setVisible(false).setPosition(-5000, -5000);
@@ -444,6 +456,7 @@ export class Game extends Phaser.Scene {
 
     collissionHandlerEnemy(obj1, obj2) {
         console.log("colision con enemigo");
+        this.soundNormal.play();
         obj1.setVelocity(0);
         //obj2.play('AnimationExplosion');
         //obj2.setScale(0.8).setVelocity(0);
@@ -468,20 +481,26 @@ export class Game extends Phaser.Scene {
             if (obj2.jugador == 1) {
                 if (obj1.tipo == 1){
                     this.jugador1.puntuacion += 10;
+                    this.soundEnemy1.play();
                 }else if (obj1.tipo == 2){
                     this.jugador1.puntuacion += 30;
+                    this.soundEnemy2.play();
                 }else if (obj1.tipo == 3){
                     this.jugador1.puntuacion += 5;
+                    this.soundEnemy3.play();
                 }
                 this.jugador1.bajas += 1;
                 console.log(this.jugador1.puntuacion);
             } else {
                 if (obj1.tipo == 1){
                     this.jugador2.puntuacion += 10;
+                    this.soundEnemy1.play();
                 }else if (obj1.tipo == 2){
                     this.jugador2.puntuacion += 30;
-                }else if (obj1.tipo == 30){
+                    this.soundEnemy2.play();
+                }else if (obj1.tipo == 3){
                     this.jugador2.puntuacion += 5;
+                    this.soundEnemy3.play();
                 }
                 this.jugador2.bajas += 1;
                 console.log(this.jugador2.puntuacion);
