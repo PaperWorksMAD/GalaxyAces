@@ -202,7 +202,7 @@
 
 * La musica que aparece en esta version del juego es: Bit Rush: Arcade 2015 | Login Screen - League of Legends (https://www.youtube.com/watch?v=BO3XLE_eRPk)
 
-* Tanto los sprites que hemos utilizado para las naves, como el fuego que aparece cuando se mueven y los disparos son sacaso de este enlace (https://free-game-assets.itch.io/free-enemy-spaceship-2d-sprites-pixel-art).
+* Tanto los sprites que hemos utilizado para las naves, como el fuego que aparece cuando se mueven y los disparos son sacados de este enlace (https://free-game-assets.itch.io/free-enemy-spaceship-2d-sprites-pixel-art).
 
 ![image](https://user-images.githubusercontent.com/37275365/101498457-69403980-396c-11eb-82f8-50560d8b8e52.png)
 ![image](https://user-images.githubusercontent.com/37275365/101498465-6ba29380-396c-11eb-871e-cfec7ce056cc.png)
