@@ -218,6 +218,9 @@
 ![image](https://user-images.githubusercontent.com/37275365/101498428-60e7fe80-396c-11eb-9211-d58ae7643945.png)
 ![image](https://user-images.githubusercontent.com/37275365/101498438-634a5880-396c-11eb-8bc2-00f3e2bf1067.png)
 
+* Todos los efectos de sonido los hemos realizado con el programa rFXGen ZERO que es de uso libre. Adjunto el enlace al programa: (https://raylibtech.itch.io/rfxgen)
+* Hasta el momento hemos implementado un efecto de sonido básico para las colisiones, uno propio para la muerte de cada tipo de enemigo y otro para los disparos.
+
 * Diagrama de navegacion del juego:
 
 ![image](https://user-images.githubusercontent.com/43203256/101393821-f4b3bf00-38c7-11eb-9f98-c59e6940ab0f.png)
