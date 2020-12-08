@@ -212,6 +212,8 @@
 ![image](https://user-images.githubusercontent.com/37275365/101498574-8bd25280-396c-11eb-8331-122b8ac5ba83.png)
 ![image](https://user-images.githubusercontent.com/37275365/101498572-8b39bc00-396c-11eb-8f5a-05033ca60240.png)
 
+Tenemos pensado implementar más naves y que en cada una varíe la velocidad de movimiento y de disparo, así como el daño que hacen y la vida que tienen, pero aún no está implementado.
+
 * Algunos de los enemigos los hemos sacado de este enlace : (https://opengameart.org/content/2d-enemy-characters-pack-20x20) y el meteorito de este otro: (https://opengameart.org/content/brown-asteroid)
 
 ![image](https://user-images.githubusercontent.com/37275365/101498418-5ded0e00-396c-11eb-8eb7-aa910dbfcaba.png)
