@@ -157,12 +157,6 @@ export class Game extends Phaser.Scene {
         class Enemigo extends Entity {
             constructor(scene, x, y, key, type) {
                 super(scene, x, y, key, "Enemigo");
-
-                this.setScale(2).setDepth(2).setCollideWorldBounds(false).setBounce(1, 1).setRotation(3,14159);
-                this.anims.play('EnemyAnim');
-
-                this.vida = 2;
-
             }
 
             recibirDaño() {
@@ -178,6 +172,31 @@ export class Game extends Phaser.Scene {
 
             mover(x, y) {
                 this.setVelocity(x, y);
+            }
+        }
+
+        class Enemigo1 extends Enemigo{
+            constructor(scene, x, y, key, type) {
+                super(scene, x, y, key, "Enemigo1");
+
+                this.setScale(2).setDepth(1).setCollideWorldBounds(false).setBounce(1, 1).setRotation(3,14159);
+                this.anims.play('EnemyAnim');
+
+                this.vida = 2;
+            }
+        }
+
+        class Enemigo2 extends Enemigo{
+            constructor(scene, x, y, key, type) {
+                super(scene, x, y, key, "Enemigo2");
+
+                this.setScale(0.2).setDepth(1).setCollideWorldBounds(false).setBounce(1, 1).setRotation(3,14159);
+
+                this.vida = 3;
+            }
+
+            update(time, delta){
+                this.rotation += 0.05;
             }
         }
 
@@ -251,9 +270,7 @@ export class Game extends Phaser.Scene {
         this.exhaust2.setVisible(false);
         this.exhaust2.anims.play('Exhaust' + this.shipIndex2);
 
-        //Enemigo
-        //this.enemy = new Enemigo(this, 50, 50, 'enemy');
-
+        //Enemigos
         this.enemies = this.physics.add.group({
             classType: Enemigo,
             maxSize: 100,
@@ -264,8 +281,15 @@ export class Game extends Phaser.Scene {
         this.time.addEvent({
             delay: 700,
             callback: function () {
-                this.enemy = new Enemigo(this, Phaser.Math.Between(15, this.game.config.width-15), 0, 'enemy');
-                this.enemies.add(this.enemy);
+                var aux = Phaser.Math.Between(0,100);
+                if (aux < 80){
+                    this.enemy = new Enemigo1(this, Phaser.Math.Between(15, this.game.config.width-15), 0, 'enemy');
+                    this.enemies.add(this.enemy);
+                }else{
+                    this.enemy = new Enemigo2(this, Phaser.Math.Between(15, this.game.config.width-15), 0, 'enemy2');
+                    this.enemies.add(this.enemy);
+                }
+                
             },
             callbackScope: this,
             loop: true
