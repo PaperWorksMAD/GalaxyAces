@@ -170,9 +170,9 @@
 * Pantalla de créditos y contacto.
 * Se irán añadiendo más.
 
-# FASE 1
+# FASE 2
 
-* En la fase 2 hemos implementado una parte del juego que permite jugar dos persona en local con el mismo teclado, cada uno controlando su nave previamente seleccionada, en una partida de 1 minuto. Nada mas empezar el juego nos lleva al menu principal donte tenemos cuatro opciones, jugar, configuracion, contacto y controles. Para futuras fasese se añadira una nueva opcion para jugar online.
+* En la fase 2 hemos implementado una parte del juego que permite jugar dos persona en local con el mismo teclado, cada uno controlando su nave previamente seleccionada, en una partida de 1 minuto. Nada mas empezar el juego nos lleva al menu principal donte tenemos cuatro opciones, jugar, configuracion, contacto y controles. Para futuras fases se añadira una nueva opcion para jugar online.
 
 ![image](https://user-images.githubusercontent.com/43203256/101391147-36426b00-38c4-11eb-9883-b036c1f9e913.png)
 
@@ -192,7 +192,7 @@
 
 ![image](https://user-images.githubusercontent.com/43203256/101392554-304d8980-38c6-11eb-9080-ff7e2db00e9f.png)
 
-* Una vez seleccionadas ambas naves, jugador1 y jugador2, se presiona el espacio, y se iniciara la partida. El escenario del juego es de estilo pixel art y en el HUB se puede ver varia informacion relevante, la puntuacion de los jugadores, sus vidas, asi como el timepo restante de partida (1 minuto por defecto).
+* Una vez seleccionadas ambas naves, jugador1 y jugador2, se presiona el espacio, y se iniciara la partida. El escenario del juego es de estilo pixel art y en el HUB se puede ver varia informacion relevante, la puntuacion de los jugadores, sus vidas, asi como el timepo restante de partida (1 minuto por defecto). Como enemigos, hasta el momento hemos añadidos dos, una especide de alienígena al que hay que disparar dos veces para matarlo y un meteorito al que hay que disparar tres veces.
 
 ![image](https://user-images.githubusercontent.com/43203256/101392784-74408e80-38c6-11eb-8c9c-b3be82cc16a5.png)
 
