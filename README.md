@@ -204,7 +204,19 @@
 
 * Tanto los sprites que hemos utilizado para las naves, como el fuego que aparece cuando se mueven y los disparos son sacaso de este enlace (https://free-game-assets.itch.io/free-enemy-spaceship-2d-sprites-pixel-art).
 
+![image](https://user-images.githubusercontent.com/37275365/101498457-69403980-396c-11eb-82f8-50560d8b8e52.png)
+![image](https://user-images.githubusercontent.com/37275365/101498465-6ba29380-396c-11eb-871e-cfec7ce056cc.png)
+![image](https://user-images.githubusercontent.com/37275365/101498473-6e9d8400-396c-11eb-9683-520baa0b868e.png)
+![image](https://user-images.githubusercontent.com/37275365/101498513-79f0af80-396c-11eb-9a02-51f60ced1ed7.png)
+![image](https://user-images.githubusercontent.com/37275365/101498575-8bd25280-396c-11eb-836d-a7cf888df59c.png)
+![image](https://user-images.githubusercontent.com/37275365/101498574-8bd25280-396c-11eb-8331-122b8ac5ba83.png)
+![image](https://user-images.githubusercontent.com/37275365/101498572-8b39bc00-396c-11eb-8f5a-05033ca60240.png)
+
 * Algunos de los enemigos los hemos sacado de este enlace : (https://opengameart.org/content/2d-enemy-characters-pack-20x20) y el meteorito de este otro: (https://opengameart.org/content/brown-asteroid)
+
+![image](https://user-images.githubusercontent.com/37275365/101498418-5ded0e00-396c-11eb-8eb7-aa910dbfcaba.png)
+![image](https://user-images.githubusercontent.com/37275365/101498428-60e7fe80-396c-11eb-9211-d58ae7643945.png)
+![image](https://user-images.githubusercontent.com/37275365/101498438-634a5880-396c-11eb-8bc2-00f3e2bf1067.png)
 
 * Diagrama de navegacion del juego:
 
