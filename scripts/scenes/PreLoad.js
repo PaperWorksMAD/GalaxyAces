@@ -84,6 +84,7 @@ export class PreLoad extends Phaser.Scene {
 		this.load.audio('enemigo3', 'resources/sounds/enemigo3.mp3');
 		this.load.audio('jugador', 'resources/sounds/jugador.mp3');
 		this.load.audio('normal', 'resources/sounds/normal.mp3');
+		this.load.audio('shoot', 'resources/sounds/shoot.mp3');
 
 		this.load.audio('bitmenu', 'resources/sounds/BitRush.mp3');
 

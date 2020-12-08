@@ -56,6 +56,7 @@ export class Game extends Phaser.Scene {
         this.soundEnemy3 = this.sound.add('enemigo3');
         this.soundPlayers = this.sound.add('jugador');
         this.soundNormal = this.sound.add('normal');
+        this.soundShoot = this.sound.add('shoot');
 
         //this.sound.setDecodedCallback([this.soundEnemy1, this.soundEnemy2, this.soundEnemy3, this.soundPlayers], start, this);
 
@@ -410,6 +411,7 @@ export class Game extends Phaser.Scene {
 
             if (bullet) {
                 bullet.fire(this.jugador2.x, this.jugador2.y, 2);
+                this.soundShoot.play();
 
                 lastFired = time + 100;
             }
@@ -421,6 +423,7 @@ export class Game extends Phaser.Scene {
 
             if (bullet) {
                 bullet.fire(this.jugador1.x, this.jugador1.y, 1);
+                this.soundShoot.play();
 
                 lastFired = time + 100;
             }
