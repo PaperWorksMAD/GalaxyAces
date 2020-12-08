@@ -35,6 +35,7 @@ export class PreLoad extends Phaser.Scene {
 		this.load.image('nave4', 'resources/images/Ship1.png');
 		this.load.image('configuracion', 'resources/images/config.png');
 		this.load.image('volumen', 'resources/images/volumen.png');
+		this.load.image('efectossonido', 'resources/images/efectossonido.png');
 		this.load.spritesheet('bala6', 'resources/images/spritesheetShot6.png', {
 			frameWidth: 130,
 			frameHeight: 130
@@ -105,6 +106,6 @@ export class PreLoad extends Phaser.Scene {
 		})
 	}
 	create() {
-		this.scene.start(sceneManager.SCENES.MAINMENU, "hola");
+		this.scene.start(sceneManager.SCENES.MAINMENU, {efSound: true});
 	}
 }

@@ -3,6 +3,8 @@ import { sceneManager } from "../sceneManager.js";
 var volumeon = true;
 let voloff;
 let volon;
+let efecoff;
+let efecon;
 export class Config extends Phaser.Scene {
     constructor() {
         super({
@@ -10,8 +12,8 @@ export class Config extends Phaser.Scene {
         })
     }
     init(data) {
-        this.musicamenu = data;
-        
+        this.musicamenu = data.music;
+        this.efectoson = data.efSound;
     }
     create() {
         this.volume = this.musicamenu.volume;
@@ -24,7 +26,7 @@ export class Config extends Phaser.Scene {
         let xbt= this.add.image(this.game.renderer.width-50, this.game.renderer.height-550, "x").setDepth(2);
         xbt.setInteractive();
 		xbt.on("pointerup",()=>{
-			this.scene.start(sceneManager.SCENES.MAINMENU);
+			this.scene.start(sceneManager.SCENES.MAINMENU, {efSound: this.efectoson});
         })
         console.log(this.volume);
         let mup= this.add.image(this.game.renderer.width/2+50, this.game.renderer.height*0.65, "+").setDepth(2);
@@ -66,6 +68,29 @@ export class Config extends Phaser.Scene {
             this.musicamenu.pause();
             volumeon = false;
         })
+
+        //Activar, desacticar efectos de sonido
+        this.efec = this.add.image(this.game.renderer.width/2, this.game.renderer.height*0.75, "efectossonido").setDepth(2).setScale(0.5);
+
+        this.add.bitmapText(this.game.renderer.width / 2 -30, this.game.renderer.height*0.85-10, "bit", "On", 24).setDepth(10);
+        efecon = this.add.image(this.game.renderer.width/2-50, this.game.renderer.height*0.85, "cajaon").setDepth(2);
+        efecon.setInteractive();
+		efecon.on("pointerup",()=>{
+            efecoff.setTexture("caja")
+            efecon.setTexture("cajaon")
+            this.efectoson = true;
+            
+        })
+
+
+        this.add.bitmapText(this.game.renderer.width / 2+70, this.game.renderer.height*0.85-10, "bit", "Off", 24).setDepth(10);
+        efecoff = this.add.image(this.game.renderer.width/2+50, this.game.renderer.height*0.85, "caja").setDepth(2);
+        efecoff.setInteractive();
+		efecoff.on("pointerup",()=>{
+            efecon.setTexture("caja")
+            efecoff.setTexture("cajaon")
+            this.efectoson = false;
+        })
         
         this.fondo = this.add.tileSprite(400, 300, 800, 600, 'fondo').setDepth(0);    
     }
@@ -77,6 +102,15 @@ export class Config extends Phaser.Scene {
             voloff.setTexture("cajaon");
             volon.setTexture("caja");
         }
+
+        if (this.efectoson == true){
+            efecoff.setTexture("caja");
+            efecon.setTexture("cajaon");
+        }else{
+            efecoff.setTexture("cajaon");
+            efecon.setTexture("caja");
+        }
+
         this.musicamenu.setVolume(this.volume);
         this.fondo.tilePositionX -= 1;
         this.fondo.tilePositionY -= 1;

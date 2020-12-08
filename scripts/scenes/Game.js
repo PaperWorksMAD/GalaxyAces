@@ -13,13 +13,19 @@ export class Game extends Phaser.Scene {
         })
     }
 
+    init(data) {
+        this.shipIndex1 = data.shipIndex1;
+        this.shipIndex2 = data.shipIndex2;
+        this.efSound = data.efSound;
+    }
+
     onEvent() {
         this.initialTime -= 1; // One second
         this.text.setText(this.formatTime(this.initialTime));
     }
     onEvent2() {
         console.log("final");
-        this.scene.start(sceneManager.SCENES.SCORE, { score: this.jugador1.puntuacion, score2: this.jugador2.puntuacion, enemigos1: this.jugador1.bajas, enemigos2: this.jugador2.bajas });
+        this.scene.start(sceneManager.SCENES.SCORE, { score: this.jugador1.puntuacion, score2: this.jugador2.puntuacion, enemigos1: this.jugador1.bajas, enemigos2: this.jugador2.bajas, efSound: this.efSound });
     }
 
     formatTime(seconds) {
@@ -32,11 +38,7 @@ export class Game extends Phaser.Scene {
         // Returns formated time
         return `${minutes}:${partInSeconds}`;
     }
-
-    init(data) {
-        this.shipIndex1 = data.shipIndex1;
-        this.shipIndex2 = data.shipIndex2;
-    }
+  
 
     create() {
 
@@ -48,7 +50,7 @@ export class Game extends Phaser.Scene {
         this.anims.create({ key: 'EnemyAnim3', frames: this.anims.generateFrameNumbers('enemy3'), frameRate: 2, yoyo: false, repeat: -1 });
 
         this.anims.create({ key: 'AnimationBullet', frames: this.anims.generateFrameNumbers('bala6'), frameRate: 12, yoyo: true, repeat: -1 });
-        this.anims.create({ key: 'AnimationExplosion', frames: this.anims.generateFrameNumbers('explosion'), frameRate: 22, yoyo: false, repeat: 0, hideOnComplete: true });
+        this.anims.create({ key: 'AnimationExplosion', frames: this.anims.generateFrameNumbers('explosion'), frameRate: 20, yoyo: false, repeat: 0, hideOnComplete: true });
 
         //Efectos de sonido
         this.soundEnemy1 = this.sound.add('enemigo1');
@@ -118,7 +120,7 @@ export class Game extends Phaser.Scene {
 
         class Explosion extends Phaser.GameObjects.Sprite {
             constructor(scene, x, y, key, type) {
-                super(scene, x, y, key, "Explosion");
+                super(scene, x, y, key, "explosion");
             }
             aparecer(x,y){
                 this.setPosition(x,y).setVisible(true).setActive(true);
@@ -411,7 +413,9 @@ export class Game extends Phaser.Scene {
 
             if (bullet) {
                 bullet.fire(this.jugador2.x, this.jugador2.y, 2);
-                this.soundShoot.play();
+
+                if (this.efSound)
+                    this.soundShoot.play();
 
                 lastFired = time + 100;
             }
@@ -423,7 +427,9 @@ export class Game extends Phaser.Scene {
 
             if (bullet) {
                 bullet.fire(this.jugador1.x, this.jugador1.y, 1);
-                this.soundShoot.play();
+
+                if (this.efSound)
+                    this.soundShoot.play();
 
                 lastFired = time + 100;
             }
@@ -435,13 +441,14 @@ export class Game extends Phaser.Scene {
             }else{
                 this.muerto = 2;
             }
-            this.scene.start(sceneManager.SCENES.SCORE, { score: this.jugador1.puntuacion, score2: this.jugador2.puntuacion, enemigos1: this.jugador1.bajas, enemigos2: this.jugador2.bajas, muerto: this.muerto});
+            this.scene.start(sceneManager.SCENES.SCORE, { score: this.jugador1.puntuacion, score2: this.jugador2.puntuacion, enemigos1: this.jugador1.bajas, enemigos2: this.jugador2.bajas, muerto: this.muerto, efSound: this.efSound});
         }
     }
 
     collissionHandler(obj1, obj2) {
         console.log("colision");
-        this.soundNormal.play();
+        if (this.efSound)
+            this.soundNormal.play();
         obj1.setVelocity(0);
         obj2.setActive(false).setVisible(false).setPosition(-5000, -5000);
 
@@ -449,8 +456,8 @@ export class Game extends Phaser.Scene {
 
     collissionHandlerJugador(obj1, obj2) {
         console.log("colision");
-        this.soundNormal.play();
-        this.soundPlayers.play();
+        if (this.efSound)
+            this.soundPlayers.play();
         obj1.setVelocity(0);
         obj1.vidas-=1;
         obj2.setActive(false).setVisible(false).setPosition(-5000, -5000);
@@ -459,7 +466,8 @@ export class Game extends Phaser.Scene {
 
     collissionHandlerEnemy(obj1, obj2) {
         console.log("colision con enemigo");
-        this.soundNormal.play();
+        if (this.efSound)
+            this.soundNormal.play();
         obj1.setVelocity(0);
         //obj2.play('AnimationExplosion');
         //obj2.setScale(0.8).setVelocity(0);
@@ -469,7 +477,7 @@ export class Game extends Phaser.Scene {
             expl.aparecer(obj1.x,obj1.y);
 
             this.time.addEvent({
-                delay: 500,
+                delay: 800,
                 callback: function () {
                     expl.setActive(false).setVisible(false);
                 },
@@ -484,26 +492,32 @@ export class Game extends Phaser.Scene {
             if (obj2.jugador == 1) {
                 if (obj1.tipo == 1){
                     this.jugador1.puntuacion += 10;
-                    this.soundEnemy1.play();
+                    if (this.efSound)
+                        this.soundEnemy1.play();
                 }else if (obj1.tipo == 2){
                     this.jugador1.puntuacion += 30;
-                    this.soundEnemy2.play();
+                    if (this.efSound)
+                        this.soundEnemy2.play();
                 }else if (obj1.tipo == 3){
                     this.jugador1.puntuacion += 5;
-                    this.soundEnemy3.play();
+                    if (this.efSound)
+                        this.soundEnemy3.play();
                 }
                 this.jugador1.bajas += 1;
                 console.log(this.jugador1.puntuacion);
             } else {
                 if (obj1.tipo == 1){
                     this.jugador2.puntuacion += 10;
-                    this.soundEnemy1.play();
+                    if (this.efSound)
+                        this.soundEnemy1.play();
                 }else if (obj1.tipo == 2){
                     this.jugador2.puntuacion += 30;
-                    this.soundEnemy2.play();
+                    if (this.efSound)
+                        this.soundEnemy2.play();
                 }else if (obj1.tipo == 3){
                     this.jugador2.puntuacion += 5;
-                    this.soundEnemy3.play();
+                    if (this.efSound)
+                        this.soundEnemy3.play();
                 }
                 this.jugador2.bajas += 1;
                 console.log(this.jugador2.puntuacion);

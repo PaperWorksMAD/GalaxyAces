@@ -8,7 +8,8 @@ export class CharacterSelect extends Phaser.Scene {
         })
     }
 
-    init() {
+    init(data) {
+        this.efecsound = data.efSound;
     }
 
     create() {
@@ -28,7 +29,7 @@ export class CharacterSelect extends Phaser.Scene {
         let xbt = this.add.image(this.game.renderer.width - 50, this.game.renderer.height - 550, "x").setDepth(2);
         xbt.setInteractive();
         xbt.on("pointerup", () => {
-            this.scene.start(sceneManager.SCENES.MAINMENU);
+            this.scene.start(sceneManager.SCENES.MAINMENU, {efSound: this.efecsound});
         })
 
         this.input.keyboard.on('keydown-SPACE', this.handleContinue, this);
@@ -117,7 +118,7 @@ export class CharacterSelect extends Phaser.Scene {
 
     handleContinue() {
         if (this.jugador >= 3) {
-            this.scene.start(sceneManager.SCENES.GAME, { shipIndex1: this.shipIndex1, shipIndex2: this.shipIndex2 });
+            this.scene.start(sceneManager.SCENES.GAME, { shipIndex1: this.shipIndex1, shipIndex2: this.shipIndex2 , efSound: this.efecsound });
         }
     }
 }

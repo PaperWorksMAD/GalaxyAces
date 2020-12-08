@@ -2,6 +2,8 @@ import { sceneManager } from "../sceneManager.js";
 
 var bgmusic = false;
 
+var efSound = true;
+
 export class MainMenu extends Phaser.Scene {
 	constructor() {
 		super({
@@ -9,7 +11,8 @@ export class MainMenu extends Phaser.Scene {
 		})
 	}
 
-	init() {
+	init(data) {
+		efSound = data.efSound;
 	}
 	
 	create() {
@@ -22,6 +25,8 @@ export class MainMenu extends Phaser.Scene {
 		hover.setScale(0.75);
 		hover.setVisible(false);
 		configbt.setScale(0.5);
+
+		//this.efecsound;
 
 		//Boton redes sociales y controles
 		let rrssbt = this.add.image(this.game.renderer.width / 2 - 150, this.game.renderer.height * 0.85, "contacto").setDepth(2).setScale(0.4);
@@ -56,7 +61,7 @@ export class MainMenu extends Phaser.Scene {
 
 		playbt.on("pointerup", () => {
 			//this.sound.get("bitmenu").stop();
-			this.scene.start(sceneManager.SCENES.CHARACTERSELECT);
+			this.scene.start(sceneManager.SCENES.CHARACTERSELECT, {efSound: efSound});
 		})
 
 		configbt.on("pointerover", () => {
@@ -71,7 +76,7 @@ export class MainMenu extends Phaser.Scene {
 
 		configbt.on("pointerup", () => {
 			//this.sound.get("bitmenu").stop();
-			this.scene.start(sceneManager.SCENES.CONFIG, this.musicamenu);
+			this.scene.start(sceneManager.SCENES.CONFIG, {music: this.musicamenu, efSound: efSound});
 		})
 
 		rrssbt.on("pointerover", () => {
