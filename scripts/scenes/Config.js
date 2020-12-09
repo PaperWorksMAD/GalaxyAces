@@ -14,8 +14,11 @@ export class Config extends Phaser.Scene {
     init(data) {
         this.musicamenu = data.music;
         this.efectoson = data.efSound;
+        this.efvol = data.efvol;
     }
     create() {
+        console.log(this.efvol);
+        this.efvol = 0.5;
         this.volume = this.musicamenu.volume;
         this.config = this.add.image(this.game.renderer.width/2, this.game.renderer.height*0.20, "configuracion").setDepth(2);
         this.vol = this.add.image(this.game.renderer.width/2, this.game.renderer.height*0.55, "volumen").setDepth(2);
@@ -26,7 +29,7 @@ export class Config extends Phaser.Scene {
         let xbt= this.add.image(this.game.renderer.width-50, this.game.renderer.height-550, "x").setDepth(2);
         xbt.setInteractive();
 		xbt.on("pointerup",()=>{
-			this.scene.start(sceneManager.SCENES.MAINMENU, {efSound: this.efectoson});
+			this.scene.start(sceneManager.SCENES.MAINMENU, {efSound: this.efectoson, efvol: this.efvol});
         })
         console.log(this.volume);
         let mup= this.add.image(this.game.renderer.width/2+50, this.game.renderer.height*0.65, "+").setDepth(2);
@@ -34,8 +37,10 @@ export class Config extends Phaser.Scene {
 		mup.on("pointerup",()=>{
             console.log("presionado");
             if(this.volume < 1){
+            this.efvol += 0.1;
             this.volume += 0.1;
             console.log(this.volume);
+            console.log(this.efvol);
             }
         })
 
@@ -43,8 +48,10 @@ export class Config extends Phaser.Scene {
         mdown.setInteractive();
 		mdown.on("pointerup",()=>{
             if(this.volume > 0){
+            this.efvol = this.efvol/2;
             this.volume = this.volume/2;
             console.log(this.volume);
+            console.log(this.efvol);
             }
         })
 

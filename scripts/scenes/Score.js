@@ -13,6 +13,7 @@ export class Score extends Phaser.Scene {
         this.eliminados2 = data.enemigos2;
         this.muertos = data.muerto;
         this.efSound = data.efSound;
+        this.efvol = data.efvol;
     }
     create() {
         this.puntuaciones = this.add.image(this.game.renderer.width / 2, this.game.renderer.height * 0.20, "puntuaciones").setDepth(2);
@@ -47,7 +48,7 @@ export class Score extends Phaser.Scene {
         let xbt = this.add.image(this.game.renderer.width - 50, this.game.renderer.height - 550, "x").setDepth(2);
         xbt.setInteractive();
         xbt.on("pointerup", () => {
-            this.scene.start(sceneManager.SCENES.MAINMENU, {efSound: this.efSound });
+            this.scene.start(sceneManager.SCENES.MAINMENU, {efSound: this.efSound , efvol: this.efvol });
         })
     }
     update() {

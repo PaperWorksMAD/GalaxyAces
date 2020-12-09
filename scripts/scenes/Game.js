@@ -17,6 +17,7 @@ export class Game extends Phaser.Scene {
         this.shipIndex1 = data.shipIndex1;
         this.shipIndex2 = data.shipIndex2;
         this.efSound = data.efSound;
+        this.efvol = data.efvol;
     }
 
     onEvent() {
@@ -25,7 +26,7 @@ export class Game extends Phaser.Scene {
     }
     onEvent2() {
         console.log("final");
-        this.scene.start(sceneManager.SCENES.SCORE, { score: this.jugador1.puntuacion, score2: this.jugador2.puntuacion, enemigos1: this.jugador1.bajas, enemigos2: this.jugador2.bajas, efSound: this.efSound });
+        this.scene.start(sceneManager.SCENES.SCORE, { score: this.jugador1.puntuacion, score2: this.jugador2.puntuacion, enemigos1: this.jugador1.bajas, enemigos2: this.jugador2.bajas, efSound: this.efSound, efvol: this.efvol});
     }
 
     formatTime(seconds) {
@@ -41,6 +42,7 @@ export class Game extends Phaser.Scene {
   
 
     create() {
+        console.log(this.efvol);
 
         //Animaciones
         this.anims.create({ key: 'Exhaust2', frames: this.anims.generateFrameNumbers('exhaust2'), frameRate: 6, yoyo: false, repeat: -1 });
@@ -53,12 +55,24 @@ export class Game extends Phaser.Scene {
         this.anims.create({ key: 'AnimationExplosion', frames: this.anims.generateFrameNumbers('explosion'), frameRate: 20, yoyo: false, repeat: 0, hideOnComplete: true });
 
         //Efectos de sonido
-        this.soundEnemy1 = this.sound.add('enemigo1');
-        this.soundEnemy2 = this.sound.add('enemigo2');
-        this.soundEnemy3 = this.sound.add('enemigo3');
-        this.soundPlayers = this.sound.add('jugador');
-        this.soundNormal = this.sound.add('normal');
-        this.soundShoot = this.sound.add('shoot');
+        this.soundEnemy1 = this.sound.add('enemigo1', {
+            volume: this.efvol
+        });
+        this.soundEnemy2 = this.sound.add('enemigo2', {
+            volume: this.efvol
+        });
+        this.soundEnemy3 = this.sound.add('enemigo3', {
+            volume: this.efvol
+        });
+        this.soundPlayers = this.sound.add('jugador', {
+            volume: this.efvol
+        });
+        this.soundNormal = this.sound.add('normal', {
+            volume: this.efvol
+        });
+        this.soundShoot = this.sound.add('shoot', {
+            volume: this.efvol
+        });
 
         //this.sound.setDecodedCallback([this.soundEnemy1, this.soundEnemy2, this.soundEnemy3, this.soundPlayers], start, this);
 
@@ -441,7 +455,7 @@ export class Game extends Phaser.Scene {
             }else{
                 this.muerto = 2;
             }
-            this.scene.start(sceneManager.SCENES.SCORE, { score: this.jugador1.puntuacion, score2: this.jugador2.puntuacion, enemigos1: this.jugador1.bajas, enemigos2: this.jugador2.bajas, muerto: this.muerto, efSound: this.efSound});
+            this.scene.start(sceneManager.SCENES.SCORE, { score: this.jugador1.puntuacion, score2: this.jugador2.puntuacion, enemigos1: this.jugador1.bajas, enemigos2: this.jugador2.bajas, muerto: this.muerto, efSound: this.efSound, efvol: this.efvol});
         }
     }
 
