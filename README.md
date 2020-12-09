@@ -178,7 +178,7 @@
 
 * Al hacer click en configuracion se muestra una pestaña que permite configurar si quieres musica o no y el volumen de la misma, desde este menu se puede volver a la pantalla del menu principal, dandole a la cruz de la esquina superior derecha
 
-![image](https://user-images.githubusercontent.com/43203256/101391352-7bff3380-38c4-11eb-8406-05f440f9e826.png)
+![image](https://user-images.githubusercontent.com/37275365/101653699-e5578180-3a3f-11eb-9edd-92eba9c53900.PNG)
 
 * Si desde el menu principal clickas en contacto, te lleva a un menu donde se muestan las redes sociales del equipo y cada una te lleva a la paguina oficial de la red social
 
@@ -194,7 +194,7 @@
 
 * Una vez seleccionadas ambas naves, jugador1 y jugador2, se presiona el espacio, y se iniciara la partida. El escenario del juego es de estilo pixel art y en el HUB se puede ver varia informacion relevante, la puntuacion de los jugadores, sus vidas, asi como el timepo restante de partida (1 minuto por defecto). Como enemigos, hasta el momento hemos añadidos dos, una especide de alienígena al que hay que disparar dos veces para matarlo y un meteorito al que hay que disparar tres veces.
 
-![image](https://user-images.githubusercontent.com/37275365/101493524-79551a80-3966-11eb-9aec-312ff2216832.PNG)
+![image](https://user-images.githubusercontent.com/37275365/101653697-e4beeb00-3a3f-11eb-9368-410e415f6e82.PNG)
 
 * La partida acaba bien al terminar el timepo o si alguno de los dos jugadores se queda sin vida. En el caso de acabar por tiempo, el ganador sera el jugador que mas punto tenga en ese momento, si la partida acaba por que algun jugador se queda sin vidas el ganador sera el jugador que aun tenia vidas. Toda esta informacion se muestra en un menu de resultados, desde el cual se puede volver al menu de inicio.
 
