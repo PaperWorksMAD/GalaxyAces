@@ -21,7 +21,7 @@ export class MainMenu extends Phaser.Scene {
 	create() {
 		console.log(bgmusic);
 		efvol = this.efvol;
-		console.log(efvol);
+		console.log("vol ef",efvol);
 		this.fondo = this.add.tileSprite(400, 300, 800, 600, 'fondomenu').setDepth(0);
 		this.add.image(this.game.renderer.width / 2, this.game.renderer.height * 0.20, "titulo").setDepth(1);
 		let playbt = this.add.image(this.game.renderer.width / 2, this.game.renderer.height / 2 - 10, "playbt").setDepth(2);
