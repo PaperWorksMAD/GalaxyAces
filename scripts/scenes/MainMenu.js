@@ -4,6 +4,8 @@ var bgmusic = false;
 
 var efSound = true;
 
+var efvol = 0.5;
+
 export class MainMenu extends Phaser.Scene {
 	constructor() {
 		super({
@@ -13,10 +15,13 @@ export class MainMenu extends Phaser.Scene {
 
 	init(data) {
 		efSound = data.efSound;
+		this.efvol = data.efvol;
 	}
 	
 	create() {
 		console.log(bgmusic);
+		efvol = this.efvol;
+		console.log(efvol);
 		this.fondo = this.add.tileSprite(400, 300, 800, 600, 'fondomenu').setDepth(0);
 		this.add.image(this.game.renderer.width / 2, this.game.renderer.height * 0.20, "titulo").setDepth(1);
 		let playbt = this.add.image(this.game.renderer.width / 2, this.game.renderer.height / 2 - 10, "playbt").setDepth(2);
@@ -61,7 +66,7 @@ export class MainMenu extends Phaser.Scene {
 
 		playbt.on("pointerup", () => {
 			//this.sound.get("bitmenu").stop();
-			this.scene.start(sceneManager.SCENES.CHARACTERSELECT, {efSound: efSound});
+			this.scene.start(sceneManager.SCENES.CHARACTERSELECT, {efSound: efSound, efvol: efvol});
 		})
 
 		configbt.on("pointerover", () => {
@@ -76,7 +81,7 @@ export class MainMenu extends Phaser.Scene {
 
 		configbt.on("pointerup", () => {
 			//this.sound.get("bitmenu").stop();
-			this.scene.start(sceneManager.SCENES.CONFIG, {music: this.musicamenu, efSound: efSound});
+			this.scene.start(sceneManager.SCENES.CONFIG, {music: this.musicamenu, efSound: efSound, efvol: efvol});
 		})
 
 		rrssbt.on("pointerover", () => {
