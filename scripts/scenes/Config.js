@@ -5,6 +5,7 @@ let voloff;
 let volon;
 let efecoff;
 let efecon;
+var cambiados = false;
 export class Config extends Phaser.Scene {
     constructor() {
         super({
@@ -17,8 +18,10 @@ export class Config extends Phaser.Scene {
         this.efvol = data.efvol;
     }
     create() {
-        console.log(this.efvol);
+        if (!cambiados){
         this.efvol = 0.5;
+        }
+        console.log("volef",this.efvol);
         this.volume = this.musicamenu.volume;
         this.config = this.add.image(this.game.renderer.width/2, this.game.renderer.height*0.20, "configuracion").setDepth(2);
         this.vol = this.add.image(this.game.renderer.width/2, this.game.renderer.height*0.55, "volumen").setDepth(2);
@@ -39,8 +42,9 @@ export class Config extends Phaser.Scene {
             if(this.volume < 1){
             this.efvol += 0.1;
             this.volume += 0.1;
+            
             console.log(this.volume);
-            console.log(this.efvol);
+            console.log("vol ef",this.efvol);
             }
         })
 
@@ -50,8 +54,9 @@ export class Config extends Phaser.Scene {
             if(this.volume > 0){
             this.efvol = this.efvol/2;
             this.volume = this.volume/2;
+            cambiados = true;
             console.log(this.volume);
-            console.log(this.efvol);
+            console.log("vol ef",this.efvol);
             }
         })
 
