@@ -227,9 +227,13 @@ Tenemos pensado implementar más naves y que en cada una varíe la velocidad de 
 
 ![image](https://user-images.githubusercontent.com/43203256/101393821-f4b3bf00-38c7-11eb-9f98-c59e6940ab0f.png)
 
+# FASE 3
 
+* Navegación:
 
+* Diagrama de clases y API REST:
 
+* Instrucciones para ejecutar la aplicación:
 
 
 
