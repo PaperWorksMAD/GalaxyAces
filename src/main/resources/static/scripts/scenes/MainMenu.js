@@ -24,7 +24,8 @@ export class MainMenu extends Phaser.Scene {
 		console.log("vol ef",efvol);
 		this.fondo = this.add.tileSprite(400, 300, 800, 600, 'fondomenu').setDepth(0);
 		this.add.image(this.game.renderer.width / 2, this.game.renderer.height * 0.20, "titulo").setDepth(1);
-		let playbt = this.add.image(this.game.renderer.width / 2, this.game.renderer.height / 2 - 10, "playbt").setDepth(2);
+		let playbt = this.add.image(this.game.renderer.width / 2, this.game.renderer.height / 2 - 50, "playbt").setDepth(2);
+		let onlinebt = this.add.image(this.game.renderer.width / 2, this.game.renderer.height / 2 + 25, "onlinebt").setDepth(2);
 		let configbt = this.add.image(this.game.renderer.width / 2, this.game.renderer.height / 2 + 100, "configbt").setDepth(2);
 		let hover = this.add.image(100, 100, "nave1");
 		hover.setScale(0.75);
@@ -49,6 +50,7 @@ export class MainMenu extends Phaser.Scene {
 		}
 
 		playbt.setInteractive();
+		onlinebt.setInteractive();
 		configbt.setInteractive();
 
 		rrssbt.setInteractive();
@@ -67,6 +69,21 @@ export class MainMenu extends Phaser.Scene {
 		playbt.on("pointerup", () => {
 			//this.sound.get("bitmenu").stop();
 			this.scene.start(sceneManager.SCENES.CHARACTERSELECT, {efSound: efSound, efvol: efvol});
+		})
+
+		onlinebt.on("pointerover", () => {
+			hover.setVisible(true);
+			hover.x = onlinebt.x - 180;
+			hover.y = onlinebt.y;
+		})
+
+		onlinebt.on("pointerout", () => {
+			hover.setVisible(false);
+		})
+
+		onlinebt.on("pointerup", () => {
+			//this.sound.get("bitmenu").stop();
+			this.scene.start(sceneManager.SCENES.ONLINE, {efSound: efSound, efvol: efvol});
 		})
 
 		configbt.on("pointerover", () => {
