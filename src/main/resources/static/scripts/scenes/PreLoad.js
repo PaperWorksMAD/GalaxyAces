@@ -21,6 +21,7 @@ export class PreLoad extends Phaser.Scene {
 		this.load.image("presionaespacio", "./resources/images/presionaespacio.png");
 		this.load.image("fondomenu", "./resources/images/fondomenu.png");
 		this.load.image("playbt", "./resources/images/play.png");
+		this.load.image("onlinebt", "./resources/images/online.png");
 		this.load.image("configbt", "./resources/images/configbt.png");
 		this.load.image("x", "./resources/images/x.png");
 		this.load.image("+", "./resources/images/+.png");
