@@ -8,15 +8,23 @@ var refrescar = false;
 
 var servercaido = false;
 
-var playername;
+var playername = null;
 var nave;
 
 var arrayNombres;
 
 var pillado = false;
+var naveazullock = false;
+var naverosalock = false;
+var naveverdelock = false;
 
 var timerjugadores;
 var id;
+var permitido = true;
+
+var naverosa;
+var naveazul;
+var naveverde;
 
 export class Online extends Phaser.Scene {
 	constructor() {
@@ -36,54 +44,33 @@ export class Online extends Phaser.Scene {
 		this.texto = this.add.image(this.game.renderer.width / 2, this.game.renderer.height * 0.90, "seleccion").setDepth(2).setScale(0.5);
 		this.fondo = this.add.tileSprite(400, 300, 800, 600, 'fondomenu').setDepth(0);
 		this.add.image(this.game.renderer.width / 2 - 100, this.game.renderer.height * 0.20, "titulo").setDepth(1);
-
+		this.imgcaido = this.add.image(this.game.renderer.width / 2, this.game.renderer.height /2, "caido").setDepth(10);
+		this.imgcaido.alpha = 0;
+		
 		//Texto
-		this.add.text(500, 200, 'Enter text:', { font: '32px Courier', fill: '#ffffff' });
-		var textEntry = this.add.text(500, 250, '', { font: '32px Courier', fill: '#ffff00' });
-
-
-		this.input.keyboard.on('keydown', function(event) {
-
-			if (event.keyCode === 8 && textEntry.text.length > 0) {
-				textEntry.text = textEntry.text.substr(0, textEntry.text.length - 1);
-			}
-			else if (event.keyCode === 32 || (event.keyCode >= 48 && event.keyCode < 90)) {
-				textEntry.text += event.key;
-			} else if (event.keyCode === 13) {
-				textEntry.text += "\n";
-			}
-
-		});
+		this.conectadosNum = this.add.text(500, 200, 'Jugadores conectados: ', { font: '26px Courier', fill: '#ffffff' });
+		this.conectadosNum.setScale(0.75);
 
 		this.jugador = 1
 		this.shipIndex1 = 0;
 		this.shipIndex2 = 0;
 
-		let nave2 = this.add.image(this.game.renderer.width / 2 - 100, 350, 'nave2').setDepth(1).setInteractive();
-		let nave3 = this.add.image(this.game.renderer.width / 2 - 150 - 100, 350, 'nave3').setDepth(1).setInteractive();
-		let nave4 = this.add.image(this.game.renderer.width / 2 + 150 - 100, 350, 'nave4').setDepth(1).setInteractive();
+		naverosa = this.add.image(this.game.renderer.width / 2 - 100, 350, 'nave2').setDepth(1).setInteractive();
+		naveazul = this.add.image(this.game.renderer.width / 2 - 150 - 100, 350, 'nave3').setDepth(1).setInteractive();
+		naveverde = this.add.image(this.game.renderer.width / 2 + 150 - 100, 350, 'nave4').setDepth(1).setInteractive();
 
+		naveazul.on("pointerup",()=> this.actionOnNaveAzul());
+		naverosa.on("pointerup",()=> this.actionOnNaveRosa());
+		naveverde.on("pointerup",()=> this.actionOnNaveVerde());
+		
 		let xbt = this.add.image(this.game.renderer.width - 50, this.game.renderer.height - 550, "x").setDepth(2);
 		xbt.setInteractive();
 		xbt.on("pointerup", () => {
+			deletePlayerRoom();
+			this.reiniciar();
 			this.scene.start(sceneManager.SCENES.MAINMENU, { efSound: this.efecsound, efvol: this.efvol });
 		})
-
-		this.input.keyboard.on('keydown-SPACE', this.handleContinue, this);
-
-		nave2.on("pointerover", () => {
-			if (this.jugador === 1) {
-				nave2.setTint(0xefb810);
-			} else if (this.jugador === 2 && this.shipIndex1 != 2) {
-				nave2.setTint(0x3b83bd);
-			}
-		})
-
-		nave2.on("pointerout", () => {
-			if (this.shipIndex1 != 2 && this.shipIndex2 != 2)
-				nave2.clearTint();
-		})
-
+/*
 		nave2.on("pointerup", () => {
 			if (this.jugador === 1) {
 				this.shipIndex1 = 2;
@@ -92,20 +79,6 @@ export class Online extends Phaser.Scene {
 				this.shipIndex2 = 2;
 				this.jugador++;
 			}
-		})
-
-
-		nave3.on("pointerover", () => {
-			if (this.jugador === 1) {
-				nave3.setTint(0xefb810);
-			} else if (this.jugador === 2 && this.shipIndex1 != 3) {
-				nave3.setTint(0x3b83bd);
-			}
-		})
-
-		nave3.on("pointerout", () => {
-			if (this.shipIndex1 != 3 && this.shipIndex2 != 3)
-				nave3.clearTint();
 		})
 
 		nave3.on("pointerup", () => {
@@ -118,21 +91,6 @@ export class Online extends Phaser.Scene {
 			}
 		})
 
-
-
-		nave4.on("pointerover", () => {
-			if (this.jugador === 1) {
-				nave4.setTint(0xefb810);
-			} else if (this.jugador === 2 && this.shipIndex1 != 4) {
-				nave4.setTint(0x3b83bd);
-			}
-		})
-
-		nave4.on("pointerout", () => {
-			if (this.shipIndex1 != 4 && this.shipIndex2 != 4)
-				nave4.clearTint();
-		})
-
 		nave4.on("pointerup", () => {
 			if (this.jugador === 1) {
 				this.shipIndex1 = 4;
@@ -142,6 +100,9 @@ export class Online extends Phaser.Scene {
 				this.jugador++;
 			}
 		})
+*/
+		
+		document.getElementById('nameinput').style.display = 'block';
 		
 		timerjugadores = this.time.addEvent({ delay: 1000, callback: this.PlayersOnline, callbackScope: this, loop: true });
 		
@@ -151,7 +112,8 @@ export class Online extends Phaser.Scene {
 	
 	update() {
 		if(refrescar){
-			
+			this.refresco();
+			this.actnaves();
 			refrescar = false;
 		}
 		
@@ -159,26 +121,257 @@ export class Online extends Phaser.Scene {
 			console.log('server desconectado');
 			servercaido = false;
 			timerjugadores.remove(false);
+			document.getElementById('nameinput').style.display = 'none' ;
+			this.imgcaido.alpha = 1;
 			deletePlayerRoom();
-			this.time.addEvent({ delay: 6000,callback: function () {
+			this.time.addEvent({ delay: 6000, callback: function () {
 				this.scene.start(sceneManager.SCENES.MAINMENU, { efSound: this.efecsound, efvol: this.efvol });
 			}, callbackScope: this, loop: false });
 		}
 		
 		this.fondo.tilePositionX += 0.5;
-		
-		if (this.jugador >= 3) {
-			this.texto.setVisible(0);
-			this.add.image(this.game.renderer.width / 2, this.game.renderer.height * 0.90, "presionaespacio").setDepth(2).setScale(0.5);
+				
+	}
+	
+	actionOnNaveAzul() {
+		if(!naveazullock){
+			if(pillado == false){
+				var nameinput = $('#nameinput');
+				playername = nameinput.val();
+				if(playername !== ''){
+					var x = 0;
+					while((x < arrayNombres.length)&&(permitido)&&(arrayNombres[x]!=null)){
+						if(arrayNombres[x] == playername){
+							permitido = false;
+							console.log('nombre ya existente');
+						}else{
+							permitido = true;
+							break;
+						}
+					}
+					if(permitido){
+						console.log(playername);
+						nave = 1;
+						this.shipIndex1 = 2;
+						this.shipIndex2 = 3;
+						createPlayer();
+					}else{
+						permitido = true;
+						console.log('nombre no valido');
+					}
+				}else{
+					console.log('nombre vacio');
+				}
+			}
 		}
+	}
+	
+	actionOnNaveRosa() {
+		if(!naverosalock){
+			if(pillado == false){
+				var nameinput = $('#nameinput');
+				playername = nameinput.val();
+				if(playername !== ''){
+					var x = 0;
+					while((x < arrayNombres.length)&&(permitido)&&(arrayNombres[x]!=null)){
+						if(arrayNombres[x] == playername){
+							permitido = false;
+							console.log('nombre ya existente');
+						}else{
+							permitido = true;
+							break;
+						}
+					}
+					if(permitido){
+						console.log(playername);
+						nave = 2;
+						this.shipIndex1 = 3;
+						this.shipIndex2 = 4;
+						createPlayer();
+					}else{
+						permitido = true;
+						console.log('nombre no valido');
+					}
+				}else{
+					console.log('nombre vacio');
+				}
+			}
+		}
+	}
+	
+	actionOnNaveVerde() {
+		if(!naveverdelock){
+			if(pillado == false){
+				var nameinput = $('#nameinput');
+				playername = nameinput.val();
+				if(playername !== ''){
+					var x = 0;
+					while((x < arrayNombres.length)&&(permitido)&&(arrayNombres[x]!=null)){
+						if(arrayNombres[x] == playername){
+							permitido = false;
+							console.log('nombre ya existente');
+						}else{
+							permitido = true;
+							break;
+						}
+					}
+					if(permitido){
+						console.log(playername);
+						nave = 3;
+						this.shipIndex1 = 4;
+						this.shipIndex2 = 3;
+						createPlayer();
+					}else{
+						permitido = true;
+						console.log('nombre no valido');
+					}
+				}else{
+					console.log('nombre vacio');
+				}
+			}
+		}
+	}
+	
+	refresco(){
+		naveazullock = false;
+		naverosalock = false;
+		naveverdelock = false;
 		
+			for(var i = 0; playersonline > i; i++ )
+			{
+				if(playerslist[i].nave == 1)
+				{
+					naveazullock = true;
+				} 
+				else if(playerslist[i].nave == 2)
+				{
+					naverosalock = true;
+				}
+				else if(playerslist[i].nave == 3)
+				{
+					naveverdelock = true;
+				}
+			}
+
+			if ((playersonline > 0)&&(pillado))
+			{
+				if (playersonline == 2)
+				{
+					this.time.addEvent({delay: 2000, callback: function()
+						{
+							this.reiniciar();
+							this.scene.start(sceneManager.SCENES.GAME, { shipIndex1: this.shipIndex1, shipIndex2: this.shipIndex2, efSound: this.efecsound, efvol: this.efvol });
+						}, callbackScope: this, loop: false });
+				} 
+				else if(playersonline == 1)
+				{
+					if(playerslist[0].nave == 1)
+					{
+						console.log('esperando otro jugador');
+					} 
+					else if(listaJugadores[0].personaje == 2)
+					{
+						console.log('esperando otro jugador');
+					}
+				}
+			}
+			
+			this.conectadosNum.setText('Jugadores conectados: ' + playersonline);			
+			playersnum=playersonline;		
+	}
+	
+	actnaves(){
+		if((playersonline == 1)&&(!pillado))
+			{
+				if(playerslist[0].nave == 1)
+				{
+					naveazul.alpha = 0.3;
+					naverosa.alpha = 1;
+					naveverde.alpha = 1;
+				} 
+				else if(playerslist[0].nave == 2)
+				{
+					naveazul.alpha = 1;
+					naverosa.alpha = 0.3;
+					naveverde.alpha = 1;
+				}
+				else if(playerslist[0].nave == 3)
+				{
+					naveazul.alpha = 1;
+					naverosa.alpha = 1;
+					naveverde.alpha = 0.3;
+				}
+			}
+			else if((playersonline == 1)&&(pillado)) 
+			{
+				if(playerslist[0].nave == 1)
+				{
+					naveazul.alpha = 1;
+					naverosa.alpha = 0.5;
+					naveverde.alpha = 0.5;
+				} 
+				else if(playerslist[0].nave == 2)
+				{
+					naveazul.alpha = 0.5;
+					naverosa.alpha = 1;
+					naveverde.alpha = 0.5;
+				}
+				else if(playerslist[0].nave == 3)
+				{
+					naveazul.alpha = 0.5;
+					naverosa.alpha = 0.5;
+					naveverde.alpha = 1;
+				}
+			}
+			else if(playersonline == 2)
+			{
+				if(playerslist[0].nave == nave)
+				{
+					naveazul.alpha = 1;
+					naverosa.alpha = 0.5;
+					naveverde.alpha = 0.5;
+				} 
+				else if(playerslist[0].nave == nave++)
+				{
+					naveazul.alpha = 0.5;
+					naverosa.alpha = 1;
+					naveverde.alpha = 0.5;
+				}
+				else{
+					naveazul.alpha = 0.5;
+					naverosa.alpha = 0.5;
+					naveverde.alpha = 1;
+				}
+			}
+			else if(playersonline == 0)
+			{
+				naveazul.alpha = 1;
+				naverosa.alpha = 1;
+				naveverde.alpha = 1;
+			}
 	}
 
-	handleContinue() {
-		if (this.jugador >= 3) {
-			this.scene.start(sceneManager.SCENES.GAME, { shipIndex1: this.shipIndex1, shipIndex2: this.shipIndex2, efSound: this.efecsound, efvol: this.efvol });
+	
+	reiniciar ()
+		{
+			playersonline = 0;
+			playersnum = 0;
+			id = 0;
+			nave = 0;
+			
+			pillado = false;
+			refrescar = false;
+			naveazullock = false;
+			naverosalock = false;
+			naveverdelock = false;
+		
+			
+			playername = null;
+			playerslist = null;
+			servercaido = false;
+			
+			document.getElementById('nameinput').style.display = 'none' ;
 		}
-	}
 	
 	PlayersOnline () {
 		$.ajax({
