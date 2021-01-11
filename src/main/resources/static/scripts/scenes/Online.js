@@ -41,7 +41,6 @@ export class Online extends Phaser.Scene {
 	create() {
 		console.log("volumen", this.efvol);
 		this.efvol = this.efvol;
-		this.texto = this.add.image(this.game.renderer.width / 2, this.game.renderer.height * 0.90, "seleccion").setDepth(2).setScale(0.5);
 		this.fondo = this.add.tileSprite(400, 300, 800, 600, 'fondomenu').setDepth(0);
 		this.add.image(this.game.renderer.width / 2 - 100, this.game.renderer.height * 0.20, "titulo").setDepth(1);
 		this.imgcaido = this.add.image(this.game.renderer.width / 2, this.game.renderer.height /2, "caido").setDepth(10);
@@ -269,7 +268,7 @@ export class Online extends Phaser.Scene {
 					{
 						console.log('esperando otro jugador');
 					} 
-					else if(listaJugadores[0].personaje == 2)
+					else if(playerslist[0].nave == 2)
 					{
 						console.log('esperando otro jugador');
 					}

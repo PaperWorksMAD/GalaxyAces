@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @RestController
 public class PlayerController {
+	
+	private final String dataFile = System.getProperty("user.dir") + "/src/main/java/data.txt";
 	Map<Long, Player> players = new ConcurrentHashMap<>();
 	AtomicLong nextId = new AtomicLong(0);
 
@@ -52,7 +54,7 @@ public class PlayerController {
 	@RequestMapping(value = "/players/{id}", method = RequestMethod.GET)
 	public Collection<Player> getItem(@PathVariable long id) throws FileNotFoundException {
 
-		PrintWriter pw = new PrintWriter(new FileOutputStream(new File("./data.txt"), true));
+		PrintWriter pw = new PrintWriter(new FileOutputStream(new File(this.dataFile), true));
 
 		Player ply = players.get(id);
 
@@ -92,7 +94,7 @@ public class PlayerController {
 	@RequestMapping(value = "/playerslog", method = RequestMethod.GET)
 	public String[] getLog() throws IOException {
 
-		BufferedReader log = new BufferedReader(new FileReader(new File("./data.txt")));
+		BufferedReader log = new BufferedReader(new FileReader(new File(this.dataFile)));
 		String line;
 		String[] nombre = new String[50];
 		int aux = 0;
