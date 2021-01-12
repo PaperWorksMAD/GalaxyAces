@@ -26,6 +26,8 @@ var naverosa;
 var naveazul;
 var naveverde;
 
+var cuerpo;
+
 export class Online extends Phaser.Scene {
 	constructor() {
 		super({
@@ -102,6 +104,13 @@ export class Online extends Phaser.Scene {
 */
 		
 		document.getElementById('nameinput').style.display = 'block';
+		document.getElementById('textinput').style.display = 'block';
+		document.getElementById('send-button').style.display = 'block';
+		document.getElementById('chat').style.display = 'inline';
+		
+		document.getElementById('textinput').addEventListener('click', function(e){
+			escribir();
+		})
 		
 		timerjugadores = this.time.addEvent({ delay: 1000, callback: this.PlayersOnline, callbackScope: this, loop: true });
 		
@@ -121,6 +130,9 @@ export class Online extends Phaser.Scene {
 			servercaido = false;
 			timerjugadores.remove(false);
 			document.getElementById('nameinput').style.display = 'none' ;
+			document.getElementById('textinput').style.display = 'none';
+			document.getElementById('send-button').style.display = 'none';
+			document.getElementById('chat').style.display = 'none';
 			this.imgcaido.alpha = 1;
 			deletePlayerRoom();
 			this.time.addEvent({ delay: 6000, callback: function () {
@@ -370,7 +382,11 @@ export class Online extends Phaser.Scene {
 			servercaido = false;
 			
 			document.getElementById('nameinput').style.display = 'none' ;
+			document.getElementById('textinput').style.display = 'none';
+			document.getElementById('send-button').style.display = 'none';
+			document.getElementById('chat').style.display = 'none';
 		}
+		
 	
 	PlayersOnline () {
 		$.ajax({
@@ -448,3 +464,23 @@ window.onbeforeunload = function () {
 	return null;
 }
 
+
+//CHAT
+function writeMessage(){
+	$.ajax({
+		method: "POST",
+		url: 'http://localhost:8080/chat',
+		data: JSON.stringify({ "nombre": playername, "cuerpo": cuerpo}),
+		processData: false,
+		headers: {
+			"Content-Type": "application/json"
+		},
+	})
+	
+function escribir(){
+		cuerpo = document.getElementById('textinput').value;
+		document.getElementById('textinput').value = "Introduce un mensaje";
+		writeMessage();
+	}
+	
+}
