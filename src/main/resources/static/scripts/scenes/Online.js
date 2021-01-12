@@ -57,8 +57,8 @@ export class Online extends Phaser.Scene {
 		this.shipIndex2 = 0;
 
 		naverosa = this.add.image(this.game.renderer.width / 2 - 100, 350, 'nave2').setDepth(1).setInteractive();
-		naveazul = this.add.image(this.game.renderer.width / 2 - 150 - 100, 350, 'nave3').setDepth(1).setInteractive();
-		naveverde = this.add.image(this.game.renderer.width / 2 + 150 - 100, 350, 'nave4').setDepth(1).setInteractive();
+		naveazul = this.add.image(this.game.renderer.width / 2 - 150 - 100, 350, 'nave1').setDepth(1).setInteractive();
+		naveverde = this.add.image(this.game.renderer.width / 2 + 150 - 100, 350, 'nave3').setDepth(1).setInteractive();
 
 		naveazul.on("pointerup",()=> this.actionOnNaveAzul());
 		naverosa.on("pointerup",()=> this.actionOnNaveRosa());
@@ -82,7 +82,7 @@ export class Online extends Phaser.Scene {
 			}
 		})
 
-		nave3.on("pointerup", () => {
+		nave1.on("pointerup", () => {
 			if (this.jugador === 1) {
 				this.shipIndex1 = 3;
 				this.jugador++;
@@ -92,7 +92,7 @@ export class Online extends Phaser.Scene {
 			}
 		})
 
-		nave4.on("pointerup", () => {
+		nave3.on("pointerup", () => {
 			if (this.jugador === 1) {
 				this.shipIndex1 = 4;
 				this.jugador++;
@@ -163,7 +163,7 @@ export class Online extends Phaser.Scene {
 					if(permitido){
 						console.log(playername);
 						nave = 1;
-						this.shipIndex1 = 2;
+						this.shipIndex1 = 1;
 						this.shipIndex2 = 3;
 						createPlayer();
 					}else{
@@ -196,8 +196,8 @@ export class Online extends Phaser.Scene {
 					if(permitido){
 						console.log(playername);
 						nave = 2;
-						this.shipIndex1 = 3;
-						this.shipIndex2 = 4;
+						this.shipIndex1 = 2;
+						this.shipIndex2 = 1;
 						createPlayer();
 					}else{
 						permitido = true;
@@ -229,8 +229,8 @@ export class Online extends Phaser.Scene {
 					if(permitido){
 						console.log(playername);
 						nave = 3;
-						this.shipIndex1 = 4;
-						this.shipIndex2 = 3;
+						this.shipIndex1 = 3;
+						this.shipIndex2 = 2;
 						createPlayer();
 					}else{
 						permitido = true;

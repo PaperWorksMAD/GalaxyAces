@@ -25,8 +25,8 @@ export class CharacterSelect extends Phaser.Scene {
         this.shipIndex2 = 0;
 
         let nave2 = this.add.image(this.game.renderer.width / 2, 350, 'nave2').setDepth(1).setInteractive();
-        let nave3 = this.add.image(this.game.renderer.width / 2 - 150, 350, 'nave3').setDepth(1).setInteractive();
-        let nave4 = this.add.image(this.game.renderer.width / 2 + 150, 350, 'nave4').setDepth(1).setInteractive();
+        let nave1 = this.add.image(this.game.renderer.width / 2 - 150, 350, 'nave1').setDepth(1).setInteractive();
+        let nave3 = this.add.image(this.game.renderer.width / 2 + 150, 350, 'nave3').setDepth(1).setInteractive();
 
         let xbt = this.add.image(this.game.renderer.width - 50, this.game.renderer.height - 550, "x").setDepth(2);
         xbt.setInteractive();
@@ -60,20 +60,20 @@ export class CharacterSelect extends Phaser.Scene {
         })
 
 
-        nave3.on("pointerover", () => {
+        nave1.on("pointerover", () => {
             if (this.jugador === 1) {
-                nave3.setTint(0xefb810);
+                nave1.setTint(0xefb810);
             } else if (this.jugador === 2 && this.shipIndex1 != 3) {
-                nave3.setTint(0x3b83bd);
+                nave1.setTint(0x3b83bd);
             }
         })
 
-        nave3.on("pointerout", () => {
+        nave1.on("pointerout", () => {
             if (this.shipIndex1 != 3 && this.shipIndex2 != 3)
-                nave3.clearTint();
+                nave1.clearTint();
         })
 
-        nave3.on("pointerup", () => {
+        nave1.on("pointerup", () => {
             if (this.jugador === 1) {
                 this.shipIndex1 = 3;
                 this.jugador++;
@@ -85,20 +85,20 @@ export class CharacterSelect extends Phaser.Scene {
 
 
 
-        nave4.on("pointerover", () => {
+        nave3.on("pointerover", () => {
             if (this.jugador === 1) {
-                nave4.setTint(0xefb810);
+                nave3.setTint(0xefb810);
             } else if (this.jugador === 2 && this.shipIndex1 != 4) {
-                nave4.setTint(0x3b83bd);
+                nave3.setTint(0x3b83bd);
             }
         })
 
-        nave4.on("pointerout", () => {
+        nave3.on("pointerout", () => {
             if (this.shipIndex1 != 4 && this.shipIndex2 != 4)
-                nave4.clearTint();
+                nave3.clearTint();
         })
 
-        nave4.on("pointerup", () => {
+        nave3.on("pointerup", () => {
             if (this.jugador === 1) {
                 this.shipIndex1 = 4;
                 this.jugador++;
