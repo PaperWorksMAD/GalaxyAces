@@ -51,6 +51,8 @@ export class Online extends Phaser.Scene {
 		//Texto
 		this.conectadosNum = this.add.text(500, 200, 'Jugadores conectados: ', { font: '26px Courier', fill: '#ffffff' });
 		this.conectadosNum.setScale(0.75);
+		
+		this.esperandoJugador = this.add.text(this.game.renderer.width / 2 - 270, 430, '', { font: '26px Courier', fill: '#ffffff' });
 
 		this.jugador = 1
 		this.shipIndex1 = 0;
@@ -278,10 +280,20 @@ export class Online extends Phaser.Scene {
 				{
 					if(playerslist[0].nave == 1)
 					{
+						this.esperandoJugador.setText('Esperando contrincante');	
+						this.time.addEvent({delay: 2000, callback: function()
+						{
+							this.esperandoJugador.setText('');
+						}, callbackScope: this, loop: false });	
 						console.log('esperando otro jugador');
 					} 
 					else if(playerslist[0].nave == 2)
 					{
+						this.esperandoJugador.setText('Esperando contrincante');	
+						this.time.addEvent({delay: 2000, callback: function()
+						{
+							this.esperandoJugador.setText('');
+						}, callbackScope: this, loop: false });	
 						console.log('esperando otro jugador');
 					}
 				}
