@@ -27,7 +27,7 @@ export class MainMenu extends Phaser.Scene {
 		let playbt = this.add.image(this.game.renderer.width / 2, this.game.renderer.height / 2 - 50, "playbt").setDepth(2);
 		let onlinebt = this.add.image(this.game.renderer.width / 2, this.game.renderer.height / 2 + 25, "onlinebt").setDepth(2);
 		let configbt = this.add.image(this.game.renderer.width / 2, this.game.renderer.height / 2 + 100, "configbt").setDepth(2);
-		let hover = this.add.image(100, 100, "nave1");
+		let hover = this.add.image(100, 100, "naveAux");
 		hover.setScale(0.75);
 		hover.setVisible(false);
 		configbt.setScale(0.5);

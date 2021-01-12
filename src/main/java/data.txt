@@ -1,3 +1,7 @@
 Nombre: xfgfb Id: 1 Nave Rosa
 Nombre: jkljkl Id: 2 Naver Azul
 Nombre: arturo Id: 1 Nave Rosa
+Nombre: a Id: 1 Naver Azul
+Nombre: b Id: 2 Nave Rosa
+Nombre: a Id: 1 Naver Azul
+Nombre: b Id: 2 Nave Rosa
