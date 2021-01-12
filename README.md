@@ -170,8 +170,72 @@
 * Pantalla de créditos y contacto.
 * Se irán añadiendo más.
 
+# FASE 2
 
-    
+* En la fase 2 hemos implementado una parte del juego que permite jugar dos persona en local con el mismo teclado, cada uno controlando su nave previamente seleccionada, en una partida de 1 minuto. Nada mas empezar el juego nos lleva al menu principal donte tenemos cuatro opciones, jugar, configuracion, contacto y controles. Para futuras fases se añadira una nueva opcion para jugar online.
+
+![image](https://user-images.githubusercontent.com/43203256/101391147-36426b00-38c4-11eb-9883-b036c1f9e913.png)
+
+* Al hacer click en configuracion se muestra una pestaña que permite configurar si quieres musica o no y el volumen de la misma, desde este menu se puede volver a la pantalla del menu principal, dandole a la cruz de la esquina superior derecha
+
+![image](https://user-images.githubusercontent.com/37275365/101653699-e5578180-3a3f-11eb-9edd-92eba9c53900.PNG)
+
+* Si desde el menu principal clickas en contacto, te lleva a un menu donde se muestan las redes sociales del equipo y cada una te lleva a la paguina oficial de la red social
+
+![image](https://user-images.githubusercontent.com/43203256/101392033-7e15c200-38c5-11eb-905a-54dfd48b9e4a.png)
+
+* El boton de controles, muestra un menu con una imagen donde se explican los aspectos mas importantes, necesarios para poder jugar
+
+![image](https://user-images.githubusercontent.com/43203256/101392141-a998ac80-38c5-11eb-9f9c-4e89028f9e70.png)
+
+* Si seleccionas play, se iniciara un menu, en este se le permite a los jugadores seleccionar la nave con la que van a jugar.
+
+![image](https://user-images.githubusercontent.com/43203256/101392554-304d8980-38c6-11eb-9080-ff7e2db00e9f.png)
+
+* Una vez seleccionadas ambas naves, jugador1 y jugador2, se presiona el espacio, y se iniciara la partida. El escenario del juego es de estilo pixel art y en el HUB se puede ver varia informacion relevante, la puntuacion de los jugadores, sus vidas, asi como el timepo restante de partida (1 minuto por defecto). Como enemigos, hasta el momento hemos añadidos dos, una especide de alienígena al que hay que disparar dos veces para matarlo y un meteorito al que hay que disparar tres veces.
+
+![image](https://user-images.githubusercontent.com/37275365/101653697-e4beeb00-3a3f-11eb-9368-410e415f6e82.PNG)
+
+* La partida acaba bien al terminar el timepo o si alguno de los dos jugadores se queda sin vida. En el caso de acabar por tiempo, el ganador sera el jugador que mas punto tenga en ese momento, si la partida acaba por que algun jugador se queda sin vidas el ganador sera el jugador que aun tenia vidas. Toda esta informacion se muestra en un menu de resultados, desde el cual se puede volver al menu de inicio.
+
+![image](https://user-images.githubusercontent.com/43203256/101393164-f03ad680-38c6-11eb-9c26-5ba7fa1f7ee2.png)
+
+* La musica que aparece en esta version del juego es: Bit Rush: Arcade 2015 | Login Screen - League of Legends (https://www.youtube.com/watch?v=BO3XLE_eRPk)
+
+* Tanto los sprites que hemos utilizado para las naves, como el fuego que aparece cuando se mueven y los disparos son sacados de este enlace (https://free-game-assets.itch.io/free-enemy-spaceship-2d-sprites-pixel-art).
+
+![image](https://user-images.githubusercontent.com/37275365/101498457-69403980-396c-11eb-82f8-50560d8b8e52.png)
+![image](https://user-images.githubusercontent.com/37275365/101498465-6ba29380-396c-11eb-871e-cfec7ce056cc.png)
+![image](https://user-images.githubusercontent.com/37275365/101498473-6e9d8400-396c-11eb-9683-520baa0b868e.png)
+![image](https://user-images.githubusercontent.com/37275365/101498513-79f0af80-396c-11eb-9a02-51f60ced1ed7.png)
+![image](https://user-images.githubusercontent.com/37275365/101498575-8bd25280-396c-11eb-836d-a7cf888df59c.png)
+![image](https://user-images.githubusercontent.com/37275365/101498574-8bd25280-396c-11eb-8331-122b8ac5ba83.png)
+![image](https://user-images.githubusercontent.com/37275365/101498572-8b39bc00-396c-11eb-8f5a-05033ca60240.png)
+
+Tenemos pensado implementar más naves y que en cada una varíe la velocidad de movimiento y de disparo, así como el daño que hacen y la vida que tienen, pero aún no está implementado.
+
+* Algunos de los enemigos los hemos sacado de este enlace : (https://opengameart.org/content/2d-enemy-characters-pack-20x20) y el meteorito de este otro: (https://opengameart.org/content/brown-asteroid)
+
+![image](https://user-images.githubusercontent.com/37275365/101498418-5ded0e00-396c-11eb-8eb7-aa910dbfcaba.png)
+![image](https://user-images.githubusercontent.com/37275365/101498428-60e7fe80-396c-11eb-9211-d58ae7643945.png)
+![image](https://user-images.githubusercontent.com/37275365/101498438-634a5880-396c-11eb-8bc2-00f3e2bf1067.png)
+
+* Todos los efectos de sonido los hemos realizado con el programa rFXGen ZERO que es de uso libre. Adjunto el enlace al programa: (https://raylibtech.itch.io/rfxgen)
+* Hasta el momento hemos implementado un efecto de sonido básico para las colisiones, uno propio para la muerte de cada tipo de enemigo y otro para los disparos.
+
+* Diagrama de navegacion del juego:
+
+![image](https://user-images.githubusercontent.com/43203256/101393821-f4b3bf00-38c7-11eb-9f98-c59e6940ab0f.png)
+
+# FASE 3
+
+* Navegación:
+
+* Diagrama de clases y API REST:
+
+* Instrucciones para ejecutar la aplicación:
+
+
 
 
 
