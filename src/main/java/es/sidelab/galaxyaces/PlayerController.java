@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class PlayerController {
 	
 	private final String dataFile = System.getProperty("user.dir") + "/src/main/java/data.txt";
+	private final String chatFile = System.getProperty("user.dir") + "/src/main/java/chat.txt";
 	Map<Long, Player> players = new ConcurrentHashMap<>();
+	Map<Long, Message> messages = new ConcurrentHashMap<>();
 	AtomicLong nextId = new AtomicLong(0);
 
 	@RequestMapping(value = "/players", method = RequestMethod.GET)
@@ -106,5 +108,17 @@ public class PlayerController {
 
 		log.close();
 		return nombre;
+	}
+	
+	//CHAT
+	@RequestMapping(value = "/chat", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public long addMessage(@RequestBody Message m) {
+
+		long id = nextId.incrementAndGet();
+		m.setId(id);
+		messages.put(id, m);
+
+		return id;
 	}
 }
