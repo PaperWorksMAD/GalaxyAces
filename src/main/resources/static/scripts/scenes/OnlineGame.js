@@ -6,6 +6,11 @@ var explosions;
 var speed;
 var lastFired = 0;
 
+var id;
+var servercaido = false;
+var playersonline;
+var timerevent;
+
 export class OnlineGame extends Phaser.Scene {
     constructor() {
         super({
@@ -18,6 +23,7 @@ export class OnlineGame extends Phaser.Scene {
         this.shipIndex2 = data.shipIndex2;
         this.efSound = data.efSound;
         this.efvol = data.efvol;
+		id = data.idAux
     }
 
     onEvent() {
@@ -43,6 +49,7 @@ export class OnlineGame extends Phaser.Scene {
 
     create() {
         console.log(this.efvol);
+		
 
         //Animaciones
         this.anims.create({ key: 'Exhaust2', frames: this.anims.generateFrameNumbers('exhaust2'), frameRate: 6, yoyo: false, repeat: -1 });
@@ -251,8 +258,12 @@ export class OnlineGame extends Phaser.Scene {
         let xbt = this.add.image(this.game.renderer.width - 50, this.game.renderer.height - 550, "x").setDepth(20);
         xbt.setInteractive();
         xbt.on("pointerup", () => {
+			deleteplayer();
             this.scene.start(sceneManager.SCENES.MAINMENU);
         })
+
+		this.imgcaido = this.add.image(this.game.renderer.width / 2, this.game.renderer.height /2, "caido").setDepth(30);
+		this.imgcaido.alpha = 0;
 
         this.text = this.add.bitmapText(this.game.renderer.width / 2 - 32, 32, "bit", this.formatTime(this.initialTime), 24).setDepth(10);
 
@@ -273,7 +284,10 @@ export class OnlineGame extends Phaser.Scene {
         this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.P = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
 
-
+		this.rivalout = this.add.image(this.game.renderer.width / 2, this.game.renderer.height/2, "rivalout").setDepth(30);	
+		this.rivalout.setScale(0.75);
+		this.rivalout.alpha = 0;	
+		
         this.j1v1 = this.add.image(this.game.renderer.width *0.82, 580, "corazon").setDepth(20);
         this.j1v2 = this.add.image(this.game.renderer.width *0.78, 580, "corazon").setDepth(20);
         this.j1v3 = this.add.image(this.game.renderer.width *0.74, 580, "corazon").setDepth(20);
@@ -354,7 +368,29 @@ export class OnlineGame extends Phaser.Scene {
         //Timer de partida y cuenta atras
         this.tiempo = this.time.addEvent({ delay: 1000, callback: this.onEvent, callbackScope: this, loop: true });
         this.tiempopartida = this.time.delayedCall(this.initialTime * 1000, this.onEvent2, [], this);
+
+		timerevent = this.time.addEvent({ delay: 1000, callback: this.PlayersOnline, callbackScope: this, loop: true });
     }
+
+	PlayersOnline(){
+			$.ajax({
+				method: 'GET',
+				url: 'http://localhost:8080/players/',
+				success: function(players)
+				{
+					playersonline = players.length;
+				}
+			}).fail(function () {
+				servercaido = true;
+		    })
+		    console.log(playersonline);
+		    if(playersonline == 1){
+				this.rivalout.alpha = 1;
+				deleteplayer();
+		    	this.time.addEvent({ delay: 3000, callback: function () {this.scene.start(sceneManager.SCENES.MAINMENU, { efSound: this.efecsound, efvol: this.efvol });}, callbackScope: this, loop: false });
+		    }
+		}
+		
     update(time, delta) {
         if (this.jugador2.vidas ==2){
             this.j2v3.setVisible(false).setActive(false);
@@ -457,6 +493,14 @@ export class OnlineGame extends Phaser.Scene {
             }
             this.scene.start(sceneManager.SCENES.SCORE, { score: this.jugador1.puntuacion, score2: this.jugador2.puntuacion, enemigos1: this.jugador1.bajas, enemigos2: this.jugador2.bajas, muerto: this.muerto, efSound: this.efSound, efvol: this.efvol});
         }
+
+		if(servercaido){
+			servercaido = false;
+			timerevent.remove(false);
+			this.imgcaido.alpha = 1;
+			deleteplayer();
+			this.time.addEvent({ delay: 3000, callback: function () {this.scene.start(sceneManager.SCENES.MAINMENU, { efSound: this.efecsound, efvol: this.efvol });}, callbackScope: this, loop: false });
+		}
     }
 
     collissionHandler(obj1, obj2) {
@@ -541,3 +585,16 @@ export class OnlineGame extends Phaser.Scene {
         obj2.setPosition(-500, -500);
     }
 }
+
+function deleteplayer(){
+	$.ajax({
+		method: 'DELETE',
+		url: 'http://localhost:8080/players/' + id
+	})
+}
+
+window.onbeforeunload = function () {
+	deleteplayer();
+	return null;
+}
+

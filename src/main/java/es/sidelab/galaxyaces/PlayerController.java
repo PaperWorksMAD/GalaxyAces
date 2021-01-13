@@ -1,6 +1,8 @@
 package es.sidelab.galaxyaces;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -81,6 +83,18 @@ public class PlayerController {
 		return players.values();
 	}
 
+	@RequestMapping(value = "/players/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<Boolean> changePlayer(@PathVariable long id) {
+		
+		Player ply = players.get(id);
+		if (ply != null) {
+			ply.setListo(true);
+			return new ResponseEntity<>(true, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+		}
+	}
+	
 	@RequestMapping(value = "/players/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Boolean> deletePlayer(@PathVariable long id) {
 
