@@ -229,11 +229,55 @@ Tenemos pensado implementar más naves y que en cada una varíe la velocidad de 
 
 # FASE 3
 
-* Navegación:
+## Navegación:
 
-* Diagrama de clases y API REST:
+* En el menú principal hemos añadido una opción para jugar online.
 
-* Instrucciones para ejecutar la aplicación:
+![image](https://user-images.githubusercontent.com/37275365/104440286-71564f00-5592-11eb-9644-583dd3d0b973.JPG)
+
+* Las redes sociales siguen igual.
+
+![image](https://user-images.githubusercontent.com/37275365/104440289-71eee580-5592-11eb-8ed1-493942198365.JPG)
+
+* La guía de los controles sigue igual.
+
+![image](https://user-images.githubusercontent.com/37275365/104440291-72877c00-5592-11eb-8c1a-ee872be648a1.JPG)
+
+* La pantalla de configuración sigue igual.
+
+![image](https://user-images.githubusercontent.com/37275365/104440293-73201280-5592-11eb-9676-d4eeeee84637.JPG)
+
+* La pantalla de selector de nave sigue igual.
+
+![image](https://user-images.githubusercontent.com/37275365/104440294-73201280-5592-11eb-83fd-9b0aace4cfda.JPG)
+
+* El modo de multijugador local sigue igual.
+
+![image](https://user-images.githubusercontent.com/37275365/104440295-73b8a900-5592-11eb-95c0-f649cd0fef4a.JPG)
+
+* Hemos añadido una pantalla online para elegir nave, nombre e interactuar mediante un chat.
+
+![image](https://user-images.githubusercontent.com/37275365/104461699-f734c300-55af-11eb-9045-8cc096e74b11.JPG)
+
+* La panatalla de puntuaciones sigue igual.
+
+![image](https://user-images.githubusercontent.com/37275365/104440299-73b8a900-5592-11eb-9a37-dbbf6d11ba2c.JPG)
+
+* Hemos añadido una pantalla para avisar cuando el servidor está caído
+
+![image](https://user-images.githubusercontent.com/37275365/104466341-6b259a00-55b5-11eb-9f94-e2f911a04526.JPG)
+
+* Diagrama de navegacion del juego:
+
+![image](https://user-images.githubusercontent.com/37275365/104441142-9a2b1400-5593-11eb-8f76-51b1f9dde04e.jpeg)
+
+## Diagrama de clases y API REST:
+
+*Las flechas blancas son flechas discontinuas.
+
+![image](https://user-images.githubusercontent.com/37275365/104466034-05d1a900-55b5-11eb-959d-95b8657df287.jpg)
+
+## Instrucciones para ejecutar la aplicación:
 
 
 
