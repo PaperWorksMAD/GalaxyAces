@@ -36,6 +36,8 @@ var numjugadoreslistos = 0;
 var mensajes = [];
 var i = 0;
 
+var ready = false;
+
 export class Online extends Phaser.Scene {
 	constructor() {
 		super({
@@ -499,7 +501,7 @@ function createPlayer() {
 	$.ajax({
 		method: "POST",
 		url: 'http://localhost:8080/players',
-		data: JSON.stringify({ "nombre": playername, "conectado": true, "nave": nave }),
+		data: JSON.stringify({ "nombre": playername, "conectado": true, "nave": nave, "ready": false }),
 		processData: false,
 		headers: {
 			"Content-Type": "application/json"

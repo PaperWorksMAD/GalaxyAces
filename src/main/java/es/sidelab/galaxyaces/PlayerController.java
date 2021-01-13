@@ -66,12 +66,15 @@ public class PlayerController {
 		pw.print(' ');
 
 		if (ply.getNave() == 1) {
-			pw.print("Naver Azul");
+			pw.print("Nave: Azul");
 		} else if (ply.getNave() == 2) {
-			pw.print("Nave Rosa");
+			pw.print("Nave: Rosa");
 		} else if (ply.getNave() == 3) {
-			pw.print("Naver Verde");
+			pw.print("Nave: Verde");
 		}
+		
+		pw.print(' ');
+		pw.print("Ready: " + ply.isReady());
 
 		pw.println();
 
@@ -137,7 +140,17 @@ public class PlayerController {
 		long id = nextId.incrementAndGet();
 		m.setId(id);
 		messages.put(id, m);
+		
+		try {
+			PrintWriter out = new PrintWriter(new FileOutputStream(new File(this.chatFile), true));
+			out.append(m.getNombre() + ": " + m.getCuerpo());
+			out.println();
+			out.close();
+		}catch (IOException e) {
+			
+		}
 
 		return id;
 	}
+
 }

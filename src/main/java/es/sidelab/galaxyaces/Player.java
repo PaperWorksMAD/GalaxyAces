@@ -51,4 +51,14 @@ public class Player {
 		this.nombre = nombre;
 	}
 
+	public boolean isReady() {
+		return ready;
+	}
+
+	public void setReady(boolean ready) {
+		this.ready = ready;
+	}
+	
+	
+
 }
