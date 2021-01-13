@@ -12,7 +12,7 @@
   				width: 190px;
   				height: 30px;
 				display: none;
-				position: fixed; 
+				position: absolute; 
 				top:250px; 
 				left:200px;
 			}
@@ -21,23 +21,26 @@
 				background-color: #C4BD70;
   				width: 250px;
   				height: 15px;
-				position: fixed; 
+				position: absolute; 
 				top:500px; 
 				left:550px;
 				display: none;
 			}
 			
 			.button1{
-				position: fixed; 
+				position: absolute; 
 				top:500px; 
 				left:490px;
 				display: none;
 			}
 			
 			.chatCanvas{
+				overflow: scroll ;
 				display: none;
 				position: absolute;
 				background-color: #C4BD70;
+				width : 250px;
+				height : 240px;  
 				top: 250px;
 				left: 550px;
 				opacity: 0.5;
@@ -54,6 +57,7 @@
     <!-- Chat -->
     <input class="input-text" id="textinput" type="text" placeholder="Introduce mensaje">
     <button class="button1" id="send-button">Enviar</button>
-    <canvas class="chatCanvas" id="chat" width="250" height="240"></canvas>
+    <div class="chatCanvas" id="chat">    </div>
+<!-- <canvas class="chatCanvas" id="chatcanvas" width="250" height="240"></canvas> --> 
 </body>
 </html>

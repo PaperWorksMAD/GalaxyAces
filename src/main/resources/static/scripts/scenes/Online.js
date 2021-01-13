@@ -18,8 +18,9 @@ var naveazullock = false;
 var naverosalock = false;
 var naveverdelock = false;
 
-var timerjugadores;
+var timerjugadores = [];
 var id;
+var iAux = 1;
 var permitido = true;
 
 var naverosa;
@@ -27,6 +28,9 @@ var naveazul;
 var naveverde;
 
 var cuerpo;
+
+var mensajes = [];
+var i = 0;
 
 export class Online extends Phaser.Scene {
 	constructor() {
@@ -39,7 +43,7 @@ export class Online extends Phaser.Scene {
 		this.efecsound = data.efSound;
 		this.efvol = data.efvol;
 	}
-
+	
 	create() {
 		console.log("volumen", this.efvol);
 		this.efvol = this.efvol;
@@ -47,7 +51,8 @@ export class Online extends Phaser.Scene {
 		this.add.image(this.game.renderer.width / 2 - 100, this.game.renderer.height * 0.20, "titulo").setDepth(1);
 		this.imgcaido = this.add.image(this.game.renderer.width / 2, this.game.renderer.height /2, "caido").setDepth(10);
 		this.imgcaido.alpha = 0;
-		
+		this.selecionanombre = this.add.text(500, 200, 'Introduce un nombre ', { font: '26px Courier', fill: '#ffffff' });
+		this.selecionanombre.alpha = 0;
 		//Texto
 		this.conectadosNum = this.add.text(500, 200, 'Jugadores conectados: ', { font: '26px Courier', fill: '#ffffff' });
 		this.conectadosNum.setScale(0.75);
@@ -108,15 +113,16 @@ export class Online extends Phaser.Scene {
 		document.getElementById('nameinput').style.display = 'block';
 		document.getElementById('textinput').style.display = 'block';
 		document.getElementById('send-button').style.display = 'block';
-		document.getElementById('chat').style.display = 'inline';
+		document.getElementById('chat').style.display = 'block';
 		
-		document.getElementById('textinput').addEventListener('click', function(e){
-			escribir();
-		})
 		
-		timerjugadores = this.time.addEvent({ delay: 1000, callback: this.PlayersOnline, callbackScope: this, loop: true });
+		document.getElementById('send-button').addEventListener("click", escribir);
+		
+		timerjugadores[iAux] = this.time.addEvent({ delay: 1000, callback: this.PlayersOnline, callbackScope: this, loop: true });
 		
 		this.time.addEvent({ delay: 1000, callback: leerFichero, callbackScope: this, loop: true });
+		
+		this.time.addEvent({ delay: 1000, callback: this.EscribirChat, callbackScope: this, loop: true });
 
 	}
 	
@@ -124,22 +130,29 @@ export class Online extends Phaser.Scene {
 		if(refrescar){
 			this.refresco();
 			this.actnaves();
+			//act jugadores
 			refrescar = false;
 		}
 		
 		if (servercaido) {
 			console.log('server desconectado');
 			servercaido = false;
-			timerjugadores.remove(false);
+			timerjugadores[iAux].remove(false);
 			document.getElementById('nameinput').style.display = 'none' ;
 			document.getElementById('textinput').style.display = 'none';
 			document.getElementById('send-button').style.display = 'none';
 			document.getElementById('chat').style.display = 'none';
 			this.imgcaido.alpha = 1;
 			deletePlayerRoom();
-			this.time.addEvent({ delay: 6000, callback: function () {
+			this.time.addEvent({ delay: 4000, callback: function () {
 				this.scene.start(sceneManager.SCENES.MAINMENU, { efSound: this.efecsound, efvol: this.efvol });
 			}, callbackScope: this, loop: false });
+		}
+		
+		while (i < mensajes.length){
+			document.getElementById('chat').insertAdjacentHTML("beforeend",mensajes[i].nombre +': '+ mensajes[i].cuerpo + '<br>');
+			document.getElementById('chat').scrollTop = document.getElementById('chat').scrollHeight;
+			i++;
 		}
 		
 		this.fondo.tilePositionX += 0.5;
@@ -170,9 +183,15 @@ export class Online extends Phaser.Scene {
 						createPlayer();
 					}else{
 						permitido = true;
+						
+						
 						console.log('nombre no valido');
 					}
 				}else{
+					this.selecionanombre.alpha = 1;
+					this.time.addEvent({ delay: 4000, callback: function () {
+				this.selecionanombre.alpha = 0;
+			}, callbackScope: this, loop: false });
 					console.log('nombre vacio');
 				}
 			}
@@ -270,10 +289,11 @@ export class Online extends Phaser.Scene {
 			{
 				if (playersonline == 2)
 				{
+					this.idAux = id;
 					this.time.addEvent({delay: 2000, callback: function()
 						{
 							this.reiniciar();
-							this.scene.start(sceneManager.SCENES.GAME, { shipIndex1: this.shipIndex1, shipIndex2: this.shipIndex2, efSound: this.efecsound, efvol: this.efvol });
+							this.scene.start(sceneManager.SCENES.ONLINEGAME, { shipIndex1: this.shipIndex1, shipIndex2: this.shipIndex2, efSound: this.efecsound, efvol: this.efvol, idAux: this.idAux });
 						}, callbackScope: this, loop: false });
 				} 
 				else if(playersonline == 1)
@@ -419,6 +439,19 @@ export class Online extends Phaser.Scene {
 			servercaido = true;
 		})
 	}
+	
+	EscribirChat(){
+		$.ajax({
+			method: 'GET',
+			url: 'http://localhost:8080/chat',
+			success: function(messages) {
+				mensajes = messages;
+				console.log(mensajes);
+			}
+		}).fail(function() {
+			servercaido = true;
+		})
+	}
 		
 }
 
@@ -471,13 +504,17 @@ function deletePlayerRoom() {
 	})
 }
 
-window.onbeforeunload = function () {
-	deletePlayerRoom();
-	return null;
-}
-
-
 //CHAT
+function escribir(){
+	if(playername != null){
+		cuerpo = document.getElementById('textinput').value;
+		document.getElementById('textinput').value = "";
+		writeMessage();
+		} else {
+			console.log ('introduce un nombre primero');
+		}
+	}
+	
 function writeMessage(){
 	$.ajax({
 		method: "POST",
@@ -488,11 +525,11 @@ function writeMessage(){
 			"Content-Type": "application/json"
 		},
 	})
-	
-function escribir(){
-		cuerpo = document.getElementById('textinput').value;
-		document.getElementById('textinput').value = "Introduce un mensaje";
-		writeMessage();
-	}
-	
 }
+
+window.onbeforeunload = function () {
+	deletePlayerRoom();
+	return null;
+}
+
+

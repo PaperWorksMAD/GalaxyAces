@@ -9,13 +9,13 @@ import {Controls} from "./scenes/Controls.js";
 import {Score} from "./scenes/Score.js";
 import {CharacterSelect} from "./scenes/CharacterSelect.js";
 import {Online} from "./scenes/Online.js";
-
+import {OnlineGame} from "./scenes/OnlineGame.js";
 
 let game = new Phaser.Game({
 	width: 800,
 	height: 600,
 	scene:[
-		PreLoad, MainMenu, Game, Config, Rrss, Controls, CharacterSelect, Score, Online
+		PreLoad, MainMenu, Game, Config, Rrss, Controls, CharacterSelect, Score, Online, OnlineGame
 	],
 	render:{
 		pixelArt: true

@@ -1,8 +1,6 @@
 package es.sidelab.galaxyaces;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -113,6 +111,12 @@ public class PlayerController {
 	}
 	
 	//CHAT
+	
+	@RequestMapping(value = "/chat", method = RequestMethod.GET)
+	public Collection<Message> getMessage() {
+		return messages.values();
+	}
+	
 	@RequestMapping(value = "/chat", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public long addMessage(@RequestBody Message m) {
