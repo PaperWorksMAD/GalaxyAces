@@ -1,27 +1,4 @@
-Nombre: s Id: 10 Nave Rosa
-Nombre: asdf Id: 1 Naver Azul
-Nombre: asdf Id: 1 Naver Azul
-Nombre: a Id: 1 Naver Azul
-Nombre: a Id: 1 Naver Azul
-Nombre: a Id: 1 Naver Azul
-Nombre: a Id: 1 Naver Azul
-Nombre: a Id: 1 Naver Azul
-Nombre: a Id: 1 Naver Azul
-Nombre: a Id: 1 Naver Azul
-Nombre: b Id: 2 Nave Rosa
-Nombre: a Id: 1 Naver Azul
-Nombre: a Id: 1 Naver Azul
-Nombre: b Id: 2 Nave Rosa
-Nombre: a Id: 1 Naver Azul
-Nombre: a Id: 1 Naver Azul
-Nombre: b Id: 2 Nave Rosa
-Nombre: a Id: 1 Naver Azul
-Nombre: b Id: 2 Nave Rosa
-Nombre: a Id: 1 Naver Azul
-Nombre: b Id: 2 Nave Rosa
-Nombre: a Id: 1 Naver Azul
-Nombre: b Id: 2 Nave Rosa
-Nombre: f Id: 3 Naver Azul
-Nombre: j Id: 4 Nave Rosa
-Nombre: j Id: 5 Naver Azul
-Nombre: samuel Id: 1 Naver Azul
+Nombre: a | Id: 1 | Nave: Azul
+Nombre: b | Id: 1 | Nave: Azul
+Nombre: c Id: 1 Nave: Azul
+
