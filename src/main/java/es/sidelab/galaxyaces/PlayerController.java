@@ -103,7 +103,6 @@ public class PlayerController {
 			String[] splited = line.split(" ");
 			nombre[aux] = splited[3];
 			aux++;
-
 		}
 
 		log.close();
