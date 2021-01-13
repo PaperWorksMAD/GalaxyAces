@@ -259,7 +259,7 @@ Tenemos pensado implementar más naves y que en cada una varíe la velocidad de 
 
 ![image](https://user-images.githubusercontent.com/37275365/104461699-f734c300-55af-11eb-9045-8cc096e74b11.JPG)
 
-* La panatalla de puntuaciones sigue igual.
+* La pantalla de puntuaciones sigue igual.
 
 ![image](https://user-images.githubusercontent.com/37275365/104440299-73b8a900-5592-11eb-9a37-dbbf6d11ba2c.JPG)
 
