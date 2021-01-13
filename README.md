@@ -230,6 +230,21 @@ Tenemos pensado implementar más naves y que en cada una varíe la velocidad de 
 # FASE 3
 
 * Navegación:
+![image](https://user-images.githubusercontent.com/37275365/104440286-71564f00-5592-11eb-9644-583dd3d0b973.JPG)
+
+![image](https://user-images.githubusercontent.com/37275365/104440289-71eee580-5592-11eb-8ed1-493942198365.JPG)
+
+![image](https://user-images.githubusercontent.com/37275365/104440291-72877c00-5592-11eb-8c1a-ee872be648a1.JPG)
+
+![image](https://user-images.githubusercontent.com/37275365/104440293-73201280-5592-11eb-9676-d4eeeee84637.JPG)
+
+![image](https://user-images.githubusercontent.com/37275365/104440294-73201280-5592-11eb-83fd-9b0aace4cfda.JPG)
+
+![image](https://user-images.githubusercontent.com/37275365/104440295-73b8a900-5592-11eb-95c0-f649cd0fef4a.JPG)
+
+![image](https://user-images.githubusercontent.com/37275365/104440296-73b8a900-5592-11eb-8ee6-d0d4573f3be0.JPG)
+
+![image](https://user-images.githubusercontent.com/37275365/104440299-73b8a900-5592-11eb-9a37-dbbf6d11ba2c.JPG)
 
 * Diagrama de clases y API REST:
 
