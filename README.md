@@ -269,6 +269,8 @@ Tenemos pensado implementar más naves y que en cada una varíe la velocidad de 
 
 * Diagrama de clases y API REST:
 
+![image](https://user-images.githubusercontent.com/37275365/104466034-05d1a900-55b5-11eb-959d-95b8657df287.jpg)
+
 * Instrucciones para ejecutar la aplicación:
 
 
