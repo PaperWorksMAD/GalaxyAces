@@ -6,6 +6,7 @@ public class Player {
 	private String nombre;
 	private boolean conectado;
 	private int nave;
+	private boolean ready;
 
 	public Player() {
 	}
@@ -41,5 +42,15 @@ public class Player {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+
+	public boolean isReady() {
+		return ready;
+	}
+
+	public void setReady(boolean ready) {
+		this.ready = ready;
+	}
+	
+	
 
 }
