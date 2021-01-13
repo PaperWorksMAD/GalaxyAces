@@ -111,6 +111,12 @@ public class PlayerController {
 	}
 	
 	//CHAT
+	
+	@RequestMapping(value = "/chat", method = RequestMethod.GET)
+	public Collection<Message> getMessage() {
+		return messages.values();
+	}
+	
 	@RequestMapping(value = "/chat", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public long addMessage(@RequestBody Message m) {
