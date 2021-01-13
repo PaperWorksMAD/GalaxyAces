@@ -16,18 +16,21 @@ var arrayNombres;
 var pillado = false;
 var naveazullock = false;
 var naverosalock = false;
-var naveverdelock = false;
+//var naveverdelock = false;
 
-var timerjugadores = [];
+var timerjugadores;
 var id;
-var iAux = 1;
 var permitido = true;
 
 var naverosa;
 var naveazul;
-var naveverde;
+//var naveverde;
 
 var cuerpo;
+var noNombre;
+var esperandoJugador;
+var entrandopartida;
+
 
 var mensajes = [];
 var i = 0;
@@ -51,25 +54,49 @@ export class Online extends Phaser.Scene {
 		this.add.image(this.game.renderer.width / 2 - 100, this.game.renderer.height * 0.20, "titulo").setDepth(1);
 		this.imgcaido = this.add.image(this.game.renderer.width / 2, this.game.renderer.height /2, "caido").setDepth(10);
 		this.imgcaido.alpha = 0;
-		this.selecionanombre = this.add.text(500, 200, 'Introduce un nombre ', { font: '26px Courier', fill: '#ffffff' });
-		this.selecionanombre.alpha = 0;
+		
 		//Texto
-		this.conectadosNum = this.add.text(500, 200, 'Jugadores conectados: ', { font: '26px Courier', fill: '#ffffff' });
+		noNombre = this.add.text(this.game.renderer.width / 2 - 250, 450, 'Introduce un nombre', { font: '26px Courier', fill: '#ffffff' });
+		noNombre.setScale(0.75);
+		noNombre.alpha = 0;
+		
+		this.yaseleccionado = this.add.text(200, 500, 'Ya has seleccinado nave', { font: '26px Courier', fill: '#ffffff' });
+		this.yaseleccionado.setScale(0.75);
+		this.yaseleccionado.alpha = 0;
+		
+		this.navedisponible = this.add.text(200, 500, 'Nave ya seleccionada', { font: '26px Courier', fill: '#ffffff' });
+		this.navedisponible.setScale(0.75);
+		this.navedisponible.alpha = 0;
+		
+		entrandopartida = this.add.text(200, 500, 'Entrnado a partida', { font: '26px Courier', fill: '#ffffff' });
+		entrandopartida.setScale(0.75);
+		entrandopartida.alpha = 0;
+				
+		this.noNombrevalido = this.add.text(200, 500, 'Nombre no valido', { font: '26px Courier', fill: '#ffffff' });
+		this.noNombrevalido.setScale(0.75);
+		this.noNombrevalido.alpha = 0;
+						
+		this.navetext1 = this.add.text(this.game.renderer.width / 2 - 250, 420, '', { font: '26px Courier', fill: '#ffffff' });
+		this.navetext2 = this.add.text(this.game.renderer.width / 2 - 100, 420, '', { font: '26px Courier', fill: '#ffffff' });
+		
+		this.conectadosNum = this.add.text(180, 180, 'Jugadores conectados: ', { font: '26px Courier', fill: '#ffffff' });
 		this.conectadosNum.setScale(0.75);
 		
-		this.esperandoJugador = this.add.text(this.game.renderer.width / 2 - 270, 430, '', { font: '26px Courier', fill: '#ffffff' });
-
+		esperandoJugador = this.add.text(this.game.renderer.width / 2 - 270, 450, 'Esperando otro jugador', { font: '26px Courier', fill: '#ffffff' });
+		esperandoJugador.setScale(0.75);
+		esperandoJugador.alpha = 0;
+		
 		this.jugador = 1
 		this.shipIndex1 = 0;
 		this.shipIndex2 = 0;
 
-		naverosa = this.add.image(this.game.renderer.width / 2 - 100, 350, 'nave2').setDepth(1).setInteractive();
-		naveazul = this.add.image(this.game.renderer.width / 2 - 150 - 100, 350, 'nave1').setDepth(1).setInteractive();
-		naveverde = this.add.image(this.game.renderer.width / 2 + 150 - 100, 350, 'nave3').setDepth(1).setInteractive();
+		naverosa = this.add.image(this.game.renderer.width / 2 - 50, 350, 'nave2').setDepth(1).setInteractive();
+		naveazul = this.add.image(this.game.renderer.width / 2 - 200, 350, 'nave1').setDepth(1).setInteractive();
+		//naveverde = this.add.image(this.game.renderer.width / 2 + 150 - 100, 350, 'nave3').setDepth(1).setInteractive();
 
 		naveazul.on("pointerup",()=> this.actionOnNaveAzul());
 		naverosa.on("pointerup",()=> this.actionOnNaveRosa());
-		naveverde.on("pointerup",()=> this.actionOnNaveVerde());
+		//naveverde.on("pointerup",()=> this.actionOnNaveVerde());
 		
 		let xbt = this.add.image(this.game.renderer.width - 50, this.game.renderer.height - 550, "x").setDepth(2);
 		xbt.setInteractive();
@@ -78,51 +105,20 @@ export class Online extends Phaser.Scene {
 			this.reiniciar();
 			this.scene.start(sceneManager.SCENES.MAINMENU, { efSound: this.efecsound, efvol: this.efvol });
 		})
-/*
-		nave2.on("pointerup", () => {
-			if (this.jugador === 1) {
-				this.shipIndex1 = 2;
-				this.jugador++;
-			} else if (this.jugador === 2 && this.shipIndex1 != 2) {
-				this.shipIndex2 = 2;
-				this.jugador++;
-			}
-		})
-
-		nave1.on("pointerup", () => {
-			if (this.jugador === 1) {
-				this.shipIndex1 = 3;
-				this.jugador++;
-			} else if (this.jugador === 2 && this.shipIndex1 != 3) {
-				this.shipIndex2 = 3;
-				this.jugador++;
-			}
-		})
-
-		nave3.on("pointerup", () => {
-			if (this.jugador === 1) {
-				this.shipIndex1 = 4;
-				this.jugador++;
-			} else if (this.jugador === 2 && this.shipIndex1 != 4) {
-				this.shipIndex2 = 4;
-				this.jugador++;
-			}
-		})
-*/
 		
 		document.getElementById('nameinput').style.display = 'block';
 		document.getElementById('textinput').style.display = 'block';
 		document.getElementById('send-button').style.display = 'block';
 		document.getElementById('chat').style.display = 'block';
 		
+		document.getElementById('send-button').addEventListener("click", escribir.bind(this));
 		
-		document.getElementById('send-button').addEventListener("click", escribir);
+		timerjugadores = this.time.addEvent({ delay: 500, callback: this.PlayersOnline, callbackScope: this, loop: true });
 		
-		timerjugadores[iAux] = this.time.addEvent({ delay: 1000, callback: this.PlayersOnline, callbackScope: this, loop: true });
+		this.time.addEvent({ delay: 500, callback: leerFichero, callbackScope: this, loop: true });
 		
-		this.time.addEvent({ delay: 1000, callback: leerFichero, callbackScope: this, loop: true });
+		this.time.addEvent({ delay: 500, callback: this.EscribirChat, callbackScope: this, loop: true });
 		
-		this.time.addEvent({ delay: 1000, callback: this.EscribirChat, callbackScope: this, loop: true });
 
 	}
 	
@@ -130,21 +126,21 @@ export class Online extends Phaser.Scene {
 		if(refrescar){
 			this.refresco();
 			this.actnaves();
-			//act jugadores
+			this.actplayers();
 			refrescar = false;
 		}
 		
 		if (servercaido) {
 			console.log('server desconectado');
 			servercaido = false;
-			timerjugadores[iAux].remove(false);
+			timerjugadores.remove(false);
 			document.getElementById('nameinput').style.display = 'none' ;
 			document.getElementById('textinput').style.display = 'none';
 			document.getElementById('send-button').style.display = 'none';
 			document.getElementById('chat').style.display = 'none';
 			this.imgcaido.alpha = 1;
 			deletePlayerRoom();
-			this.time.addEvent({ delay: 4000, callback: function () {
+			this.time.addEvent({ delay: 3000, callback: function () {
 				this.scene.start(sceneManager.SCENES.MAINMENU, { efSound: this.efecsound, efvol: this.efvol });
 			}, callbackScope: this, loop: false });
 		}
@@ -169,6 +165,10 @@ export class Online extends Phaser.Scene {
 					while((x < arrayNombres.length)&&(permitido)&&(arrayNombres[x]!=null)){
 						if(arrayNombres[x] == playername){
 							permitido = false;
+							noNombre.alpha = 1;
+							this.time.addEvent({ delay: 2000, callback: function () {
+							noNombre.alpha = 0;
+							}, callbackScope: this, loop: false });
 							console.log('nombre ya existente');
 						}else{
 							permitido = true;
@@ -179,22 +179,34 @@ export class Online extends Phaser.Scene {
 						console.log(playername);
 						nave = 1;
 						this.shipIndex1 = 1;
-						this.shipIndex2 = 3;
+						this.shipIndex2 = 2;
 						createPlayer();
 					}else{
 						permitido = true;
-						
-						
+						this.noNombrevalido.alpha = 1;
+						this.time.addEvent({ delay: 2000, callback: function () {
+						this.noNombrevalido.alpha = 0;
+						}, callbackScope: this, loop: false });
 						console.log('nombre no valido');
 					}
 				}else{
-					this.selecionanombre.alpha = 1;
-					this.time.addEvent({ delay: 4000, callback: function () {
-				this.selecionanombre.alpha = 0;
-			}, callbackScope: this, loop: false });
+					noNombre.alpha = 1;
+					this.time.addEvent({ delay: 2000, callback: function () {
+					noNombre.alpha = 0;
+					}, callbackScope: this, loop: false });
 					console.log('nombre vacio');
 				}
+			}else{
+				this.yaseleccionado.alpha = 1;
+				this.time.addEvent({ delay: 2000, callback: function () {
+				this.yaseleccionado.alpha = 0;
+				}, callbackScope: this, loop: false });
 			}
+		}else{
+			this.navedisponible.alpha = 1;
+			this.time.addEvent({ delay: 2000, callback: function () {
+			this.navedisponible.alpha = 0;
+			}, callbackScope: this, loop: false });	
 		}
 	}
 	
@@ -222,15 +234,33 @@ export class Online extends Phaser.Scene {
 						createPlayer();
 					}else{
 						permitido = true;
+						this.noNombrevalido.alpha = 1;
+						this.time.addEvent({ delay: 2000, callback: function () {
+						this.noNombrevalido.alpha = 0;
+						}, callbackScope: this, loop: false });
 						console.log('nombre no valido');
 					}
 				}else{
+					noNombre.alpha = 1;
+					this.time.addEvent({ delay: 2000, callback: function () {
+					noNombre.alpha = 0;
+					}, callbackScope: this, loop: false });
 					console.log('nombre vacio');
 				}
+			}else{
+				this.yaseleccionado.alpha = 1;
+				this.time.addEvent({ delay: 2000, callback: function () {
+				this.yaseleccionado.alpha = 0;
+				}, callbackScope: this, loop: false });
 			}
+		}else{
+			this.navedisponible.alpha = 1;
+			this.time.addEvent({ delay: 2000, callback: function () {
+			this.navedisponible.alpha = 0;
+			}, callbackScope: this, loop: false });	
 		}
 	}
-	
+	/*
 	actionOnNaveVerde() {
 		if(!naveverdelock){
 			if(pillado == false){
@@ -263,156 +293,142 @@ export class Online extends Phaser.Scene {
 			}
 		}
 	}
-	
+	*/
 	refresco(){
 		naveazullock = false;
 		naverosalock = false;
-		naveverdelock = false;
+		//naveverdelock = false;
 		
-			for(var i = 0; playersonline > i; i++ )
-			{
-				if(playerslist[i].nave == 1)
-				{
+			for(var i = 0; i < playersonline; i++){
+				if(playerslist[i].nave == 1){
 					naveazullock = true;
-				} 
-				else if(playerslist[i].nave == 2)
-				{
+				}else if(playerslist[i].nave == 2){
 					naverosalock = true;
 				}
-				else if(playerslist[i].nave == 3)
-				{
-					naveverdelock = true;
-				}
+				//else if(playerslist[i].nave == 3){
+				//	naveverdelock = true;
+				//}
 			}
-
-			if ((playersonline > 0)&&(pillado))
-			{
-				if (playersonline == 2)
-				{
+			
+			if ((playersonline > 0)&&(pillado)){
+				if (playersonline == 2){
+					esperandoJugador.alpha = 0;
+					entrandopartida.alpha = 1;
 					this.idAux = id;
-					this.time.addEvent({delay: 2000, callback: function()
-						{
+					this.time.addEvent({delay: 2000, callback: function(){
 							this.reiniciar();
 							this.scene.start(sceneManager.SCENES.ONLINEGAME, { shipIndex1: this.shipIndex1, shipIndex2: this.shipIndex2, efSound: this.efecsound, efvol: this.efvol, idAux: this.idAux });
 						}, callbackScope: this, loop: false });
-				} 
-				else if(playersonline == 1)
-				{
-					if(playerslist[0].nave == 1)
-					{
-						this.esperandoJugador.setText('Esperando contrincante');	
-						this.time.addEvent({delay: 2000, callback: function()
-						{
-							this.esperandoJugador.setText('');
-						}, callbackScope: this, loop: false });	
+				}else if(playersonline == 1){
+						entrandopartida.alpha = 0;
+						esperandoJugador.alpha = 1;	
 						console.log('esperando otro jugador');
-					} 
-					else if(playerslist[0].nave == 2)
-					{
-						this.esperandoJugador.setText('Esperando contrincante');	
-						this.time.addEvent({delay: 2000, callback: function()
-						{
-							this.esperandoJugador.setText('');
-						}, callbackScope: this, loop: false });	
-						console.log('esperando otro jugador');
-					}
 				}
 			}
 			
 			this.conectadosNum.setText('Jugadores conectados: ' + playersonline);			
 			playersnum=playersonline;		
 	}
-	
+
 	actnaves(){
-		if((playersonline == 1)&&(!pillado))
-			{
-				if(playerslist[0].nave == 1)
-				{
-					naveazul.alpha = 0.3;
-					naverosa.alpha = 1;
-					naveverde.alpha = 1;
-				} 
-				else if(playerslist[0].nave == 2)
-				{
-					naveazul.alpha = 1;
-					naverosa.alpha = 0.3;
-					naveverde.alpha = 1;
-				}
-				else if(playerslist[0].nave == 3)
-				{
-					naveazul.alpha = 1;
-					naverosa.alpha = 1;
-					naveverde.alpha = 0.3;
-				}
-			}
-			else if((playersonline == 1)&&(pillado)) 
-			{
-				if(playerslist[0].nave == 1)
-				{
-					naveazul.alpha = 1;
-					naverosa.alpha = 0.5;
-					naveverde.alpha = 0.5;
-				} 
-				else if(playerslist[0].nave == 2)
-				{
+		if((playersonline == 1)&&(!pillado)){
+				if(playerslist[0].nave == 1){
 					naveazul.alpha = 0.5;
 					naverosa.alpha = 1;
-					naveverde.alpha = 0.5;
-				}
-				else if(playerslist[0].nave == 3)
-				{
-					naveazul.alpha = 0.5;
-					naverosa.alpha = 0.5;
-					naveverde.alpha = 1;
-				}
-			}
-			else if(playersonline == 2)
-			{
-				if(playerslist[0].nave == nave)
-				{
+					//naveverde.alpha = 1;
+				}else if(playerslist[0].nave == 2){
 					naveazul.alpha = 1;
 					naverosa.alpha = 0.5;
-					naveverde.alpha = 0.5;
-				} 
-				else if(playerslist[0].nave == nave++)
-				{
+					//naveverde.alpha = 1;
+				}
+				//else if(playerslist[0].nave == 3){
+				//	naveazul.alpha = 1;
+				//	naverosa.alpha = 1;
+				//	naveverde.alpha = 0.3;
+				//}
+			}else if((playersonline == 1)&&(pillado)) {
+				if(playerslist[0].nave == 1){
+					naveazul.alpha = 1;
+					naverosa.alpha = 0.5;
+					//naveverde.alpha = 0.5;
+				}else if(playerslist[0].nave == 2){
 					naveazul.alpha = 0.5;
 					naverosa.alpha = 1;
-					naveverde.alpha = 0.5;
+					//naveverde.alpha = 0.5;
 				}
-				else{
-					naveazul.alpha = 0.5;
+				//else if(playerslist[0].nave == 3){
+					//naveazul.alpha = 0.5;
+					//naverosa.alpha = 0.5;
+					//naveverde.alpha = 1;
+				//}
+			}else if(playersonline == 2){
+				if(playerslist[0].nave == nave){
+					naveazul.alpha = 1;
 					naverosa.alpha = 0.5;
-					naveverde.alpha = 1;
+					//naveverde.alpha = 0.5;
+				}else{
+					naveazul.alpha = 0.5;
+					naverosa.alpha = 1;
+					//naveverde.alpha = 0.5;
 				}
-			}
-			else if(playersonline == 0)
-			{
+			}else if(playersonline == 0){
 				naveazul.alpha = 1;
 				naverosa.alpha = 1;
-				naveverde.alpha = 1;
+				//naveverde.alpha = 1;
+			}
+	}
+	
+	actplayers(){
+		if((playersonline == 1)&&(!pillado)){
+				if(playerslist[0].nave == 1){
+					this.navetext1.setText(playerslist[0].nombre);
+					this.navetext2.setText('');
+				}else if(listaJugadores[0].nave == 2){
+					this.navetext1.setText('');
+					this.navetext2.setText(playerslist[0].nombre);
+				}
+			}else if((playersonline == 1)&&(pillado)) {
+				if(playerslist[0].nave == 1){
+					this.navetext1.setText(playername);
+					this.navetext2.setText('');
+				}else if(playerslist[0].nave == 2)
+				{
+					this.navetext1.setText('');
+					this.navetext2.setText(playername);
+				}
+			}else if(playersonline == 2){
+				if(playerslist[0].nave == 1){
+					this.navetext1.setText(playerslist[0].nombre);
+					this.navetext2.setText(playerslist[1].nombre);
+				}else if(playerslist[0].nave == 2){
+					this.navetext1.setText(playerslist[1].nombre);
+					this.navetext2.setText(playerslist[0].nombre);
+				}
+			}else if(playersonline == 0){
+				this.navetext1.setText('');
+				this.navetext2.setText('');
 			}
 	}
 
-	
 	reiniciar ()
-		{
-			playersonline = 0;
-			playersnum = 0;
-			id = 0;
-			nave = 0;
-			
+		{			
 			pillado = false;
 			refrescar = false;
 			naveazullock = false;
 			naverosalock = false;
-			naveverdelock = false;
-		
-			
+			permitido = true;
+			//naveverdelock = false;
+			playersonline = 0;
+			playersnum = 0;
+			id = 0;
+			nave = 0;			
 			playername = null;
 			playerslist = null;
 			servercaido = false;
-			
+			naveazul.alpha = 1;
+			naverosa.alpha = 1;
+			this.navetext1.setText('');
+			this.navetext2.setText('');
 			document.getElementById('nameinput').style.display = 'none' ;
 			document.getElementById('textinput').style.display = 'none';
 			document.getElementById('send-button').style.display = 'none';
@@ -466,9 +482,12 @@ function createPlayer() {
 		},
 		success: function () {
 			if (playersonline == 1) {
+				esperandoJugador.alpha = 1; 
 				console.log ('un jugador');
 			}
 			else if (playersonline == 2) {
+				esperandoJugador.alpha = 0;
+				entrandopartida.alpha = 1;	
 				console.log ('un jugador');
 			}
 
@@ -511,6 +530,10 @@ function escribir(){
 		document.getElementById('textinput').value = "";
 		writeMessage();
 		} else {
+			noNombre.alpha = 1;
+			this.time.addEvent({ delay: 2000, callback: function () {
+			noNombre.alpha = 0;
+			}, callbackScope: this, loop: false });			
 			console.log ('introduce un nombre primero');
 		}
 	}

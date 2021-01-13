@@ -1,9 +1,0 @@
-Nombre: samuel Id: 1 Naver Azul
-Nombre: samuel Id: 5 Naver Azul
-Nombre: aaa Id: 8 Naver Verde
-Nombre: aaa Id: 9 Nave Rosa
-Nombre: ab Id: 11 Nave Rosa
-Nombre: a Id: 1 Naver Azul
-Nombre: a Id: 1 Naver Azul
-Nombre: a Id: 5 Naver Azul
-Nombre: a Id: 36 Naver Azul
