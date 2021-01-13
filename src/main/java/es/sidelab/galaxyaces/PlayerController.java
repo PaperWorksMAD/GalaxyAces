@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
+
+import javax.annotation.PostConstruct;
+
 import java.io.*;
 
 import org.springframework.http.HttpStatus;
@@ -26,6 +29,26 @@ public class PlayerController {
 	Map<Long, Message> messages = new ConcurrentHashMap<>();
 	AtomicLong nextId = new AtomicLong(0);
 
+	@PostConstruct
+	public void init() {
+		try {
+		BufferedReader log = new BufferedReader(new FileReader(new File(this.chatFile)));
+		String line;
+		long aux = nextId.incrementAndGet();
+		Message m;
+		while (((line = log.readLine()) != null) && (aux <= 100)) {
+			String[] splited = line.split(": ");
+			m = new Message((long)aux, splited[0], splited[1]);
+			this.messages.put((long)aux, m);
+			aux = nextId.incrementAndGet();
+		}
+		log.close();
+		
+		}catch (IOException e){
+			System.out.println("te jodes");
+		}
+	}
+	
 	@RequestMapping(value = "/players", method = RequestMethod.GET)
 	public Collection<Player> getJugadores() {
 		return players.values();

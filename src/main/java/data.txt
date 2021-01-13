@@ -1,7 +1,4 @@
 Nombre: a | Id: 1 | Nave: Azul
-Nombre: a | Id: 1 | Nave: Azul
-Nombre: q Id: 1 Nave: Azul
-Nombre: b Id: 1 Nave: Azul
-Nombre: b Id: 1 Nave: Azul
-Nombre: b Id: 1 Nave: Azul
-Nombre: b Id: 3 Nave: Rosa
+Nombre: b | Id: 1 | Nave: Azul
+Nombre: c Id: 1 Nave: Azul
+

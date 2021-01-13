@@ -5,6 +5,14 @@ public class Message {
 	private String nombre;
 	private String cuerpo;
 	
+	public Message() {}
+	
+	public Message(long id, String nombre, String cuerpo) {
+		this.id = id;
+		this.nombre = nombre;
+		this.cuerpo = cuerpo;
+	}
+	
 	public long getId() {
 		return id;
 	}

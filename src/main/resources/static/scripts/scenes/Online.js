@@ -178,13 +178,13 @@ export class Online extends Phaser.Scene {
 				if(playername !== ''){
 					var x = 0;
 					while((x < arrayNombres.length)&&(permitido)&&(arrayNombres[x]!=null)){
-						if((arrayNombres[x] == playername)||(playerslist[x].nombre == playername)){
+						if(arrayNombres[x] == playername){ 
 							permitido = false;
 							console.log('nombre ya existente');
 						}else{
 							permitido = true;
-							break;
 						}
+						x++;
 					}
 					if(permitido){
 						console.log(playername);
@@ -229,13 +229,13 @@ export class Online extends Phaser.Scene {
 				if(playername !== ''){
 					var x = 0;
 					while((x < arrayNombres.length)&&(permitido)&&(arrayNombres[x]!=null)){
-						if((arrayNombres[x] == playername)||(playerslist[x].nombre == playername)){
+						if(arrayNombres[x] == playername){
 							permitido = false;
 							console.log('nombre ya existente');
 						}else{
 							permitido = true;
-							break;
 						}
+						x++;
 					}
 					if(permitido){
 						console.log(playername);
