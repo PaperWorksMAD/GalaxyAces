@@ -1,4 +1,0 @@
-Nombre: a Id: 4 Naver Azul
-Nombre: a Id: 1 Nave: Azul Ready: false
-Nombre: a Id: 2 Nave: Azul Ready: false
-Nombre: a Id: 3 Nave: Azul Ready: false

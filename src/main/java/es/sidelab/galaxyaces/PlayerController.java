@@ -126,6 +126,15 @@ public class PlayerController {
 		long id = nextId.incrementAndGet();
 		m.setId(id);
 		messages.put(id, m);
+		
+		try {
+			PrintWriter out = new PrintWriter(new FileOutputStream(new File(this.chatFile), true));
+			out.append(m.getNombre() + ": " + m.getCuerpo());
+			out.println();
+			out.close();
+		}catch (IOException e) {
+			
+		}
 
 		return id;
 	}
