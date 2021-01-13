@@ -52,6 +52,7 @@ export class Online extends Phaser.Scene {
 		this.efvol = this.efvol;
 		this.fondo = this.add.tileSprite(400, 300, 800, 600, 'fondomenu').setDepth(0);
 		this.add.image(this.game.renderer.width / 2 - 100, this.game.renderer.height * 0.20, "titulo").setDepth(1);
+		
 		this.imgcaido = this.add.image(this.game.renderer.width / 2, this.game.renderer.height /2, "caido").setDepth(10);
 		this.imgcaido.alpha = 0;
 		
@@ -383,7 +384,7 @@ export class Online extends Phaser.Scene {
 				if(playerslist[0].nave == 1){
 					this.navetext1.setText(playerslist[0].nombre);
 					this.navetext2.setText('');
-				}else if(listaJugadores[0].nave == 2){
+				}else if(playerslist[0].nave == 2){
 					this.navetext1.setText('');
 					this.navetext2.setText(playerslist[0].nombre);
 				}
