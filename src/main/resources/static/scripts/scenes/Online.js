@@ -35,6 +35,8 @@ var entrandopartida;
 var mensajes = [];
 var i = 0;
 
+var ready = false;
+
 export class Online extends Phaser.Scene {
 	constructor() {
 		super({
@@ -105,6 +107,21 @@ export class Online extends Phaser.Scene {
 			this.reiniciar();
 			this.scene.start(sceneManager.SCENES.MAINMENU, { efSound: this.efecsound, efvol: this.efvol });
 		})
+		
+		let listobt = this.add.image(this.game.renderer.width/ 2 - 125, 550, "listobt").setDepth(2);
+		listobt.setInteractive();
+		listobt.on("pointerup", () => {
+			console.log("Listo");
+			if (playername == null){
+				noNombre.alpha = 1;
+				this.time.addEvent({ delay: 2000, callback: function () {
+					noNombre.alpha = 0;
+				}, callbackScope: this, loop: false });
+			}else{
+				
+			}
+		})
+		listobt.set
 		
 		document.getElementById('nameinput').style.display = 'block';
 		document.getElementById('textinput').style.display = 'block';
@@ -475,7 +492,7 @@ function createPlayer() {
 	$.ajax({
 		method: "POST",
 		url: 'http://localhost:8080/players',
-		data: JSON.stringify({ "nombre": playername, "conectado": true, "nave": nave }),
+		data: JSON.stringify({ "nombre": playername, "conectado": true, "nave": nave, "ready": false }),
 		processData: false,
 		headers: {
 			"Content-Type": "application/json"
