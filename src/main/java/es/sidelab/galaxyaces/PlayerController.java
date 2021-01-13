@@ -73,9 +73,6 @@ public class PlayerController {
 			pw.print("Nave: Verde");
 		}
 		
-		pw.print(' ');
-		pw.print("Ready: " + ply.isReady());
-
 		pw.println();
 
 		pw.close();
@@ -118,10 +115,9 @@ public class PlayerController {
 
 		while (((line = log.readLine()) != null) && (aux <= 50)) {
 			String[] splited = line.split(" ");
-			nombre[aux] = splited[3];
+			nombre[aux] = splited[1];
 			aux++;
 		}
-
 		log.close();
 		return nombre;
 	}

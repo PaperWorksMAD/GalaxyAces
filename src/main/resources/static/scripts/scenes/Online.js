@@ -36,7 +36,6 @@ var numjugadoreslistos = 0;
 var mensajes = [];
 var i = 0;
 
-var ready = false;
 
 export class Online extends Phaser.Scene {
 	constructor() {
@@ -72,23 +71,23 @@ export class Online extends Phaser.Scene {
 			}
 		});
 		//Texto
-		noNombre = this.add.text(this.game.renderer.width / 2 - 250, 450, 'Introduce un nombre', { font: '26px Courier', fill: '#ffffff' });
+		noNombre = this.add.text(150, 550, 'Introduce un nombre', { font: '26px Courier', fill: '#ffffff' });
 		noNombre.setScale(0.75);
 		noNombre.alpha = 0;
 		
-		this.yaseleccionado = this.add.text(200, 500, 'Ya has seleccinado nave', { font: '26px Courier', fill: '#ffffff' });
+		this.yaseleccionado = this.add.text(150, 550, 'Ya has seleccinado nave', { font: '26px Courier', fill: '#ffffff' });
 		this.yaseleccionado.setScale(0.75);
 		this.yaseleccionado.alpha = 0;
 		
-		this.navedisponible = this.add.text(200, 500, 'Nave ya seleccionada', { font: '26px Courier', fill: '#ffffff' });
+		this.navedisponible = this.add.text(150, 550, 'Nave ya seleccionada', { font: '26px Courier', fill: '#ffffff' });
 		this.navedisponible.setScale(0.75);
 		this.navedisponible.alpha = 0;
 		
-		entrandopartida = this.add.text(200, 500, 'Entrando a partida', { font: '26px Courier', fill: '#ffffff' });
+		entrandopartida = this.add.text(150, 500, 'Entrando a partida', { font: '26px Courier', fill: '#ffffff' });
 		entrandopartida.setScale(0.75);
 		entrandopartida.alpha = 0;
 				
-		this.noNombrevalido = this.add.text(200, 500, 'Nombre no valido', { font: '26px Courier', fill: '#ffffff' });
+		this.noNombrevalido = this.add.text(150, 550, 'El nombre ya existe', { font: '26px Courier', fill: '#ffffff' });
 		this.noNombrevalido.setScale(0.75);
 		this.noNombrevalido.alpha = 0;
 						
@@ -98,7 +97,7 @@ export class Online extends Phaser.Scene {
 		this.conectadosNum = this.add.text(180, 180, 'Jugadores conectados: ', { font: '26px Courier', fill: '#ffffff' });
 		this.conectadosNum.setScale(0.75);
 		
-		esperandoJugador = this.add.text(this.game.renderer.width / 2 - 270, 450, 'Esperando otro jugador', { font: '26px Courier', fill: '#ffffff' });
+		esperandoJugador = this.add.text(150, 450, 'Esperando otro jugador', { font: '26px Courier', fill: '#ffffff' });
 		esperandoJugador.setScale(0.75);
 		esperandoJugador.alpha = 0;
 		
@@ -179,12 +178,8 @@ export class Online extends Phaser.Scene {
 				if(playername !== ''){
 					var x = 0;
 					while((x < arrayNombres.length)&&(permitido)&&(arrayNombres[x]!=null)){
-						if(arrayNombres[x] == playername){
+						if((arrayNombres[x] == playername)||(playerslist[x].nombre == playername)){
 							permitido = false;
-							noNombre.alpha = 1;
-							this.time.addEvent({ delay: 2000, callback: function () {
-							noNombre.alpha = 0;
-							}, callbackScope: this, loop: false });
 							console.log('nombre ya existente');
 						}else{
 							permitido = true;
@@ -234,7 +229,7 @@ export class Online extends Phaser.Scene {
 				if(playername !== ''){
 					var x = 0;
 					while((x < arrayNombres.length)&&(permitido)&&(arrayNombres[x]!=null)){
-						if(arrayNombres[x] == playername){
+						if((arrayNombres[x] == playername)||(playerslist[x].nombre == playername)){
 							permitido = false;
 							console.log('nombre ya existente');
 						}else{

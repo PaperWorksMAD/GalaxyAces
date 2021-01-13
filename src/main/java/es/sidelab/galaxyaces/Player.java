@@ -52,13 +52,10 @@ public class Player {
 	}
 
 	public boolean isReady() {
-		return ready;
+		return listo;
 	}
 
 	public void setReady(boolean ready) {
-		this.ready = ready;
+		this.listo = ready;
 	}
-	
-	
-
 }
