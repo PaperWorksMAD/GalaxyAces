@@ -6,6 +6,7 @@ public class Player {
 	private String nombre;
 	private boolean conectado;
 	private int nave;
+	private boolean listo;
 
 	public Player() {
 	}
@@ -21,9 +22,17 @@ public class Player {
 	public boolean isConectado() {
 		return conectado;
 	}
+	
+	public boolean isListo() {
+		return listo;
+	}
 
 	public void setConectado(boolean conectado) {
 		this.conectado = conectado;
+	}
+	
+	public void setListo(boolean listo) {
+		this.listo = listo;
 	}
 
 	public int getNave() {

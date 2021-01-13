@@ -379,7 +379,6 @@ export class OnlineGame extends Phaser.Scene {
 				success: function(players)
 				{
 					playersonline = players.length;
-					console.log('igualo' + playersonline);
 				}
 			}).fail(function () {
 				servercaido = true;

@@ -31,6 +31,7 @@ var noNombre;
 var esperandoJugador;
 var entrandopartida;
 
+var numjugadoreslistos = 0;
 
 var mensajes = [];
 var i = 0;
@@ -53,9 +54,21 @@ export class Online extends Phaser.Scene {
 		this.fondo = this.add.tileSprite(400, 300, 800, 600, 'fondomenu').setDepth(0);
 		this.add.image(this.game.renderer.width / 2 - 100, this.game.renderer.height * 0.20, "titulo").setDepth(1);
 		
-		this.imgcaido = this.add.image(this.game.renderer.width / 2, this.game.renderer.height /2, "caido").setDepth(10);
+		this.imgcaido = this.add.image(this.game.renderer.width / 2, this.game.renderer.height /2, "caido").setDepth(20);
 		this.imgcaido.alpha = 0;
 		
+		this.botonlisto = this.add.image(this.game.renderer.width*0.35, this.game.renderer.height *.85, "listo").setDepth(10);
+		this.botonlisto.setScale(0.4);
+		this.botonlisto.setInteractive();
+		
+		this.botonlisto.on("pointerup", () => {
+			if(playername != null){
+				updatePlayer();	
+			}else {
+				noNombre.alpha = 1;
+				this.time.addEvent({ delay: 2000, callback: function () {noNombre.alpha = 0;}, callbackScope: this, loop: false });
+			}
+		});
 		//Texto
 		noNombre = this.add.text(this.game.renderer.width / 2 - 250, 450, 'Introduce un nombre', { font: '26px Courier', fill: '#ffffff' });
 		noNombre.setScale(0.75);
@@ -105,8 +118,8 @@ export class Online extends Phaser.Scene {
 			deletePlayerRoom();
 			this.reiniciar();
 			this.scene.start(sceneManager.SCENES.MAINMENU, { efSound: this.efecsound, efvol: this.efvol });
-		})
-		
+		});
+				
 		document.getElementById('nameinput').style.display = 'block';
 		document.getElementById('textinput').style.display = 'block';
 		document.getElementById('send-button').style.display = 'block';
@@ -312,7 +325,9 @@ export class Online extends Phaser.Scene {
 			}
 			
 			if ((playersonline > 0)&&(pillado)){
-				if (playersonline == 2){
+				console.log('entro');
+				if (numjugadoreslistos == 2){
+					console.log('hola?');
 					esperandoJugador.alpha = 0;
 					entrandopartida.alpha = 1;
 					this.idAux = id;
@@ -442,10 +457,18 @@ export class Online extends Phaser.Scene {
 			method: 'GET',
 			url: 'http://localhost:8080/players/',
 			success: function(players) {
+				var numAux = 0;
 				playersonline = players.length;
-
-				if (playersnum !== playersonline) {
+				numjugadoreslistos = 0;
+				for (var i = 0; i<players.length; i++){
+					if(players[i].listo){
+						numAux++;
+					}
+				}
+				
+				if( (playersnum !== playersonline)||(numAux != numjugadoreslistos)) {
 					playerslist = players;
+					numjugadoreslistos = numAux;
 					refrescar = true;
 				}
 				else {
@@ -463,7 +486,7 @@ export class Online extends Phaser.Scene {
 			url: 'http://localhost:8080/chat',
 			success: function(messages) {
 				mensajes = messages;
-				console.log(mensajes);
+				//console.log(mensajes);
 			}
 		}).fail(function() {
 			servercaido = true;
@@ -501,6 +524,21 @@ function createPlayer() {
 	})
 }
 
+function updatePlayer(){
+	$.ajax({
+		method: "PUT",
+		url: 'http://localhost:8080/players/' + id ,
+		data: JSON.stringify({ "listo": true }),
+		processData: false,
+		headers: {
+			"Content-Type": "application/json"
+		},
+		success: function () {
+			console.log('modificado');
+		}
+	})
+}
+
 function writePlayer() {
 	$.ajax({
 		method: "GET",
@@ -526,7 +564,7 @@ function deletePlayerRoom() {
 
 //CHAT
 function escribir(){
-	if(playername != null){
+	if((playername != null)&&(playersonline >0)){
 		cuerpo = document.getElementById('textinput').value;
 		document.getElementById('textinput').value = "";
 		writeMessage();
