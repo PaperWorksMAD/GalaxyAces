@@ -50,12 +50,4 @@ public class Player {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-
-	public boolean isReady() {
-		return listo;
-	}
-
-	public void setReady(boolean ready) {
-		this.listo = ready;
-	}
 }
