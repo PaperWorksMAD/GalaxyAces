@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Built-By: jesus
+Build-Jdk: 15.0.1
+Implementation-Title: galaxyaces
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: es.sidelab
+Implementation-URL: https://github.com/PaperWorksMAD/GalaxyAces
+Created-By: Maven Integration for Eclipse
+
