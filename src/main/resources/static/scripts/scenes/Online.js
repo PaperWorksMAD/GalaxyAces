@@ -83,7 +83,7 @@ export class Online extends Phaser.Scene {
 		this.navedisponible.setScale(0.75);
 		this.navedisponible.alpha = 0;
 		
-		entrandopartida = this.add.text(150, 500, 'Entrando a partida', { font: '26px Courier', fill: '#ffffff' });
+		entrandopartida = this.add.text(150, 550, 'Entrando a partida', { font: '26px Courier', fill: '#ffffff' });
 		entrandopartida.setScale(0.75);
 		entrandopartida.alpha = 0;
 				
