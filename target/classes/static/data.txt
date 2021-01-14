@@ -1,0 +1,3 @@
+Nombre: a Id: 6 Nave: Azul
+Nombre: drh Id: 6 Nave: Azul
+Nombre: aefm Id: 1 Nave: Azul
