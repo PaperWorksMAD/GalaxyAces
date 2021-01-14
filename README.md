@@ -279,11 +279,11 @@ Tenemos pensado implementar más naves y que en cada una varíe la velocidad de 
 
 ## Instrucciones para ejecutar la aplicación:
 
-Paso 1: Descargar el proyecto.
-Paso 2: Ir a la carpeta de GalaxyAces\target.
-Paso 3: Pulsar en la dirección y escribir cmd.
-Pase 4: Escribir en la terminal: java -jar galaxyaces-0.0.1-SNAPSHOT.jar.
-Pase 5: Escribir http://localhost:8080/ en el navegador.
+* Paso 1: Descargar el proyecto.
+* Paso 2: Ir a la carpeta de GalaxyAces\target.
+* Paso 3: Pulsar en la dirección y escribir cmd.
+* Paso 4: Escribir en la terminal: java -jar galaxyaces-0.0.1-SNAPSHOT.jar.
+* Paso 5: Escribir http://localhost:8080/ en el navegador.
 
 
 
