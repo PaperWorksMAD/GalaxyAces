@@ -257,7 +257,7 @@ Tenemos pensado implementar más naves y que en cada una varíe la velocidad de 
 
 * Hemos añadido una pantalla online para elegir nave, nombre e interactuar mediante un chat.
 
-![image](https://user-images.githubusercontent.com/37275365/104461699-f734c300-55af-11eb-9045-8cc096e74b11.JPG)
+![image](https://user-images.githubusercontent.com/37275365/104536111-b96b8500-5617-11eb-9f88-d85c2ba5efdb.JPG)
 
 * La pantalla de puntuaciones sigue igual.
 
