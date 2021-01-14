@@ -496,7 +496,7 @@ function createPlayer() {
 	$.ajax({
 		method: "POST",
 		url: 'http://localhost:8080/players',
-		data: JSON.stringify({ "nombre": playername, "conectado": true, "nave": nave, "ready": false }),
+		data: JSON.stringify({ "nombre": playername, "conectado": true, "nave": nave, "listo": false }),
 		processData: false,
 		headers: {
 			"Content-Type": "application/json"
