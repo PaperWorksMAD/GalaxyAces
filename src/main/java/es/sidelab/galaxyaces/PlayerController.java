@@ -22,25 +22,26 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @RestController
 public class PlayerController {
-	
-	private final String dataFile = System.getProperty("user.dir") + "/src/main/java/data.txt";
-	private final String chatFile = System.getProperty("user.dir") + "/src/main/java/chat.txt";
+		
+	private final String dataFile = System.getProperty("user.dir") + "/data.txt";
+	private final String chatFile = System.getProperty("user.dir") + "/chat.txt";
 	Map<Long, Player> players = new ConcurrentHashMap<>();
 	Map<Long, Message> messages = new ConcurrentHashMap<>();
 	AtomicLong nextId = new AtomicLong(0);
+	AtomicLong nextIdchat = new AtomicLong(0);
 
 	@PostConstruct
 	public void init() {
 		try {
 		BufferedReader log = new BufferedReader(new FileReader(new File(this.chatFile)));
 		String line;
-		long aux = nextId.incrementAndGet();
+		long aux = nextIdchat.incrementAndGet();
 		Message m;
 		while (((line = log.readLine()) != null) && (aux <= 100)) {
 			String[] splited = line.split(": ");
 			m = new Message((long)aux, splited[0], splited[1]);
 			this.messages.put((long)aux, m);
-			aux = nextId.incrementAndGet();
+			aux = nextIdchat.incrementAndGet();
 		}
 		log.close();
 		
@@ -156,7 +157,7 @@ public class PlayerController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public long addMessage(@RequestBody Message m) {
 
-		long id = nextId.incrementAndGet();
+		long id = nextIdchat.incrementAndGet();
 		m.setId(id);
 		messages.put(id, m);
 		

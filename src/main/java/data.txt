@@ -1,4 +1,0 @@
-Nombre: a | Id: 1 | Nave: Azul
-Nombre: b | Id: 1 | Nave: Azul
-Nombre: c Id: 1 Nave: Azul
-
