@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Built-By: jesus
+Built-By: Propietario
 Build-Jdk: 15.0.1
 Implementation-Title: galaxyaces
 Implementation-Version: 0.0.1-SNAPSHOT
