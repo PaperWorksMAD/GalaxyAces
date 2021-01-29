@@ -36,6 +36,7 @@ var numjugadoreslistos = 0;
 var mensajes = [];
 var i = 0;
 
+var connection;
 
 export class Online extends Phaser.Scene {
 	constructor() {
@@ -50,6 +51,17 @@ export class Online extends Phaser.Scene {
 	}
 	
 	create() {
+		
+		connection = new WebSocket('ws://localhost:8080/nave');
+		
+		connection.onerror = function(e){
+			console.log("WS error: " + e);
+		}
+		
+		connection.onclose = function(){
+			cerrarWebsocket();
+		}
+		
 		console.log("volumen", this.efvol);
 		this.efvol = this.efvol;
 		this.fondo = this.add.tileSprite(400, 300, 800, 600, 'fondomenu').setDepth(0);
@@ -589,6 +601,11 @@ function writeMessage(){
 window.onbeforeunload = function () {
 	deletePlayerRoom();
 	return null;
+}
+
+function cerrarWebsocket(){
+	console.log("closing socket");
+	deletePlayerRoom();
 }
 
 
