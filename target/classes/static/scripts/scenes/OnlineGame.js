@@ -16,6 +16,9 @@ var connection;
 var newy = 500;
 var newx = 250;
 
+var disparando = false;
+var disparandoaux = false;
+
 export class OnlineGame extends Phaser.Scene {
 	constructor() {
 		super({
@@ -79,8 +82,11 @@ export class OnlineGame extends Phaser.Scene {
 					console.log(this.newy);
 					break;
 				case "disparar":
-					//especial_num = parseInt(message.message);
-					//tirarEspecial = true;
+					if(message.message == "disparando"){
+						disparando = true;
+					}else if (message.message == "nodisparando"){
+						disparando = false;
+					}
 					break;
 				case "actenemigos":
 					//var inte = parseInt(message.message);
@@ -316,7 +322,7 @@ export class OnlineGame extends Phaser.Scene {
 		this.jugador2 = new Jugador(this, this.game.renderer.width / 2 - 150, this.game.renderer.height - 100, "nave" + this.shipIndex2).setDepth(5);
 
 		this.time.addEvent({
-			delay: 500, callback: function() {
+			delay: 100, callback: function() {
 				console.log("x: " + this.jugador1.x + " y: " + this.jugador1.y);
 				var msg = { name: "actpos", message: "hola desde jugador1", x: this.jugador1.x, y: this.jugador1.y }
 				connection.send(JSON.stringify(msg));
@@ -324,16 +330,29 @@ export class OnlineGame extends Phaser.Scene {
 		});
 
 		this.time.addEvent({
-			delay: 500, callback: function() {
+			delay: 100, callback: function() {
 				this.tweens.add({
 					targets: this.jugador2,
-					duration: 500,
+					duration: 100,
 					y: newy,
 					x: newx,
 					ease: 'Linear'
 				});
 			}, callbackScope: this, loop: true
 		});
+		
+		this.time.addEvent({
+			delay: 50, callback: function() {
+				if(disparandoaux){
+					var msg = {name: "disparar", message:"disparando", x:0, y:0}
+					connection.send(JSON.stringify(msg));
+				}else if(!disparandoaux){
+					var msg = {name: "disparar", message:"nodisparando", x:0, y:0}
+					connection.send(JSON.stringify(msg));
+				}
+			}, callbackScope: this, loop: true
+		});
+		
 
 		this.j1puntos = this.add.bitmapText(this.game.renderer.width * 0.85, 568, "bit", "J1: " + this.jugador1.puntuacion, 24).setDepth(10);
 		this.j2puntos = this.add.bitmapText(this.game.renderer.width * 0.05, 568, "bit", "J2: " + this.jugador2.puntuacion, 24).setDepth(10);
@@ -341,7 +360,6 @@ export class OnlineGame extends Phaser.Scene {
 		this.cursor = this.input.keyboard.createCursorKeys();
 		this.keys = this.input.keyboard.addKeys('A,W,S,D');
 		this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-		this.P = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
 
 		this.rivalout = this.add.image(this.game.renderer.width / 2, this.game.renderer.height / 2, "rivalout").setDepth(30);
 		this.rivalout.setScale(0.75);
@@ -500,6 +518,7 @@ export class OnlineGame extends Phaser.Scene {
 
 		if (this.spaceBar.isDown && time > lastFired) {
 			console.log("disparo");
+			disparandoaux = true; 
 			var bullet = bullets.get();
 
 			if (bullet) {
@@ -510,21 +529,23 @@ export class OnlineGame extends Phaser.Scene {
 
 				lastFired = time + 100;
 			}
+		}else if (this.spaceBar.isUp){
+			disparandoaux = false;
 		}
+		
+		if (disparando && time > lastFired){
+			console.log("disparo");
+			var bullet = bullets2.get();
 
-		//  if (this.P.isDown && time > lastFired) {
-		//      console.log("disparo");
-		//      var bullet = bullets2.get();
+			if (bullet) {
+				bullet.fire(this.jugador2.x, this.jugador2.y, 2);
 
-		//      if (bullet) {
-		//          bullet.fire(this.jugador1.x, this.jugador1.y, 1);
+				if (this.efSound)
+					this.soundShoot.play();
 
-		//          if (this.efSound)
-		//              this.soundShoot.play();
-
-		//          lastFired = time + 100;
-		//      }
-		//  }
+				lastFired = time + 100;
+			}
+		}
 
 		if (this.jugador1.vidas <= 0 || this.jugador2.vidas <= 0) {
 			if (this.jugador1.vidas <= 0) {

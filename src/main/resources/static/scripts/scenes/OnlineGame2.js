@@ -18,6 +18,9 @@ var tween;
 var newy = 500;
 var newx = 550;
 
+var disparando = false;
+var disparandoaux = false;
+
 export class OnlineGame2 extends Phaser.Scene {
 	constructor() {
 		super({
@@ -81,8 +84,11 @@ export class OnlineGame2 extends Phaser.Scene {
 					console.log(this.newy);
 					break;
 				case "disparar":
-					//especial_num = parseInt(message.message);
-					//tirarEspecial = true;
+					if(message.message == "disparando"){
+						disparando = true;
+					}else if (message.message == "nodisparando"){
+						disparando = false;
+					}
 					break;
 				case "actenemigos":
 					//var inte = parseInt(message.message);
@@ -318,23 +324,36 @@ export class OnlineGame2 extends Phaser.Scene {
 		this.jugador2 = new Jugador(this, this.game.renderer.width / 2 - 150, this.game.renderer.height - 100, "nave" + this.shipIndex1).setDepth(5);
 		
 		this.time.addEvent({
-			delay: 500, callback: function() {
+			delay: 100, callback: function() {
 				var msg = { name: "actpos", message: "hola desde jugador2", x: this.jugador2.x, y: this.jugador2.y }
 				connection.send(JSON.stringify(msg));
 			}, callbackScope: this, loop: true
 		});
 
 		this.time.addEvent({
-			delay: 500, callback: function() {
+			delay: 100, callback: function() {
 				this.tweens.add({
 					targets: this.jugador1,
-					duration: 500,
+					duration: 100,
 					y: newy,
 					x: newx,
 					ease: 'Linear'
 				});
 			}, callbackScope: this, loop: true
 		});
+		
+		this.time.addEvent({
+			delay: 50, callback: function() {
+				if(disparandoaux){
+					var msg = {name: "disparar", message:"disparando", x:0, y:0}
+					connection.send(JSON.stringify(msg));
+				}else if(!disparandoaux){
+					var msg = {name: "disparar", message:"nodisparando", x:0, y:0}
+					connection.send(JSON.stringify(msg));
+				}
+			}, callbackScope: this, loop: true
+		});
+		
 
 		this.j1puntos = this.add.bitmapText(this.game.renderer.width * 0.85, 568, "bit", "J1: " + this.jugador1.puntuacion, 24).setDepth(10);
 		this.j2puntos = this.add.bitmapText(this.game.renderer.width * 0.05, 568, "bit", "J2: " + this.jugador2.puntuacion, 24).setDepth(10);
@@ -508,10 +527,27 @@ export class OnlineGame2 extends Phaser.Scene {
 
 		if (this.spaceBar.isDown && time > lastFired) {
 			console.log("disparo");
+			disparandoaux = true; 
 			var bullet = bullets.get();
 
 			if (bullet) {
 				bullet.fire(this.jugador2.x, this.jugador2.y, 2);
+
+				if (this.efSound)
+					this.soundShoot.play();
+
+				lastFired = time + 100;
+			}
+		}else if (this.spaceBar.isUp){
+			disparandoaux = false;
+		}
+		
+		if (disparando && time > lastFired) {
+			console.log("disparo");
+			var bullet = bullets2.get();
+
+			if (bullet) {
+				bullet.fire(this.jugador1.x, this.jugador1.y, 1);
 
 				if (this.efSound)
 					this.soundShoot.play();
