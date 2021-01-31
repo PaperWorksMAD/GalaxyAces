@@ -11,6 +11,8 @@ var servercaido = false;
 var playersonline;
 var timerevent;
 
+var connection;
+
 export class OnlineGame extends Phaser.Scene {
     constructor() {
         super({
@@ -18,12 +20,14 @@ export class OnlineGame extends Phaser.Scene {
         })
     }
 
-    init(data) {
+    init(data, connection1) {
         this.shipIndex1 = data.shipIndex1;
         this.shipIndex2 = data.shipIndex2;
         this.efSound = data.efSound;
         this.efvol = data.efvol;
 		id = data.idAux
+		
+		connection = connection1;
     }
 
     onEvent() {
@@ -49,6 +53,29 @@ export class OnlineGame extends Phaser.Scene {
 
     create() {
         console.log(this.efvol);
+
+		connection.onclose = function(){
+			servercaido = true;
+		}
+		
+		connection.onmessage = function(msg){
+			
+			var message = JSON.parse(msg.data);
+			
+			switch(message.name){
+				case "Bala":
+					var bullet = bullets2.get();
+					var splited = message.message.split(" ");
+					var x = splited[0];
+					var y = splited[1];
+           	 		if (bullet) 
+                		bullet.fire(x, y, 2);
+					break;
+				default:
+					break;
+			}
+			
+		}
 		
 
         //Animaciones
@@ -596,5 +623,16 @@ function deleteplayer(){
 window.onbeforeunload = function () {
 	deleteplayer();
 	return null;
+}
+
+function SendBala(x,y){
+	
+	var msg = {
+		name: "Bala",
+		message: x + " " + y
+	}
+	
+	connection.send(JSON.stringify(msg));
+	
 }
 

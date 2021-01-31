@@ -342,7 +342,7 @@ export class Online extends Phaser.Scene {
 					this.idAux = id;
 					this.time.addEvent({delay: 2000, callback: function(){
 							this.reiniciar();
-							this.scene.start(sceneManager.SCENES.ONLINEGAME, { shipIndex1: this.shipIndex1, shipIndex2: this.shipIndex2, efSound: this.efecsound, efvol: this.efvol, idAux: this.idAux });
+							this.scene.start(sceneManager.SCENES.ONLINEGAME, { shipIndex1: this.shipIndex1, shipIndex2: this.shipIndex2, efSound: this.efecsound, efvol: this.efvol, idAux: this.idAux }, connection);
 						}, callbackScope: this, loop: false });
 				}else if(playersonline == 1){
 						entrandopartida.alpha = 0;
