@@ -651,4 +651,9 @@ window.onbeforeunload = function() {
 	return null;
 }
 
+function cerrarWebsocket(){
+	console.log("closing socket");
+	deletePlayerRoom();
+}
+
 
