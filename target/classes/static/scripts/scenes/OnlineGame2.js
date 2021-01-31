@@ -49,6 +49,7 @@ export class OnlineGame2 extends Phaser.Scene {
 	onEvent2() {
 		console.log("final");
 		deleteplayer();
+		borrarsocket();
 		this.scene.start(sceneManager.SCENES.SCORE, { score: this.jugador1.puntuacion, score2: this.jugador2.puntuacion, enemigos1: this.jugador1.bajas, enemigos2: this.jugador2.bajas, efSound: this.efSound, efvol: this.efvol });
 	}
 
@@ -335,6 +336,7 @@ export class OnlineGame2 extends Phaser.Scene {
 		xbt.setInteractive();
 		xbt.on("pointerup", () => {
 			deleteplayer();
+			borrarsocket();
 			this.scene.start(sceneManager.SCENES.MAINMENU);
 		})
 
@@ -518,6 +520,7 @@ export class OnlineGame2 extends Phaser.Scene {
 		if (playersonline == 1) {
 			this.rivalout.alpha = 1;
 			deleteplayer();
+			borrarsocket();
 			this.time.addEvent({ delay: 3000, callback: function() { this.scene.start(sceneManager.SCENES.MAINMENU, { efSound: this.efecsound, efvol: this.efvol }); }, callbackScope: this, loop: false });
 		}
 	}
@@ -606,6 +609,7 @@ export class OnlineGame2 extends Phaser.Scene {
 				this.muerto = 2;
 			}
 			deleteplayer();
+			borrarsocket();
 			this.scene.start(sceneManager.SCENES.SCORE, { score: this.jugador1.puntuacion, score2: this.jugador2.puntuacion, enemigos1: this.jugador1.bajas, enemigos2: this.jugador2.bajas, muerto: this.muerto, efSound: this.efSound, efvol: this.efvol });
 		}
 
@@ -614,6 +618,7 @@ export class OnlineGame2 extends Phaser.Scene {
 			timerevent.remove(false);
 			this.imgcaido.alpha = 1;
 			deleteplayer();
+			borrarsocket();
 			this.time.addEvent({ delay: 3000, callback: function() { this.scene.start(sceneManager.SCENES.MAINMENU, { efSound: this.efecsound, efvol: this.efvol }); }, callbackScope: this, loop: false });
 		}
 	}
@@ -706,6 +711,15 @@ function deleteplayer() {
 		method: 'DELETE',
 		url: 'http://localhost:8080/players/' + id
 	})
+}
+
+function borrarsocket()
+{
+	var msg = {
+			name : "delete",
+			message : "delete session"
+		}
+	connection.send(JSON.stringify(msg));
 }
 
 window.onbeforeunload = function() {
