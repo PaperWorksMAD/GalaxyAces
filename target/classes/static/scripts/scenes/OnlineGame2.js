@@ -20,6 +20,11 @@ var newx = 550;
 
 var disparando = false;
 var disparandoaux = false;
+var enemx = 0;
+var enemy = 0;
+var tipoenemigo;
+
+var actenemigos = false;
 
 export class OnlineGame2 extends Phaser.Scene {
 	constructor() {
@@ -60,6 +65,9 @@ export class OnlineGame2 extends Phaser.Scene {
 
 
 	create() {
+		
+		
+		
 		console.log(this.efvol);
 		console.log("online2");
 		console.log(connection);
@@ -80,8 +88,8 @@ export class OnlineGame2 extends Phaser.Scene {
 					console.log(message.message);
 					newx = parseInt(message.x);
 					newy = parseInt(message.y);
-					console.log(this.newx);
-					console.log(this.newy);
+					console.log(newx);
+					console.log(newy);
 					break;
 				case "disparar":
 					if(message.message == "disparando"){
@@ -91,9 +99,20 @@ export class OnlineGame2 extends Phaser.Scene {
 					}
 					break;
 				case "actenemigos":
-					//var inte = parseInt(message.message);
-					//especial_Id[especial_numaux] = inte;
-					//especial_numaux++;
+					enemx = parseInt(message.x);
+					enemy = parseInt(message.y);
+					console.log(enemx);
+					console.log(enemy);
+					actenemigos = true;
+					if(message.message == "enemigo1"){
+						tipoenemigo = 1;
+					}else if(message.message == "enemigo2"){
+						tipoenemigo = 2;
+					}else if(message.message == "enemigo3"){
+						tipoenemigo = 3;
+					};
+					console.log(tipoenemigo);
+					console.log(actenemigos);
 					break;
 			}
 		}
@@ -130,7 +149,8 @@ export class OnlineGame2 extends Phaser.Scene {
 
 		//this.sound.setDecodedCallback([this.soundEnemy1, this.soundEnemy2, this.soundEnemy3, this.soundPlayers], start, this);
 
-		//Clase general
+		
+//Clase general
 		class Entity extends Phaser.Physics.Arcade.Sprite {
 			constructor(scene, x, y, key, type) {
 				super(scene, x, y, key);
@@ -141,7 +161,74 @@ export class OnlineGame2 extends Phaser.Scene {
 				this.setData("isDead", false);
 			}
 		}
+		
+		class Enemigo extends Entity {
+			constructor(scene, x, y, key, type) {
+				super(scene, x, y, key, "Enemigo");
+			}
 
+			recibirDaño() {
+				this.vida -= 1;
+
+				if (this.vida <= 0) {
+					this.setActive(false);
+					this.setVisible(false);
+					this.setPosition(-1000, -1000);
+					console.log("muerto");
+				}
+			}
+
+			mover(x, y) {
+				this.setVelocity(x, y);
+			}
+		}
+
+		class Enemigo1 extends Enemigo {
+			constructor(scene, x, y, key, type) {
+				super(scene, x, y, key, "Enemigo1");
+
+				this.setScale(2).setDepth(1).setCollideWorldBounds(false).setBounce(1, 1).setRotation(3, 14159);
+				this.anims.play('EnemyAnim');
+
+				this.vida = 2;
+				this.tipo = 1;
+			}
+		}
+
+		class Enemigo2 extends Enemigo {
+			constructor(scene, x, y, key, type) {
+				super(scene, x, y, key, "Enemigo2");
+
+				this.setScale(0.5).setDepth(1).setCollideWorldBounds(false).setBounce(1, 1).setRotation(3, 14159);
+
+				this.vida = 4;
+				this.tipo = 2;
+			}
+
+			update(time, delta) {
+				this.rotation += 0.05;
+			}
+		}
+
+		class Enemigo3 extends Enemigo {
+			constructor(scene, x, y, key, type) {
+				super(scene, x, y, key, "Enemigo3");
+
+				this.setScale(1.5).setDepth(1).setCollideWorldBounds(false).setBounce(1, 1);
+				this.anims.play('EnemyAnim3');
+
+				this.vida = 1;
+				this.tipo = 3;
+			}
+		}
+		
+		//Enemigos
+		this.enemies = this.physics.add.group({
+			classType: Enemigo,
+			maxSize: 100,
+			runChildUpdate: true
+		});
+		this.enemies.setDepth(5);
 
 		class Bala extends Entity {
 
@@ -235,65 +322,7 @@ export class OnlineGame2 extends Phaser.Scene {
 			}
 		}
 
-		class Enemigo extends Entity {
-			constructor(scene, x, y, key, type) {
-				super(scene, x, y, key, "Enemigo");
-			}
-
-			recibirDaño() {
-				this.vida -= 1;
-
-				if (this.vida <= 0) {
-					this.setActive(false);
-					this.setVisible(false);
-					this.setPosition(-1000, -1000);
-					console.log("muerto");
-				}
-			}
-
-			mover(x, y) {
-				this.setVelocity(x, y);
-			}
-		}
-
-		class Enemigo1 extends Enemigo {
-			constructor(scene, x, y, key, type) {
-				super(scene, x, y, key, "Enemigo1");
-
-				this.setScale(2).setDepth(1).setCollideWorldBounds(false).setBounce(1, 1).setRotation(3, 14159);
-				this.anims.play('EnemyAnim');
-
-				this.vida = 2;
-				this.tipo = 1;
-			}
-		}
-
-		class Enemigo2 extends Enemigo {
-			constructor(scene, x, y, key, type) {
-				super(scene, x, y, key, "Enemigo2");
-
-				this.setScale(0.5).setDepth(1).setCollideWorldBounds(false).setBounce(1, 1).setRotation(3, 14159);
-
-				this.vida = 4;
-				this.tipo = 2;
-			}
-
-			update(time, delta) {
-				this.rotation += 0.05;
-			}
-		}
-
-		class Enemigo3 extends Enemigo {
-			constructor(scene, x, y, key, type) {
-				super(scene, x, y, key, "Enemigo3");
-
-				this.setScale(1.5).setDepth(1).setCollideWorldBounds(false).setBounce(1, 1);
-				this.anims.play('EnemyAnim3');
-
-				this.vida = 1;
-				this.tipo = 3;
-			}
-		}
+		
 
 
 		speed = Phaser.Math.GetSpeed(300, 1);
@@ -354,7 +383,27 @@ export class OnlineGame2 extends Phaser.Scene {
 			}, callbackScope: this, loop: true
 		});
 		
-
+		this.time.addEvent({
+			delay: 120, callback: function() {
+				if (actenemigos){
+				console.log("hola?");
+				if(tipoenemigo == 1){
+						this.enemy = new Enemigo1(this, enemx, enemy, 'enemy');
+						this.enemies.add(this.enemy);
+						actenemigos = false;
+					}else if(tipoenemigo == 3){
+						this.enemy = new Enemigo3(this,enemx, enemy, 'enemy3');
+						this.enemies.add(this.enemy);
+						actenemigos = false;
+					}else if(tipoenemigo == 2){
+						this.enemy = new Enemigo2(this,enemx, enemy, 'enemy2');
+						this.enemies.add(this.enemy);
+						actenemigos = false;
+					}
+				}
+			}, callbackScope: this, loop: true
+		});
+		
 		this.j1puntos = this.add.bitmapText(this.game.renderer.width * 0.85, 568, "bit", "J1: " + this.jugador1.puntuacion, 24).setDepth(10);
 		this.j2puntos = this.add.bitmapText(this.game.renderer.width * 0.05, 568, "bit", "J2: " + this.jugador2.puntuacion, 24).setDepth(10);
 
@@ -404,15 +453,8 @@ export class OnlineGame2 extends Phaser.Scene {
 		this.exhaust2.setVisible(false);
 		this.exhaust2.anims.play('Exhaust' + this.shipIndex2);
 
-		//Enemigos
-		this.enemies = this.physics.add.group({
-			classType: Enemigo,
-			maxSize: 100,
-			runChildUpdate: true
-		});
-		this.enemies.setDepth(5);
-
-		this.time.addEvent({
+	
+		/*this.time.addEvent({
 			delay: 700,
 			callback: function() {
 				var aux = Phaser.Math.Between(0, 100);
@@ -430,7 +472,8 @@ export class OnlineGame2 extends Phaser.Scene {
 			},
 			callbackScope: this,
 			loop: true
-		});
+		});*/
+		
 		//console.log(this.enemies);
 
 		//Deteccion de colisiones

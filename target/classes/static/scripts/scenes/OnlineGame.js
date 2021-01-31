@@ -417,14 +417,34 @@ export class OnlineGame extends Phaser.Scene {
 				if (aux < 50) {
 					this.enemy = new Enemigo1(this, Phaser.Math.Between(15, this.game.config.width - 15), 0, 'enemy');
 					this.enemies.add(this.enemy);
+					var msg = {
+						name:"actenemigos",
+						message: "enemigo1",
+						x: this.enemy.x,
+						y: this.enemy.y
+					}
+					connection.send(JSON.stringify(msg));
 				} else if (aux >= 50 && aux < 75) {
 					this.enemy = new Enemigo3(this, Phaser.Math.Between(15, this.game.config.width - 15), 0, 'enemy3');
 					this.enemies.add(this.enemy);
+					var msg = {
+						name:"actenemigos",
+						message: "enemigo3",
+						x: this.enemy.x,
+						y: this.enemy.y
+					}
+					connection.send(JSON.stringify(msg));
 				} else {
 					this.enemy = new Enemigo2(this, Phaser.Math.Between(15, this.game.config.width - 15), 0, 'enemy2');
 					this.enemies.add(this.enemy);
+					var msg = {
+						name:"actenemigos",
+						message: "enemigo2",
+						x: this.enemy.x,
+						y: this.enemy.y
+					}
+					connection.send(JSON.stringify(msg));
 				}
-
 			},
 			callbackScope: this,
 			loop: true
