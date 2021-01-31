@@ -13,16 +13,18 @@ var timerevent;
 
 var connection;
 
+var tween;
+
 var newy = 500;
-var newx = 250;
+var newx = 550;
 
 var disparando = false;
 var disparandoaux = false;
 
-export class OnlineGame extends Phaser.Scene {
+export class OnlineGame2 extends Phaser.Scene {
 	constructor() {
 		super({
-			key: sceneManager.SCENES.ONLINEGAME
+			key: sceneManager.SCENES.ONLINEGAME2
 		})
 	}
 
@@ -59,7 +61,7 @@ export class OnlineGame extends Phaser.Scene {
 
 	create() {
 		console.log(this.efvol);
-		console.log("online1");
+		console.log("online2");
 		console.log(connection);
 
 		connection.onclose = function() {
@@ -318,13 +320,12 @@ export class OnlineGame extends Phaser.Scene {
 		//console.log(this);
 
 		//Jugadores
-		this.jugador1 = new Jugador(this, this.game.renderer.width / 2 + 150, this.game.renderer.height - 100, "nave" + this.shipIndex1).setDepth(5);
-		this.jugador2 = new Jugador(this, this.game.renderer.width / 2 - 150, this.game.renderer.height - 100, "nave" + this.shipIndex2).setDepth(5);
-
+		this.jugador1 = new Jugador(this, this.game.renderer.width / 2 + 150, this.game.renderer.height - 100, "nave" + this.shipIndex2).setDepth(5);
+		this.jugador2 = new Jugador(this, this.game.renderer.width / 2 - 150, this.game.renderer.height - 100, "nave" + this.shipIndex1).setDepth(5);
+		
 		this.time.addEvent({
 			delay: 100, callback: function() {
-				console.log("x: " + this.jugador1.x + " y: " + this.jugador1.y);
-				var msg = { name: "actpos", message: "hola desde jugador1", x: this.jugador1.x, y: this.jugador1.y }
+				var msg = { name: "actpos", message: "hola desde jugador2", x: this.jugador2.x, y: this.jugador2.y }
 				connection.send(JSON.stringify(msg));
 			}, callbackScope: this, loop: true
 		});
@@ -332,7 +333,7 @@ export class OnlineGame extends Phaser.Scene {
 		this.time.addEvent({
 			delay: 100, callback: function() {
 				this.tweens.add({
-					targets: this.jugador2,
+					targets: this.jugador1,
 					duration: 100,
 					y: newy,
 					x: newx,
@@ -360,6 +361,7 @@ export class OnlineGame extends Phaser.Scene {
 		this.cursor = this.input.keyboard.createCursorKeys();
 		this.keys = this.input.keyboard.addKeys('A,W,S,D');
 		this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+		this.P = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
 
 		this.rivalout = this.add.image(this.game.renderer.width / 2, this.game.renderer.height / 2, "rivalout").setDepth(30);
 		this.rivalout.setScale(0.75);
@@ -432,9 +434,6 @@ export class OnlineGame extends Phaser.Scene {
 		//console.log(this.enemies);
 
 		//Deteccion de colisiones
-
-
-
 		//Entre jugadores
 		this.physics.add.collider(this.jugador1, this.jugador2);
 		//Entre enemigo y jugadores
@@ -450,6 +449,16 @@ export class OnlineGame extends Phaser.Scene {
 		this.tiempopartida = this.time.delayedCall(this.initialTime * 1000, this.onEvent2, [], this);
 
 		timerevent = this.time.addEvent({ delay: 1000, callback: this.PlayersOnline, callbackScope: this, loop: true });
+
+
+		//this.time.addEvent({ delay: 1000, callback: function () {
+		//var msg = {
+		//name: "actpos",
+		//x: this.jugador2.x,
+		//y: this.jugador2.y
+		//}
+		//connection.send(JSON.stringify(msg));
+		//}, callbackScope: this, loop: true });
 	}
 
 	PlayersOnline() {
@@ -496,21 +505,21 @@ export class OnlineGame extends Phaser.Scene {
 		this.exhaust2.setVisible(false);
 
 		if (this.keys.A.isDown) {
-			this.jugador1.moveLeft();
-			this.exhaust1.setX(this.jugador1.x).setVisible(true);
+			this.jugador2.moveLeft();
+			this.exhaust2.setX(this.jugador2.x).setVisible(true);
 		}
 		else if (this.keys.D.isDown) {
-			this.jugador1.moveRight();
-			this.exhaust1.setX(this.jugador1.x).setVisible(true);
+			this.jugador2.moveRight();
+			this.exhaust2.setX(this.jugador2.x).setVisible(true);
 		}
 
 		if (this.keys.W.isDown) {
-			this.jugador1.moveUp();
-			this.exhaust1.setY(this.jugador1.y + this.esAux1).setVisible(true);
+			this.jugador2.moveUp();
+			this.exhaust2.setY(this.jugador2.y + this.esAux2).setVisible(true);
 		}
 		else if (this.keys.S.isDown) {
-			this.jugador1.moveDown();
-			this.exhaust1.setY(this.jugador1.y + this.esAux1).setVisible(true);
+			this.jugador2.moveDown();
+			this.exhaust2.setY(this.jugador2.y + this.esAux2).setVisible(true);
 		}
 		this.fondo.tilePositionY -= 1;
 		this.fondo2.tilePositionY -= 0.5;
@@ -522,7 +531,7 @@ export class OnlineGame extends Phaser.Scene {
 			var bullet = bullets.get();
 
 			if (bullet) {
-				bullet.fire(this.jugador1.x, this.jugador1.y, 1);
+				bullet.fire(this.jugador2.x, this.jugador2.y, 2);
 
 				if (this.efSound)
 					this.soundShoot.play();
@@ -533,12 +542,12 @@ export class OnlineGame extends Phaser.Scene {
 			disparandoaux = false;
 		}
 		
-		if (disparando && time > lastFired){
+		if (disparando && time > lastFired) {
 			console.log("disparo");
 			var bullet = bullets2.get();
 
 			if (bullet) {
-				bullet.fire(this.jugador2.x, this.jugador2.y, 2);
+				bullet.fire(this.jugador1.x, this.jugador1.y, 1);
 
 				if (this.efSound)
 					this.soundShoot.play();

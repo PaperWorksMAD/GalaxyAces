@@ -15,16 +15,16 @@ public class App implements WebSocketConfigurer {
 	public static void main(String[] args) {
 		SpringApplication.run(App.class, args);
 	}
-
-	@Override
-	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-		// TODO Auto-generated method stub
-		registry.addHandler(createOnlineHandler(), "/nave").setAllowedOrigins("*");
-	}
 	
-	@Bean
-	public OnlineHandler createOnlineHandler() {
-		return new OnlineHandler();
+	@Override
+	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) 
+	{
+		registry.addHandler(createHandlerController(), "/galaxy").setAllowedOrigins("*");
 	}
 
+	@Bean
+	public HandlerController createHandlerController() 
+	{
+		return new HandlerController();
+	}
 }
