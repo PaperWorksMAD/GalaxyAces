@@ -20,25 +20,21 @@ public class HandlerController extends TextWebSocketHandler{
 	
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		System.out.println("New user: " + session.getId());
 		sessions.put(session.getId(), session);
 	}
 	
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-		System.out.println("Session closed: " + session.getId());
 		sessions.remove(session.getId());
 	}
 	
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		
-		//System.out.println("Message received: " + message.getPayload());
 		JsonNode node = mapper.readTree(message.getPayload());
 		
 		if(node.get("message").asText().equals("delete session"))
 		{
-			System.out.println("Session closed: " + session.getId());
 			sessions.remove(session.getId());
 		}
 		else
@@ -48,19 +44,18 @@ public class HandlerController extends TextWebSocketHandler{
 	}
 	
 	private void sendOtherParticipants(WebSocketSession session, JsonNode node) throws IOException {
-
-		System.out.println("Message sent: " + node.toString());
 		
 		ObjectNode newNode = mapper.createObjectNode();
 		newNode.put("name", node.get("name").asText());
 		newNode.put("message", node.get("message").asText());
-		
-		
-		for(WebSocketSession player : sessions.values()) 
+		newNode.put("x", node.get("x").asText());
+		newNode.put("y", node.get("y").asText());
+				
+		for(WebSocketSession jugador : sessions.values()) 
 		{
-			if(!player.getId().equals(session.getId())) 
+			if(!jugador.getId().equals(session.getId())) 
 			{
-				player.sendMessage(new TextMessage(newNode.toString()));
+				jugador.sendMessage(new TextMessage(newNode.toString()));
 			}
 		}
 	}
