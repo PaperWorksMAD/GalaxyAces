@@ -1,2 +1,0 @@
-Nombre: a Id: 6 Nave: Azul
-Nombre: b Id: 6 Nave: Azul
