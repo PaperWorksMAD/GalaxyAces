@@ -2,6 +2,8 @@
 
 ## Grupo-J 
 
+* Video explicativo sobre uso del juego, REST y websockets: 
+
 **- DESCRIPCIÓN DE LA TEMATICA -**
 
 * En una galaxia separada por clanes, el prestigio personal y de los tuyos es clave para ser respetado y temido en un espacio hostil, repleto de conflictos, es por esto que los mejores pilotos de cada región compiten contra otros para aumentar su estatus y el de su clan. Aces es el termino ingles de As de la aviación, un aviador militar condecorado tras haber logrado el derribo de cinco o más aviones enemigos, hemos querido adaptar este término para dar nombre a nuestro juego, donde eres un piloto de una nave espacial, en la galaxia que compite con otro por la gloria de su región.
@@ -285,8 +287,19 @@ Tenemos pensado implementar más naves y que en cada una varíe la velocidad de 
 * Paso 4: Escribir en la terminal: java -jar galaxyaces-0.0.1-SNAPSHOT.jar.
 * Paso 5: Escribir http://localhost:8080/ en el navegador.
 
+# FASE 4 
 
+* En esta fase se ha implementado el uso de websockets para la parte de sincronizacion de los elementos del juego, jugadores, enemigos, disparos, en el modo online. La menera de acceder a la partida a traves de la sala de espera, la comprobacion de los jugadores conectados y el estado del servidor, siguen funcionando con API REST como en la fase anterior.
 
+   * En el caso de las naves, cada cliente manda la posicion de su nave, cada 100 milisegundos, mediante un mensaje con su posicion (x e y) y la etiqueta "actpos", el otro          cliente recibe este mensaje y con los parametros x e y del mismo, realiza una interpolacion lineal de la nave del rival, para tenerla en todo momento en la posicion que le      corresponde. Este mensaje con la posicion de la nave es mandado por ambos jugadores.
+
+   * En el caso de los diasparos es similar a la posicion de las naves, con la diferencia que no mandamos una posicion, sino una variable booleana, indicando si el rival esta      disparando o no, esto se comprueba cada 50 milisegundos y si el rival esta disparando se crean las balas en su posicion correspondiente. Al igual que en la posicion de la        nave este mensaje es mandado por ambos clientes.
+
+   * Por ultimo el caso de los enemigos es un poco diferente. Queriamos mantener el factor de aleatoriedad en todas las partidas, y para no usar posiciones fijas de los enemigos    ni tener que crearlos previamente en una posicion fija, eliminando este factor aleatoriedad, optamos por crear los enemigos de manera aleatorea en un solo cliente, este cada    vez que crea un enemigo manda un mensaje con la posicion del enemigo creado, la etiqueta "actenemigo" y una variable que indica que tipo de enemigo se a generado. El otro        cliente al recibir el mensaje comprueba que tipo de enemigo es y lo genera en la posicion indicada.
+
+## Diagrama de clases API REST y WEB SOCKETS:
+
+![104466034-05d1a900-55b5-11eb-959d-95b8657df287](https://user-images.githubusercontent.com/43203256/106492237-007ec480-64b8-11eb-8eb6-384615c8a951.png)
 
 
 
