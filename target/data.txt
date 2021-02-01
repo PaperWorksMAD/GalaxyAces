@@ -1,4 +1,1 @@
-Nombre: sfgh Id: 1 Nave: Azul
-Nombre: dguk Id: 2 Nave: Rosa
-Nombre: sfghe Id: 3 Nave: Azul
-Nombre: dgukr Id: 4 Nave: Rosa
+
