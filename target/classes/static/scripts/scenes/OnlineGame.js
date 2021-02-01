@@ -90,9 +90,6 @@ export class OnlineGame extends Phaser.Scene {
 					}
 					break;
 				case "actenemigos":
-					//var inte = parseInt(message.message);
-					//especial_Id[especial_numaux] = inte;
-					//especial_numaux++;
 					break;
 			}
 		}
