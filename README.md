@@ -2,7 +2,7 @@
 
 ## Grupo-J 
 
-* Video explicativo sobre uso del juego, REST y websockets: 
+* Video explicativo sobre uso del juego, REST y websockets: https://www.youtube.com/watch?v=uoarM8Nay5w&ab_channel=BorjaSantiago
 
 **- DESCRIPCIÓN DE LA TEMATICA -**
 
